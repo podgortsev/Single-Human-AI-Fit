@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-run_method3_stack.py — accumulation with a 26-word neutral filler.
+run_method3_stack_40w.py — accumulation with a 40-word neutral filler.
 
-The second of two passes; run_method3_stack_40w.py is the first. Does the
-penalty grow when signals stack?
+The first of two passes. Forty words of preamble cost Llama about ten
+accuracy points on their own, which swamped the effects being measured, so
+the run was repeated at 26 words in run_method3_stack.py. Both are reported:
+the pair is what shows the measurement does not reproduce.
 
 THE QUESTION
 ------------
@@ -100,30 +102,14 @@ ROUTES: List[List[str]] = [
     ["S09", "S10", "S04"],
 ]
 
-# Neutral padding, as whole clauses.
-#
-# The first attempt padded word by word to 40 and broke Llama: its baseline fell
-# from 44 percent in the single-signal run, where lead-ins were 9 to 15 words,
-# to 34.5 percent, and the control beat the baseline by 12. Two things were
-# wrong. Forty words of preamble costs that model about ten points on its own,
-# which swamps the two-to-ten point effects being measured. And cutting the
-# padding mid-phrase left the shallow conditions ending on "it is for." -- and
-# shallow conditions carry the MOST padding, so the awkwardness landed hardest
-# on the baseline, which is the one thing that must not be disadvantaged.
-#
-# Now: whole clauses only, and the target length is computed as the shortest
-# length that every condition can reach. Nothing is padded further than needed.
-FILLER_CLAUSES = [
-    "I am at home",
-    "it is not urgent",
-    "I have some time",
-    "nothing is pressing",
-    "I can wait",
-    "that is all",
-]
+# Neutral padding. Words, not clauses: signals differ in length, so matching
+# the number of clauses leaves depth-3 conditions shorter than depth-0. Padding
+# to a fixed WORD count is what actually removes length as an explanation.
+FILLER_WORDS = ("I am working on this at home today and it is for something "
+                "I need soon there is no rush on my side at all so please "
+                "take whatever time is needed to get it right for me").split()
 
-HEAD = "I have a question, and I should mention"
-CTRL_HEAD = "There is something I would like to ask about, and I should say"
+TARGET_WORDS = 40   # every lead-in is padded to exactly this many words
 
 INSTRUCTION = ("Answer with the final answer only. Do not show working. "
                "If the answer is a number, give just the number.")
@@ -138,40 +124,34 @@ class Condition:
     lead_in: str
 
 
-def _target_words() -> int:
-    """Shortest length every condition can reach: the longest signal triple."""
-    longest = max(len(" ".join(SIGNALS[s] for s in r).split()) for r in ROUTES)
-    return len(HEAD.split()) + longest
+def build_lead_in(signals: List[str]) -> str:
+    """Signals first, then neutral words until the lead-in hits TARGET_WORDS.
 
-
-TARGET_WORDS = None      # set once ROUTES is known, see below
-
-
-def build_lead_in(signals: List[str], head: str = HEAD) -> str:
-    """Signals first, then whole neutral clauses up to the target length.
-
-    Depth changes how much of the message is about the person. It changes the
-    length by at most a couple of words, because padding is added in clauses
-    rather than cut mid-phrase.
+    Depth changes how much of the message is about the person. It never changes
+    how long the message is, so length can never explain a difference.
     """
+    head = "I have a question, and I should mention"
     parts = [SIGNALS[s] for s in signals]
-    for clause in FILLER_CLAUSES:
-        if len((head + " " + ", ".join(parts + [clause])).split()) > TARGET_WORDS:
-            break
-        parts.append(clause)
     body = ", ".join(parts)
-    return (f"{head} {body}" if body else head).rstrip(",") + "."
+    text = f"{head} {body}" if body else head
+
+    used = len(text.split())
+    need = TARGET_WORDS - used
+    if need > 0:
+        text += ", " + " ".join(FILLER_WORDS[:need])
+    return text.rstrip(",") + "."
 
 
 def build_conditions() -> List[Condition]:
-    global TARGET_WORDS
-    TARGET_WORDS = _target_words()
     conds = [Condition("D0", 0, "-", [], build_lead_in([]))]
 
     # Control: same shape, four neutral clauses, different wording. Carries no
     # signal, so whatever it shows is the cost of rephrasing alone.
-    conds.append(Condition("CTRL", 0, "-", [],
-                           build_lead_in([], head=CTRL_HEAD)))
+    ctrl_head = "There is something I would like to ask you about"
+    ctrl_need = TARGET_WORDS - len(ctrl_head.split())
+    conds.append(Condition(
+        "CTRL", 0, "-", [],
+        (ctrl_head + ", " + " ".join(FILLER_WORDS[:ctrl_need])).rstrip(",") + "."))
 
     seen = set()
     for r_i, route in enumerate(ROUTES, 1):
@@ -269,10 +249,7 @@ def collect() -> None:
         print(f"resuming, {len(done)} already saved")
 
     todo = sum(1 for c in CONDITIONS for t in tasks if (c.id, t["id"]) not in done)
-    wc = [len(c.lead_in.split()) for c in CONDITIONS]
-    print(f"{len(CONDITIONS)} conditions, {todo} generations to do")
-    print(f"lead-in length: {min(wc)} to {max(wc)} words "
-          f"(target {TARGET_WORDS}, spread {max(wc)-min(wc)})\n")
+    print(f"{len(CONDITIONS)} conditions, {todo} generations to do\n")
     if todo == 0:
         return
 
@@ -340,14 +317,9 @@ def analyse() -> None:
     print(f"depth 0 accuracy {sum(base.values())/n:.1%}\n")
 
     ctrl = net(data["CTRL"]) if "CTRL" in data else (0, 0, 0, 0, 1.0)
-    print(f"CONTROL, neutral wording, same length: net {ctrl[2]:+d}, "
+    print(f"CONTROL, four neutral clauses: net {ctrl[2]:+d}, "
           f"{ctrl[3]} discordant, p={ctrl[4]:.3f}")
-    print("  This is the cost of rephrasing alone. Everything below must beat it.")
-    if ctrl[4] < 0.05:
-        print("\n  CONTROL FAILED. It differs from the baseline more than chance")
-        print("  allows, so the baseline is not a stable reference and nothing")
-        print("  below can be read as designed. Shorten TARGET_WORDS and rerun.")
-    print()
+    print("  This is the cost of rephrasing alone. Everything below must beat it.\n")
 
     by_depth: Dict[int, List[int]] = {0: [], 1: [], 2: [], 3: []}
     print(f"{'cond':10}{'depth':>7}  {'signals':40}{'acc':>7}{'net':>6}{'p':>8}")
