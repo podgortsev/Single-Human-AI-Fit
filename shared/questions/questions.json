@@ -1,0 +1,362 @@
+[
+  {
+    "id": "Q001",
+    "domain": "money",
+    "question": "How should I decide whether to pay off a small loan early or keep the cash in savings?",
+    "words": 18
+  },
+  {
+    "id": "Q002",
+    "domain": "money",
+    "question": "What is a sensible way to split my monthly pay between spending, saving and longer-term goals?",
+    "words": 16
+  },
+  {
+    "id": "Q003",
+    "domain": "money",
+    "question": "How do I work out whether a subscription is actually worth keeping?",
+    "words": 12
+  },
+  {
+    "id": "Q004",
+    "domain": "money",
+    "question": "What should I think about before agreeing to a big purchase in monthly instalments?",
+    "words": 14
+  },
+  {
+    "id": "Q005",
+    "domain": "money",
+    "question": "How do I build up a cushion for unexpected costs when my income changes month to month?",
+    "words": 17
+  },
+  {
+    "id": "Q006",
+    "domain": "money",
+    "question": "What is a reasonable way to compare two job offers that pay differently but include different benefits?",
+    "words": 17
+  },
+  {
+    "id": "Q007",
+    "domain": "money",
+    "question": "How should I decide how much to spend on a used car?",
+    "words": 12
+  },
+  {
+    "id": "Q008",
+    "domain": "money",
+    "question": "What is a good way to keep track of where my money goes without spending an hour a week on it?",
+    "words": 21
+  },
+  {
+    "id": "Q009",
+    "domain": "money",
+    "question": "How do I decide whether to fix an old appliance or replace it?",
+    "words": 13
+  },
+  {
+    "id": "Q010",
+    "domain": "money",
+    "question": "What should I consider before lending money to someone I know well?",
+    "words": 12
+  },
+  {
+    "id": "Q011",
+    "domain": "work",
+    "question": "How do I decide whether to raise a problem with my manager or handle it myself?",
+    "words": 16
+  },
+  {
+    "id": "Q012",
+    "domain": "work",
+    "question": "What is a good way to prepare for a conversation about a pay rise?",
+    "words": 14
+  },
+  {
+    "id": "Q013",
+    "domain": "work",
+    "question": "How should I structure my first three months in a new role?",
+    "words": 12
+  },
+  {
+    "id": "Q014",
+    "domain": "work",
+    "question": "What is a sensible way to say no to extra work without damaging the relationship?",
+    "words": 15
+  },
+  {
+    "id": "Q015",
+    "domain": "work",
+    "question": "How do I decide whether a job is worth leaving?",
+    "words": 10
+  },
+  {
+    "id": "Q016",
+    "domain": "work",
+    "question": "What is a good approach to giving a colleague feedback they will not enjoy hearing?",
+    "words": 15
+  },
+  {
+    "id": "Q017",
+    "domain": "work",
+    "question": "How should I handle a project that is clearly going to miss its deadline?",
+    "words": 14
+  },
+  {
+    "id": "Q018",
+    "domain": "work",
+    "question": "What is a reasonable way to keep a record of my own work over a year?",
+    "words": 16
+  },
+  {
+    "id": "Q019",
+    "domain": "work",
+    "question": "How do I get better at running a meeting that actually decides something?",
+    "words": 13
+  },
+  {
+    "id": "Q020",
+    "domain": "work",
+    "question": "What should I do when two people I work with disagree and both want me to take a side?",
+    "words": 19
+  },
+  {
+    "id": "Q021",
+    "domain": "learning",
+    "question": "What is an effective way to learn a new skill when I only have a few hours a week?",
+    "words": 19
+  },
+  {
+    "id": "Q022",
+    "domain": "learning",
+    "question": "How do I tell whether I actually understand something or have just memorised it?",
+    "words": 14
+  },
+  {
+    "id": "Q023",
+    "domain": "learning",
+    "question": "What is a good way to get back into a subject I dropped years ago?",
+    "words": 15
+  },
+  {
+    "id": "Q024",
+    "domain": "learning",
+    "question": "How should I take notes so they are still useful months later?",
+    "words": 12
+  },
+  {
+    "id": "Q025",
+    "domain": "learning",
+    "question": "What is a sensible way to practise something I am bad at without getting discouraged?",
+    "words": 15
+  },
+  {
+    "id": "Q026",
+    "domain": "learning",
+    "question": "How do I choose between learning something broadly and learning it deeply?",
+    "words": 12
+  },
+  {
+    "id": "Q027",
+    "domain": "learning",
+    "question": "What is a good way to keep a habit going past the first few weeks?",
+    "words": 15
+  },
+  {
+    "id": "Q028",
+    "domain": "learning",
+    "question": "How should I approach reading a long, difficult book?",
+    "words": 9
+  },
+  {
+    "id": "Q029",
+    "domain": "learning",
+    "question": "What is an effective way to prepare for a test on material I find dull?",
+    "words": 15
+  },
+  {
+    "id": "Q030",
+    "domain": "learning",
+    "question": "How do I know when to ask for help rather than keep struggling?",
+    "words": 13
+  },
+  {
+    "id": "Q031",
+    "domain": "home",
+    "question": "What is a sensible order to do things in when moving to a new flat?",
+    "words": 15
+  },
+  {
+    "id": "Q032",
+    "domain": "home",
+    "question": "How should I decide what to keep and what to get rid of when I have too much stuff?",
+    "words": 19
+  },
+  {
+    "id": "Q033",
+    "domain": "home",
+    "question": "What is a good way to plan meals for a week without it becoming a chore?",
+    "words": 16
+  },
+  {
+    "id": "Q034",
+    "domain": "home",
+    "question": "How do I make a small room feel less cramped without rebuilding anything?",
+    "words": 13
+  },
+  {
+    "id": "Q035",
+    "domain": "home",
+    "question": "What should I check before signing a rental agreement?",
+    "words": 9
+  },
+  {
+    "id": "Q036",
+    "domain": "home",
+    "question": "How do I keep a shared kitchen workable when several people use it?",
+    "words": 13
+  },
+  {
+    "id": "Q037",
+    "domain": "home",
+    "question": "What is a reasonable way to split household chores fairly?",
+    "words": 10
+  },
+  {
+    "id": "Q038",
+    "domain": "home",
+    "question": "How should I go about finding a reliable tradesperson for a small job?",
+    "words": 13
+  },
+  {
+    "id": "Q039",
+    "domain": "home",
+    "question": "What is a good way to reduce clutter that keeps coming back?",
+    "words": 12
+  },
+  {
+    "id": "Q040",
+    "domain": "home",
+    "question": "How do I decide whether a repair is something I can do myself?",
+    "words": 13
+  },
+  {
+    "id": "Q041",
+    "domain": "tech",
+    "question": "My computer has got noticeably slower over the past year. How should I work out why?",
+    "words": 16
+  },
+  {
+    "id": "Q042",
+    "domain": "tech",
+    "question": "What is a sensible way to organise files so I can find them again?",
+    "words": 14
+  },
+  {
+    "id": "Q043",
+    "domain": "tech",
+    "question": "How should I decide what to back up and how often?",
+    "words": 11
+  },
+  {
+    "id": "Q044",
+    "domain": "tech",
+    "question": "What is a good approach to choosing a laptop when the specifications all look similar?",
+    "words": 15
+  },
+  {
+    "id": "Q045",
+    "domain": "tech",
+    "question": "How do I work out whether a website is worth trusting with my details?",
+    "words": 14
+  },
+  {
+    "id": "Q046",
+    "domain": "tech",
+    "question": "What is a reasonable way to manage passwords across a lot of accounts?",
+    "words": 13
+  },
+  {
+    "id": "Q047",
+    "domain": "tech",
+    "question": "How should I go about cutting down the time I spend on my phone?",
+    "words": 14
+  },
+  {
+    "id": "Q048",
+    "domain": "tech",
+    "question": "What is a good way to work out why my home internet keeps dropping?",
+    "words": 14
+  },
+  {
+    "id": "Q049",
+    "domain": "tech",
+    "question": "How do I decide whether to update software straight away or wait?",
+    "words": 12
+  },
+  {
+    "id": "Q050",
+    "domain": "tech",
+    "question": "What should I do before getting rid of an old phone?",
+    "words": 11
+  },
+  {
+    "id": "Q051",
+    "domain": "people",
+    "question": "How do I keep in touch with friends when everyone is busy?",
+    "words": 12
+  },
+  {
+    "id": "Q052",
+    "domain": "people",
+    "question": "What is a good way to handle a disagreement with someone I will keep seeing regularly?",
+    "words": 16
+  },
+  {
+    "id": "Q053",
+    "domain": "people",
+    "question": "How should I approach making friends somewhere I have just moved to?",
+    "words": 12
+  },
+  {
+    "id": "Q054",
+    "domain": "people",
+    "question": "What is a reasonable way to tell someone their plan has a problem?",
+    "words": 13
+  },
+  {
+    "id": "Q055",
+    "domain": "people",
+    "question": "How do I decline an invitation without it becoming awkward?",
+    "words": 10
+  },
+  {
+    "id": "Q056",
+    "domain": "people",
+    "question": "What is a good way to be useful to someone going through a hard time?",
+    "words": 15
+  },
+  {
+    "id": "Q057",
+    "domain": "people",
+    "question": "How should I handle being consistently interrupted in group conversations?",
+    "words": 10
+  },
+  {
+    "id": "Q058",
+    "domain": "people",
+    "question": "What is a sensible way to set expectations when someone asks me for a favour?",
+    "words": 15
+  },
+  {
+    "id": "Q059",
+    "domain": "people",
+    "question": "How do I repair a friendship I have let drift?",
+    "words": 10
+  },
+  {
+    "id": "Q060",
+    "domain": "people",
+    "question": "What is a good approach to a conversation where I know we disagree?",
+    "words": 13
+  }
+]

@@ -1,0 +1,32 @@
+60 questions x 5 conditions = 300 generations to do
+
+loading mistralai/Mistral-7B-Instruct-v0.3 on cuda, 4-bit=True
+      4 / 300
+     44 / 300
+     84 / 300
+    124 / 300
+    164 / 300
+    204 / 300
+    244 / 300
+    284 / 300
+
+saved to /content/drive/MyDrive/afl/method2/method2_answers_mistral.csv
+
+========================================================================
+mistralai/Mistral-7B-Instruct-v0.3
+STAGE 1: ANSWERS COLLECTED
+========================================================================
+condition     n  mean words   median  empty  very short
+------------------------------------------------------------------------
+NONE         60       224.6      228      0           0
+CONTROL      60       227.0      229      0           0
+SCREEN       60       222.5      227      0           0
+AGE          60       223.0      222      0           0
+ADHD         60       226.2      227      0           0
+
+Length is a covariate here, not the outcome. It is printed so that a quality
+difference which turns out to be only a length difference can be spotted in
+stage 2 and discounted. An empty or very short answer is a refusal-like event
+and is counted separately, the way method 4 counts refusals.
+
+Next: run run_method2_judge.py over the three answer files.

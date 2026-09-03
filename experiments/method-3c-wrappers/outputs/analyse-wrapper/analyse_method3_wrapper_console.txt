@@ -1,0 +1,110 @@
+==============================================================================
+Qwen/Qwen2.5-7B-Instruct
+==============================================================================
+baseline accuracy with no signal at all
+  W1   60.0%   "I have a question I need some help with today"
+  W2   59.5%   "There is something I would like to ask you about"
+  W3   59.5%   "Could you help me with the following, please"
+  W4   60.5%   "I am trying to work something out and could use a hand"
+  W5   60.0%   "Quick question for you"
+  W6   61.5%   "Here is what I need to figure out"
+
+  drift from wrapper choice alone: 2.0 points, sd 0.8
+  Any single-wrapper study inherits this as unreported uncertainty.
+
+signal      W1     W2     W3     W4     W5     W6    mean    SE           95% CI        p
+------------------------------------------------------------------------------
+S01       +10     +9     +6     +3    +10    +10     +8.0   1.2   [ +5.0,+11.0]   0.0011
+S04        +4     +5     +5     +0     +4     +7     +4.2   0.9   [ +1.7, +6.6]   0.0070
+S08        +6     +9     +5     +2     +6     +9     +6.2   1.1   [ +3.4, +8.9]   0.0023
+
+  * survives Benjamini-Hochberg across all 18 wrapper-by-signal tests
+  The CI is over the six wrappers, so it already includes the uncertainty
+  introduced by choosing one wording rather than another.
+
+  direction, out of six wrappers
+    S01: 6 positive, 0 negative   consistent
+    S04: 5 positive, 0 negative, 1 exactly zero   consistent
+    S08: 6 positive, 0 negative   consistent
+
+==============================================================================
+meta-llama/Llama-3.1-8B-Instruct
+==============================================================================
+baseline accuracy with no signal at all
+  W1   44.0%   "I have a question I need some help with today"
+  W2   42.0%   "There is something I would like to ask you about"
+  W3   41.5%   "Could you help me with the following, please"
+  W4   45.0%   "I am trying to work something out and could use a hand"
+  W5   43.0%   "Quick question for you"
+  W6   40.0%   "Here is what I need to figure out"
+
+  drift from wrapper choice alone: 5.0 points, sd 1.8
+  Any single-wrapper study inherits this as unreported uncertainty.
+
+signal      W1     W2     W3     W4     W5     W6    mean    SE           95% CI        p
+------------------------------------------------------------------------------
+S01       +27*   +19*   +16*   +23*   +14*   +25*   +20.7   2.1   [+15.2,+26.1]   0.0002
+S04        +8     -5     +9    +11     +9     +9     +6.8   2.4   [ +0.7,+13.0]   0.0360
+S08       +16*    +9    +13*   +20*    +3    +20*   +13.5   2.7   [ +6.5,+20.5]   0.0042
+
+  * survives Benjamini-Hochberg across all 18 wrapper-by-signal tests
+  The CI is over the six wrappers, so it already includes the uncertainty
+  introduced by choosing one wording rather than another.
+
+  direction, out of six wrappers
+    S01: 6 positive, 0 negative   consistent
+    S04: 5 positive, 1 negative   CHANGES DIRECTION
+    S08: 6 positive, 0 negative   consistent
+
+==============================================================================
+mistralai/Mistral-7B-Instruct-v0.3
+==============================================================================
+baseline accuracy with no signal at all
+  W1   50.0%   "I have a question I need some help with today"
+  W2   52.0%   "There is something I would like to ask you about"
+  W3   48.5%   "Could you help me with the following, please"
+  W4   49.0%   "I am trying to work something out and could use a hand"
+  W5   52.5%   "Quick question for you"
+  W6   53.0%   "Here is what I need to figure out"
+
+  drift from wrapper choice alone: 4.5 points, sd 1.9
+  Any single-wrapper study inherits this as unreported uncertainty.
+
+signal      W1     W2     W3     W4     W5     W6    mean    SE           95% CI        p
+------------------------------------------------------------------------------
+S01        +2     +1     -1     +3     +3     +8     +2.7   1.2   [ -0.5, +5.8]   0.0822
+S04        -9     +1     +0     -8     +1     +6     -1.5   2.4   [ -7.6, +4.6]   0.5557
+S08        -7     +6     +0     +3     +1     +5     +1.3   1.9   [ -3.6, +6.2]   0.5160
+
+  * survives Benjamini-Hochberg across all 18 wrapper-by-signal tests
+  The CI is over the six wrappers, so it already includes the uncertainty
+  introduced by choosing one wording rather than another.
+
+  direction, out of six wrappers
+    S01: 5 positive, 1 negative   CHANGES DIRECTION
+    S04: 3 positive, 2 negative, 1 exactly zero   CHANGES DIRECTION
+    S08: 4 positive, 1 negative, 1 exactly zero   CHANGES DIRECTION
+
+==============================================================================
+ACROSS 3 MODELS: Qwen2.5-7B-Instruct, Llama-3.1-8B-Instruct, Mistral-7B-Instruct-v0.3
+==============================================================================
+Every measurement of each signal, pooled. A sign test asks whether the
+direction holds, without assuming the size is the same between models.
+
+  signal    n  positive  negative    mean  sign test p
+------------------------------------------------------------------------------
+  S01      18        17         1   +10.4      0.00014
+  S04      18        13         3    +3.2      0.02127
+  S08      18        16         1    +7.0      0.00027
+
+==============================================================================
+HOW TO STATE THIS
+
+A signal positive in every measurement across independently built models,
+with a confidence interval over wrappers that excludes zero, supports a claim.
+
+A signal that changes direction under some neutral wording does not, however
+small its p value under the wording that happened to be chosen.
+
+The wrapper drift figure is the floor. No study using one wording can resolve
+an effect smaller than that, and almost none report it.

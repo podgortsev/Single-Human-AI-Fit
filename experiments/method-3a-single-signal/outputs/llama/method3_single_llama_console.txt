@@ -1,0 +1,80 @@
+5200 generations to do
+
+loading meta-llama/Llama-3.1-8B-Instruct on cuda, 4-bit=True
+  BASE  baseline                      88/200  44.0%
+  CTRL  control, no signal            88/200  44.0%
+  F01   non-native English            82/200  41.0%
+  F02   African American English      83/200  41.5%
+  F03   regional English variety      93/200  46.5%
+  F04   typos and slips               78/200  39.0%
+  F05   very terse                    85/200  42.5%
+  F06   verbose and digressive        78/200  39.0%
+  F07   informal and slang            84/200  42.0%
+  F08   machine-translated register   78/200  39.0%
+  F09   hedged and softened           83/200  41.5%
+  F10   anxious and apologetic        79/200  39.5%
+  S01   screen reader user            64/200  32.0%
+  S02   Deaf                          79/200  39.5%
+  S03   autistic                      78/200  39.0%
+  S04   ADHD                          63/200  31.5%
+  S05   dyslexic                      74/200  37.0%
+  S06   limited energy                74/200  37.0%
+  S07   motor impairment              79/200  39.5%
+  S08   older adult                   66/200  33.0%
+  S09   non-native, stated            76/200  38.0%
+  S10   first-time user               76/200  38.0%
+  C05   indirect request              81/200  40.5%
+  C06   high-context opening          75/200  37.5%
+  K01   lacks terminology             70/200  35.0%
+  K02   wrong terminology             63/200  31.5%
+
+saved to /content/drive/MyDrive/afl/method3/method3_llama.csv
+
+==============================================================================
+meta-llama/Llama-3.1-8B-Instruct
+PAIRED AGAINST BASELINE. Same 200 tasks everywhere.
+==============================================================================
+baseline accuracy 44.0%
+
+cond  label                            acc  lost  gain   net  disc       p
+------------------------------------------------------------------------------
+S04   ADHD                           31.5%    36    11   +25    47   0.000  <- exceeds control
+K02   wrong terminology              31.5%    30     5   +25    35   0.000  <- exceeds control
+S01   screen reader user             32.0%    32     8   +24    40   0.000  <- exceeds control
+S08   older adult                    33.0%    28     6   +22    34   0.000  <- exceeds control
+K01   lacks terminology              35.0%    25     7   +18    32   0.002  <- exceeds control
+S05   dyslexic                       37.0%    31    17   +14    48   0.059
+S06   limited energy                 37.0%    22     8   +14    30   0.016  <- exceeds control
+C06   high-context opening           37.5%    22     9   +13    31   0.029  <- exceeds control
+S09   non-native, stated             38.0%    20     8   +12    28   0.036  <- exceeds control
+S10   first-time user                38.0%    13     1   +12    14   0.002  <- exceeds control
+F04   typos and slips                39.0%    15     5   +10    20   0.041  <- exceeds control
+F06   verbose and digressive         39.0%    15     5   +10    20   0.041  <- length is the signal
+F08   machine-translated register    39.0%    13     3   +10    16   0.021  <- exceeds control
+S03   autistic                       39.0%    27    17   +10    44   0.174
+F10   anxious and apologetic         39.5%    13     4    +9    17   0.049  <- exceeds control
+S02   Deaf                           39.5%    23    14    +9    37   0.188
+S07   motor impairment               39.5%    26    17    +9    43   0.222
+C05   indirect request               40.5%    18    11    +7    29   0.265
+F01   non-native English             41.0%    10     4    +6    14   0.180
+F02   African American English       41.5%     8     3    +5    11   0.227
+F09   hedged and softened            41.5%    15    10    +5    25   0.424
+F07   informal and slang             42.0%    11     7    +4    18   0.481
+F05   very terse                     42.5%     7     4    +3    11   0.549  <- length is the signal
+CTRL  control, no signal             44.0%     5     5    +0    10   1.000  <- CONTROL, the noise floor
+F03   regional English variety       46.5%     5    10    -5    15   0.302
+
+==============================================================================
+CONTROL: net +0, 10 discordant, p=1.000
+
+The control changes only the wording. Whatever it shows is the cost of
+rephrasing alone. A condition must beat it to mean anything.
+
+  conditions exceeding the control at p<0.05:  12
+  surviving correction for 24 comparisons (p<0.0021):  5
+
+    S04 ADHD: net +25, p=0.0003
+    K02 wrong terminology: net +25, p=0.0000
+    S01 screen reader user: net +24, p=0.0002
+    S08 older adult: net +22, p=0.0002
+    S10 first-time user: net +12, p=0.0018

@@ -1,0 +1,96 @@
+26 conditions, 5200 generations to do
+lead-in length: 23 to 26 words (target 26, spread 3)
+
+loading Qwen/Qwen2.5-7B-Instruct on cuda, 4-bit=True
+  D0      d0  none                                     115/200  57.5%
+  CTRL    d0  none                                     113/200  56.5%
+  R1D1    d1  S01                                      114/200  57.0%
+  R1D2    d2  S01+S04                                  115/200  57.5%
+  R1D3    d3  S01+S04+S09                              113/200  56.5%
+  R2D1    d1  S04                                      113/200  56.5%
+  R2D2    d2  S04+S09                                  113/200  56.5%
+  R2D3*   d3  S04+S09+S01                              111/200  55.5%
+  R3D1    d1  S09                                      113/200  56.5%
+  R3D2    d2  S09+S01                                  110/200  55.0%
+  R3D3*   d3  S09+S01+S04                              113/200  56.5%
+  R4D1    d1  S05                                      107/200  53.5%
+  R4D2    d2  S05+S08                                  110/200  55.0%
+  R4D3    d3  S05+S08+S10                              110/200  55.0%
+  R5D1    d1  S08                                      111/200  55.5%
+  R5D2    d2  S08+S10                                  114/200  57.0%
+  R5D3*   d3  S08+S10+S05                              108/200  54.0%
+  R6D1    d1  S10                                      116/200  58.0%
+  R6D2    d2  S10+S05                                  111/200  55.5%
+  R6D3*   d3  S10+S05+S08                              112/200  56.0%
+  R7D1*   d1  S01                                      114/200  57.0%
+  R7D2    d2  S01+S05                                  112/200  56.0%
+  R7D3    d3  S01+S05+S08                              105/200  52.5%
+  R8D1*   d1  S09                                      113/200  56.5%
+  R8D2    d2  S09+S10                                  113/200  56.5%
+  R8D3    d3  S09+S10+S04                              111/200  55.5%
+
+saved to /content/drive/MyDrive/afl/stack/stack_qwen.csv
+
+================================================================================
+Qwen/Qwen2.5-7B-Instruct
+ACCUMULATION. Same 200 tasks in every condition.
+================================================================================
+depth 0 accuracy 57.5%
+
+CONTROL, neutral wording, same length: net +2, 12 discordant, p=0.774
+  This is the cost of rephrasing alone. Everything below must beat it.
+
+cond        depth  signals                                     acc   net       p
+--------------------------------------------------------------------------------
+R1D1            1  S01                                       57.0%    +1   1.000
+R2D1            1  S04                                       56.5%    +2   0.688
+R3D1            1  S09                                       56.5%    +2   0.774
+R4D1            1  S05                                       53.5%    +8   0.021*
+R5D1            1  S08                                       55.5%    +4   0.424
+R6D1            1  S10                                       58.0%    -1   1.000
+R7D1*           1  S01                                       57.0%    +1   1.000
+R8D1*           1  S09                                       56.5%    +2   0.774
+R1D2            2  S01+S04                                   57.5%    +0   1.000
+R2D2            2  S04+S09                                   56.5%    +2   0.774
+R3D2            2  S09+S01                                   55.0%    +5   0.359
+R4D2            2  S05+S08                                   55.0%    +5   0.267
+R5D2            2  S08+S10                                   57.0%    +1   1.000
+R6D2            2  S10+S05                                   55.5%    +4   0.454
+R7D2            2  S01+S05                                   56.0%    +3   0.607
+R8D2            2  S09+S10                                   56.5%    +2   0.815
+R1D3            3  S01+S04+S09                               56.5%    +2   0.815
+R2D3*           3  S04+S09+S01                               55.5%    +4   0.481
+R3D3*           3  S09+S01+S04                               56.5%    +2   0.791
+R4D3            3  S05+S08+S10                               55.0%    +5   0.424
+R5D3*           3  S08+S10+S05                               54.0%    +7   0.167
+R6D3*           3  S10+S05+S08                               56.0%    +3   0.629
+R7D3            3  S01+S05+S08                               52.5%   +10   0.076
+R8D3            3  S09+S10+S04                               55.5%    +4   0.424
+
+================================================================================
+SHAPE OF THE CURVE
+================================================================================
+  depth 1: mean net   +2.4   (n=8, range -1 to +8)
+  depth 2: mean net   +2.8   (n=8, range +0 to +5)
+  depth 3: mean net   +4.6   (n=8, range +2 to +10)
+
+  cost of the first signal:  +2.4
+  cost of the second:        +0.4
+  cost of the third:         +1.9
+
+  MIXED. No clean shape at this sample size.
+
+  depth 3 worse than depth 1: p=0.0306
+  WARNING: every depth sits within reach of the control. No accumulation can be claimed from this.
+
+  ROUTE CONSISTENCY. If routes bend the same way, the shape belongs
+  to accumulation. If they differ, what matters is which signals.
+
+    R1  S01 + S04 + S09                           +1    +0    +2
+    R2  S04 + S09 + S01                           +2    +2    +4
+    R3  S09 + S01 + S04                           +2    +5    +2
+    R4  S05 + S08 + S10                           +8    +5    +5
+    R5  S08 + S10 + S05                           +4    +1    +7
+    R6  S10 + S05 + S08                           -1    +4    +3
+    R7  S01 + S05 + S08                           +1    +3   +10
+    R8  S09 + S10 + S04                           +2    +2    +4

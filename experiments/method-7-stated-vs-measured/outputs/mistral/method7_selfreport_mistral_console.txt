@@ -1,0 +1,22 @@
+60 questions x 4 conditions = 240 self-reports to collect
+
+loading mistralai/Mistral-7B-Instruct-v0.3 on cuda, 4-bit=True
+     8 / 240
+    88 / 240
+   168 / 240
+
+saved to /content/drive/MyDrive/afl/method7/method7_selfreport_mistral.csv
+
+========================================================================
+mistralai/Mistral-7B-Instruct-v0.3
+STATED SELF-RATING 0-10 (higher = model claims bigger effect)
+========================================================================
+condition     n  parsed    mean  median
+------------------------------------------------------------------------
+NONE         60      58    1.07     0.0
+SCREEN       60      56    3.43     2.0
+AGE          60      60    0.88     0.0
+ADHD         60      58    2.83     1.0
+
+Stated effect of a disclosure = mean(signal) - mean(NONE).
+Compare against method 2's measured margin with analyse_method7.py.

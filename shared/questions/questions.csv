@@ -1,0 +1,61 @@
+id,domain,question,words
+Q001,money,How should I decide whether to pay off a small loan early or keep the cash in savings?,18
+Q002,money,"What is a sensible way to split my monthly pay between spending, saving and longer-term goals?",16
+Q003,money,How do I work out whether a subscription is actually worth keeping?,12
+Q004,money,What should I think about before agreeing to a big purchase in monthly instalments?,14
+Q005,money,How do I build up a cushion for unexpected costs when my income changes month to month?,17
+Q006,money,What is a reasonable way to compare two job offers that pay differently but include different benefits?,17
+Q007,money,How should I decide how much to spend on a used car?,12
+Q008,money,What is a good way to keep track of where my money goes without spending an hour a week on it?,21
+Q009,money,How do I decide whether to fix an old appliance or replace it?,13
+Q010,money,What should I consider before lending money to someone I know well?,12
+Q011,work,How do I decide whether to raise a problem with my manager or handle it myself?,16
+Q012,work,What is a good way to prepare for a conversation about a pay rise?,14
+Q013,work,How should I structure my first three months in a new role?,12
+Q014,work,What is a sensible way to say no to extra work without damaging the relationship?,15
+Q015,work,How do I decide whether a job is worth leaving?,10
+Q016,work,What is a good approach to giving a colleague feedback they will not enjoy hearing?,15
+Q017,work,How should I handle a project that is clearly going to miss its deadline?,14
+Q018,work,What is a reasonable way to keep a record of my own work over a year?,16
+Q019,work,How do I get better at running a meeting that actually decides something?,13
+Q020,work,What should I do when two people I work with disagree and both want me to take a side?,19
+Q021,learning,What is an effective way to learn a new skill when I only have a few hours a week?,19
+Q022,learning,How do I tell whether I actually understand something or have just memorised it?,14
+Q023,learning,What is a good way to get back into a subject I dropped years ago?,15
+Q024,learning,How should I take notes so they are still useful months later?,12
+Q025,learning,What is a sensible way to practise something I am bad at without getting discouraged?,15
+Q026,learning,How do I choose between learning something broadly and learning it deeply?,12
+Q027,learning,What is a good way to keep a habit going past the first few weeks?,15
+Q028,learning,"How should I approach reading a long, difficult book?",9
+Q029,learning,What is an effective way to prepare for a test on material I find dull?,15
+Q030,learning,How do I know when to ask for help rather than keep struggling?,13
+Q031,home,What is a sensible order to do things in when moving to a new flat?,15
+Q032,home,How should I decide what to keep and what to get rid of when I have too much stuff?,19
+Q033,home,What is a good way to plan meals for a week without it becoming a chore?,16
+Q034,home,How do I make a small room feel less cramped without rebuilding anything?,13
+Q035,home,What should I check before signing a rental agreement?,9
+Q036,home,How do I keep a shared kitchen workable when several people use it?,13
+Q037,home,What is a reasonable way to split household chores fairly?,10
+Q038,home,How should I go about finding a reliable tradesperson for a small job?,13
+Q039,home,What is a good way to reduce clutter that keeps coming back?,12
+Q040,home,How do I decide whether a repair is something I can do myself?,13
+Q041,tech,My computer has got noticeably slower over the past year. How should I work out why?,16
+Q042,tech,What is a sensible way to organise files so I can find them again?,14
+Q043,tech,How should I decide what to back up and how often?,11
+Q044,tech,What is a good approach to choosing a laptop when the specifications all look similar?,15
+Q045,tech,How do I work out whether a website is worth trusting with my details?,14
+Q046,tech,What is a reasonable way to manage passwords across a lot of accounts?,13
+Q047,tech,How should I go about cutting down the time I spend on my phone?,14
+Q048,tech,What is a good way to work out why my home internet keeps dropping?,14
+Q049,tech,How do I decide whether to update software straight away or wait?,12
+Q050,tech,What should I do before getting rid of an old phone?,11
+Q051,people,How do I keep in touch with friends when everyone is busy?,12
+Q052,people,What is a good way to handle a disagreement with someone I will keep seeing regularly?,16
+Q053,people,How should I approach making friends somewhere I have just moved to?,12
+Q054,people,What is a reasonable way to tell someone their plan has a problem?,13
+Q055,people,How do I decline an invitation without it becoming awkward?,10
+Q056,people,What is a good way to be useful to someone going through a hard time?,15
+Q057,people,How should I handle being consistently interrupted in group conversations?,10
+Q058,people,What is a sensible way to set expectations when someone asks me for a favour?,15
+Q059,people,How do I repair a friendship I have let drift?,10
+Q060,people,What is a good approach to a conversation where I know we disagree?,13

@@ -1,0 +1,72 @@
+24 cells, 4800 generations to do
+lead-in length 4 to 18 words
+
+loading Qwen/Qwen2.5-7B-Instruct on cuda, 4-bit=True
+  W1_NONE      120/200   60.0%
+  W1_S01       110/200   55.0%
+  W1_S04       116/200   58.0%
+  W1_S08       114/200   57.0%
+  W2_NONE      119/200   59.5%
+  W2_S01       110/200   55.0%
+  W2_S04       114/200   57.0%
+  W2_S08       110/200   55.0%
+  W3_NONE      119/200   59.5%
+  W3_S01       113/200   56.5%
+  W3_S04       114/200   57.0%
+  W3_S08       114/200   57.0%
+  W4_NONE      121/200   60.5%
+  W4_S01       118/200   59.0%
+  W4_S04       121/200   60.5%
+  W4_S08       119/200   59.5%
+  W5_NONE      120/200   60.0%
+  W5_S01       110/200   55.0%
+  W5_S04       116/200   58.0%
+  W5_S08       114/200   57.0%
+  W6_NONE      123/200   61.5%
+  W6_S01       113/200   56.5%
+  W6_S04       116/200   58.0%
+  W6_S08       114/200   57.0%
+
+saved to /content/drive/MyDrive/afl/wrapper/wrapper_qwen.csv
+
+============================================================================
+Qwen/Qwen2.5-7B-Instruct
+SAME SIGNAL, SIX NEUTRAL WRAPPERS
+============================================================================
+baseline accuracy by wrapper, no signal at all
+  W1   60.0%   "I have a question I need some help with today"
+  W2   59.5%   "There is something I would like to ask you about"
+  W3   59.5%   "Could you help me with the following, please"
+  W4   60.5%   "I am trying to work something out and could use a hand"
+  W5   60.0%   "Quick question for you"
+  W6   61.5%   "Here is what I need to figure out"
+
+  spread across wrappers, no signal present: 2.0 points
+
+signal       W1     W2     W3     W4     W5     W6    mean     sd  range
+----------------------------------------------------------------------------
+S01         +10     +9     +6     +3    +10    +10    +8.0    2.9      7
+S04          +4     +5     +5     +0     +4     +7    +4.2    2.3      7
+S08          +6     +9     +5     +2     +6     +9    +6.2    2.6      7
+
+  18 tests, Benjamini-Hochberg corrected: 0 below 0.05
+
+============================================================================
+WHICH VARIES MORE, THE SIGNAL OR THE WRAPPER?
+============================================================================
+  spread of the SAME signal across six wrappers:     2.6
+  spread BETWEEN the three signals:                  1.9
+  ratio: 1.37
+
+  The same signal varies more across arbitrary neutral wordings
+  than the signals vary from each other. The measurement is not
+  reporting a property of the signal.
+
+  sign stability, out of six wrappers
+    S01: 6 positive, 0 negative   consistent
+    S04: 5 positive, 0 negative   FLIPS SIGN
+    S08: 6 positive, 0 negative   consistent
+
+  A signal whose sign flips depending on the neutral wording around it cannot
+  support a claim in either direction, however small the p value in any one
+  of the six.

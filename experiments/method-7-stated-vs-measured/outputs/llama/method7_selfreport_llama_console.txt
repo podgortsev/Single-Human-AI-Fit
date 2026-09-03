@@ -1,0 +1,22 @@
+60 questions x 4 conditions = 240 self-reports to collect
+
+loading meta-llama/Llama-3.1-8B-Instruct on cuda, 4-bit=True
+     8 / 240
+    88 / 240
+   168 / 240
+
+saved to /content/drive/MyDrive/afl/method7/method7_selfreport_llama.csv
+
+========================================================================
+meta-llama/Llama-3.1-8B-Instruct
+STATED SELF-RATING 0-10 (higher = model claims bigger effect)
+========================================================================
+condition     n  parsed    mean  median
+------------------------------------------------------------------------
+NONE         60      60    5.97     6.0
+SCREEN       60      60    5.77     6.0
+AGE          60      60    5.57     6.0
+ADHD         60      60    5.93     6.0
+
+Stated effect of a disclosure = mean(signal) - mean(NONE).
+Compare against method 2's measured margin with analyse_method7.py.

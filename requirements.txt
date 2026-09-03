@@ -1,0 +1,10 @@
+# Analysis (no GPU): every analyse_*.py and validate_*.py
+numpy>=1.26
+scipy>=1.11
+matplotlib>=3.8
+
+# Generation (Colab, GPU): every run_*.py
+# torch>=2.2
+# transformers>=4.44
+# accelerate>=0.30
+# bitsandbytes>=0.43

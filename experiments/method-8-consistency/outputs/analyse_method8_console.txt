@@ -1,0 +1,70 @@
+METHOD 8, CONSISTENCY / STABILITY
+Is the model LESS stable for a person who disclosed something?
+Positive median = the disclosed condition scatters more than the signal-free baseline.
+
+==========================================================================================
+PROBE A  method 1: trait log prob across 5 phrasings   (baseline NONE)
+==========================================================================================
+model    signal       n   median d    mean d   ratio         p        BH   verdict
+                                                    (log prob SD)
+--------------------------------------------------------------------------------------------
+qwen     SCREEN     600     -0.505    -0.494    0.66    0.0000    0.0000   MORE stable
+qwen     AGE        600     +0.037    +0.004    1.00    0.5263    0.5263   no effect
+qwen     DEAF       600     -0.258    -0.274    0.81    0.0000    0.0000   MORE stable
+qwen     ADHD       600     -0.135    -0.083    0.94    0.0000    0.0000   MORE stable
+llama    SCREEN     600     -0.258    -0.269    0.74    0.0000    0.0000   MORE stable
+llama    AGE        600     -0.208    -0.223    0.79    0.0000    0.0000   MORE stable
+llama    DEAF       600     -0.220    -0.209    0.80    0.0000    0.0000   MORE stable
+llama    ADHD       600     -0.221    -0.255    0.76    0.0000    0.0000   MORE stable
+mistral  SCREEN     600     -0.146    -0.140    0.85    0.0000    0.0000   MORE stable
+mistral  AGE        600     +0.219    +0.319    1.35    0.0000    0.0000   LESS stable
+mistral  DEAF       600     -0.003    +0.028    1.03    0.1959    0.2137   no effect
+mistral  ADHD       600     -0.128    -0.155    0.83    0.0000    0.0000   MORE stable
+
+==========================================================================================
+PROBE B  method 3c: correct-answer outcome across 6 wrappers   (baseline NONE)
+==========================================================================================
+model    signal       n   median d    mean d   ratio         p        BH   verdict
+                                                    (k*(6-k) instability)
+--------------------------------------------------------------------------------------------
+qwen     SCREEN     200     +0.000    +0.100       -    0.6281    0.8448   no effect
+qwen     ADHD       200     +0.000    -0.005       -    0.9683    0.9683   no effect
+qwen     AGE        200     +0.000    +0.125       -    0.6371    0.8448   no effect
+llama    SCREEN     200     +0.000    +0.100       -    0.5723    0.8448   no effect
+llama    ADHD       200     +0.000    +0.385       -    0.0657    0.4332   no effect
+llama    AGE        200     +0.000    +0.355       -    0.1444    0.4332   no effect
+mistral  SCREEN     200     +0.000    +0.130       -    0.6571    0.8448   no effect
+mistral  ADHD       200     +0.000    +0.015       -    0.8151    0.9170   no effect
+mistral  AGE        200     +0.000    +0.270       -    0.1291    0.4332   no effect
+
+==========================================================================================
+PROBE C  method 6b: choice margin across 3 decision questions   (baseline CONTROL_PARA)
+==========================================================================================
+model    signal       n   median d    mean d   ratio         p        BH   verdict
+                                                    (margin SD, logits)
+--------------------------------------------------------------------------------------------
+qwen     SCREEN     100     +0.359    +0.344       -    0.0000    0.0000   LESS stable
+qwen     AGE        100     +0.399    +0.405       -    0.0000    0.0000   LESS stable
+qwen     DEAF       100     +0.327    +0.290       -    0.0000    0.0000   LESS stable
+qwen     ADHD       100     +0.116    +0.124       -    0.0000    0.0000   LESS stable
+llama    SCREEN     100     +0.033    +0.020       -    0.0504    0.0504   no effect
+llama    AGE        100     +0.062    +0.066       -    0.0000    0.0000   LESS stable
+llama    DEAF       100     +0.103    +0.101       -    0.0000    0.0000   LESS stable
+llama    ADHD       100     -0.024    -0.021       -    0.0029    0.0033   MORE stable
+mistral  SCREEN       0       +nan      +nan       -         -         -   no effect
+mistral  AGE          0       +nan      +nan       -         -         -   no effect
+mistral  DEAF         0       +nan      +nan       -         -         -   no effect
+mistral  ADHD         0       +nan      +nan       -         -         -   no effect
+
+==========================================================================================
+AGREEMENT
+==========================================================================================
+signal    LESS stable  MORE stable  no effect  of cells
+------------------------------------------------------------
+SCREEN              1            3          5         9
+AGE                 3            1          5         9
+DEAF                2            2          2         6
+ADHD                1            4          4         9
+
+One cell is one probe x one model. DEAF has no method 3c probe, so it has fewer cells.
+This is Paper 2 method 8. It reuses existing data and adds no compute.

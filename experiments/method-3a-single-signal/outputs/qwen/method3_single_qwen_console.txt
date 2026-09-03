@@ -1,0 +1,77 @@
+5200 generations to do
+
+loading Qwen/Qwen2.5-7B-Instruct on cuda, 4-bit=True
+  BASE  baseline                     120/200  60.0%
+  CTRL  control, no signal           116/200  58.0%
+  F01   non-native English           120/200  60.0%
+  F02   African American English     118/200  59.0%
+  F03   regional English variety     116/200  58.0%
+  F04   typos and slips              118/200  59.0%
+  F05   very terse                   125/200  62.5%
+  F06   verbose and digressive       121/200  60.5%
+  F07   informal and slang           116/200  58.0%
+  F08   machine-translated register  120/200  60.0%
+  F09   hedged and softened          118/200  59.0%
+  F10   anxious and apologetic       117/200  58.5%
+  S01   screen reader user           108/200  54.0%
+  S02   Deaf                         110/200  55.0%
+  S03   autistic                     112/200  56.0%
+  S04   ADHD                         112/200  56.0%
+  S05   dyslexic                     110/200  55.0%
+  S06   limited energy               113/200  56.5%
+  S07   motor impairment             108/200  54.0%
+  S08   older adult                  115/200  57.5%
+  S09   non-native, stated           113/200  56.5%
+  S10   first-time user              117/200  58.5%
+  C05   indirect request             112/200  56.0%
+  C06   high-context opening         117/200  58.5%
+  K01   lacks terminology            115/200  57.5%
+  K02   wrong terminology            118/200  59.0%
+
+saved to /content/drive/MyDrive/afl/method3/method3_qwen.csv
+
+==============================================================================
+Qwen/Qwen2.5-7B-Instruct
+PAIRED AGAINST BASELINE. Same 200 tasks everywhere.
+==============================================================================
+baseline accuracy 60.0%
+
+cond  label                            acc  lost  gain   net  disc       p
+------------------------------------------------------------------------------
+S01   screen reader user             54.0%    17     5   +12    22   0.017  <- exceeds control
+S07   motor impairment               54.0%    16     4   +12    20   0.012  <- exceeds control
+S02   Deaf                           55.0%    13     3   +10    16   0.021  <- exceeds control
+S05   dyslexic                       55.0%    16     6   +10    22   0.052
+S03   autistic                       56.0%    13     5    +8    18   0.096
+S04   ADHD                           56.0%    13     5    +8    18   0.096
+C05   indirect request               56.0%    11     3    +8    14   0.057
+S06   limited energy                 56.5%    13     6    +7    19   0.167
+S09   non-native, stated             56.5%    14     7    +7    21   0.189
+S08   older adult                    57.5%    13     8    +5    21   0.383
+K01   lacks terminology              57.5%    13     8    +5    21   0.383
+CTRL  control, no signal             58.0%     6     2    +4     8   0.289  <- CONTROL, the noise floor
+F03   regional English variety       58.0%     9     5    +4    14   0.424
+F07   informal and slang             58.0%    11     7    +4    18   0.481
+F10   anxious and apologetic         58.5%     5     2    +3     7   0.453
+S10   first-time user                58.5%     9     6    +3    15   0.607
+C06   high-context opening           58.5%    12     9    +3    21   0.664
+F02   African American English       59.0%     7     5    +2    12   0.774
+F04   typos and slips                59.0%     7     5    +2    12   0.774
+F09   hedged and softened            59.0%     6     4    +2    10   0.754
+K02   wrong terminology              59.0%    11     9    +2    20   0.824
+F01   non-native English             60.0%     4     4    +0     8   1.000
+F08   machine-translated register    60.0%     6     6    +0    12   1.000
+F06   verbose and digressive         60.5%     6     7    -1    13   1.000  <- length is the signal
+F05   very terse                     62.5%     5    10    -5    15   0.302  <- length is the signal
+
+==============================================================================
+CONTROL: net +4, 8 discordant, p=0.289
+
+The control changes only the wording. Whatever it shows is the cost of
+rephrasing alone. A condition must beat it to mean anything.
+
+  conditions exceeding the control at p<0.05:  3
+  surviving correction for 24 comparisons (p<0.0021):  0
+
+    None survive. Testing twenty-five conditions, one or two fall
+    under 0.05 by chance. Those are not findings.

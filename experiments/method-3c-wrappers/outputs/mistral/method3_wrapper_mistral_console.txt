@@ -1,0 +1,72 @@
+24 cells, 4800 generations to do
+lead-in length 4 to 18 words
+
+loading mistralai/Mistral-7B-Instruct-v0.3 on cuda, 4-bit=True
+  W1_NONE      100/200   50.0%
+  W1_S01        98/200   49.0%
+  W1_S04       109/200   54.5%
+  W1_S08       107/200   53.5%
+  W2_NONE      104/200   52.0%
+  W2_S01       103/200   51.5%
+  W2_S04       103/200   51.5%
+  W2_S08        98/200   49.0%
+  W3_NONE       97/200   48.5%
+  W3_S01        98/200   49.0%
+  W3_S04        97/200   48.5%
+  W3_S08        97/200   48.5%
+  W4_NONE       98/200   49.0%
+  W4_S01        95/200   47.5%
+  W4_S04       106/200   53.0%
+  W4_S08        95/200   47.5%
+  W5_NONE      105/200   52.5%
+  W5_S01       102/200   51.0%
+  W5_S04       104/200   52.0%
+  W5_S08       104/200   52.0%
+  W6_NONE      106/200   53.0%
+  W6_S01        98/200   49.0%
+  W6_S04       100/200   50.0%
+  W6_S08       101/200   50.5%
+
+saved to /content/drive/MyDrive/afl/wrapper/wrapper_mistral.csv
+
+============================================================================
+mistralai/Mistral-7B-Instruct-v0.3
+SAME SIGNAL, SIX NEUTRAL WRAPPERS
+============================================================================
+baseline accuracy by wrapper, no signal at all
+  W1   50.0%   "I have a question I need some help with today"
+  W2   52.0%   "There is something I would like to ask you about"
+  W3   48.5%   "Could you help me with the following, please"
+  W4   49.0%   "I am trying to work something out and could use a hand"
+  W5   52.5%   "Quick question for you"
+  W6   53.0%   "Here is what I need to figure out"
+
+  spread across wrappers, no signal present: 4.5 points
+
+signal       W1     W2     W3     W4     W5     W6    mean     sd  range
+----------------------------------------------------------------------------
+S01          +2     +1     -1     +3     +3     +8    +2.7    3.0      9
+S04          -9     +1     +0     -8     +1     +6    -1.5    5.8     15
+S08          -7     +6     +0     +3     +1     +5    +1.3    4.7     13
+
+  18 tests, Benjamini-Hochberg corrected: 0 below 0.05
+
+============================================================================
+WHICH VARIES MORE, THE SIGNAL OR THE WRAPPER?
+============================================================================
+  spread of the SAME signal across six wrappers:     4.5
+  spread BETWEEN the three signals:                  2.1
+  ratio: 2.12
+
+  The same signal varies more across arbitrary neutral wordings
+  than the signals vary from each other. The measurement is not
+  reporting a property of the signal.
+
+  sign stability, out of six wrappers
+    S01: 5 positive, 1 negative   FLIPS SIGN
+    S04: 3 positive, 2 negative   FLIPS SIGN
+    S08: 4 positive, 1 negative   FLIPS SIGN
+
+  A signal whose sign flips depending on the neutral wording around it cannot
+  support a claim in either direction, however small the p value in any one
+  of the six.

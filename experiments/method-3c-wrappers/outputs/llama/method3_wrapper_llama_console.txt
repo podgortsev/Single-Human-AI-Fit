@@ -1,0 +1,82 @@
+24 cells, 4800 generations to do
+lead-in length 4 to 18 words
+
+loading meta-llama/Llama-3.1-8B-Instruct on cuda, 4-bit=True
+  W1_NONE       88/200   44.0%
+  W1_S01        61/200   30.5%
+  W1_S04        80/200   40.0%
+  W1_S08        72/200   36.0%
+  W2_NONE       84/200   42.0%
+  W2_S01        65/200   32.5%
+  W2_S04        89/200   44.5%
+  W2_S08        75/200   37.5%
+  W3_NONE       83/200   41.5%
+  W3_S01        67/200   33.5%
+  W3_S04        74/200   37.0%
+  W3_S08        70/200   35.0%
+  W4_NONE       90/200   45.0%
+  W4_S01        67/200   33.5%
+  W4_S04        79/200   39.5%
+  W4_S08        70/200   35.0%
+  W5_NONE       86/200   43.0%
+  W5_S01        72/200   36.0%
+  W5_S04        77/200   38.5%
+  W5_S08        83/200   41.5%
+  W6_NONE       80/200   40.0%
+  W6_S01        55/200   27.5%
+  W6_S04        71/200   35.5%
+  W6_S08        60/200   30.0%
+
+saved to /content/drive/MyDrive/afl/wrapper/wrapper_llama.csv
+
+============================================================================
+meta-llama/Llama-3.1-8B-Instruct
+SAME SIGNAL, SIX NEUTRAL WRAPPERS
+============================================================================
+baseline accuracy by wrapper, no signal at all
+  W1   44.0%   "I have a question I need some help with today"
+  W2   42.0%   "There is something I would like to ask you about"
+  W3   41.5%   "Could you help me with the following, please"
+  W4   45.0%   "I am trying to work something out and could use a hand"
+  W5   43.0%   "Quick question for you"
+  W6   40.0%   "Here is what I need to figure out"
+
+  spread across wrappers, no signal present: 5.0 points
+
+signal       W1     W2     W3     W4     W5     W6    mean     sd  range
+----------------------------------------------------------------------------
+S01         +27    +19    +16    +23    +14    +25   +20.7    5.2     13
+S04          +8     -5     +9    +11     +9     +9    +6.8    5.9     16
+S08         +16     +9    +13    +20     +3    +20   +13.5    6.7     17
+
+  18 tests, Benjamini-Hochberg corrected: 10 below 0.05
+    S01 under W1: raw p=0.0000, corrected 0.0001
+    S01 under W2: raw p=0.0009, corrected 0.0040
+    S01 under W3: raw p=0.0070, corrected 0.0158
+    S01 under W4: raw p=0.0001, corrected 0.0007
+    S01 under W5: raw p=0.0161, corrected 0.0322
+    S01 under W6: raw p=0.0001, corrected 0.0007
+    S08 under W1: raw p=0.0015, corrected 0.0056
+    S08 under W3: raw p=0.0192, corrected 0.0345
+    S08 under W4: raw p=0.0022, corrected 0.0057
+    S08 under W6: raw p=0.0022, corrected 0.0057
+
+============================================================================
+WHICH VARIES MORE, THE SIGNAL OR THE WRAPPER?
+============================================================================
+  spread of the SAME signal across six wrappers:     5.9
+  spread BETWEEN the three signals:                  6.9
+  ratio: 0.85
+
+  Wrapper variation is a large fraction of signal variation.
+  Any single-wrapper estimate carries an error bar at least this
+  wide, which is rarely reported.
+
+  sign stability, out of six wrappers
+    S01: 6 positive, 0 negative   consistent
+    S04: 5 positive, 1 negative   FLIPS SIGN
+    S08: 6 positive, 0 negative   consistent
+
+  A signal whose sign flips depending on the neutral wording around it cannot
+  support a claim in either direction, however small the p value in any one
+  of the six.

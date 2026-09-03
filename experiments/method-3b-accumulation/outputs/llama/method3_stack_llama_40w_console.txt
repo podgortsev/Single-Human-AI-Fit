@@ -1,0 +1,95 @@
+26 conditions, 5200 generations to do
+
+loading meta-llama/Llama-3.1-8B-Instruct on cuda, 4-bit=True
+  D0      d0  none                                      69/200  34.5%
+  CTRL    d0  none                                      81/200  40.5%
+  R1D1    d1  S01                                       61/200  30.5%
+  R1D2    d2  S01+S04                                   63/200  31.5%
+  R1D3    d3  S01+S04+S09                               53/200  26.5%
+  R2D1    d1  S04                                       67/200  33.5%
+  R2D2    d2  S04+S09                                   65/200  32.5%
+  R2D3*   d3  S04+S09+S01                               59/200  29.5%
+  R3D1    d1  S09                                       69/200  34.5%
+  R3D2    d2  S09+S01                                   62/200  31.0%
+  R3D3*   d3  S09+S01+S04                               62/200  31.0%
+  R4D1    d1  S05                                       64/200  32.0%
+  R4D2    d2  S05+S08                                   61/200  30.5%
+  R4D3    d3  S05+S08+S10                               63/200  31.5%
+  R5D1    d1  S08                                       61/200  30.5%
+  R5D2    d2  S08+S10                                   57/200  28.5%
+  R5D3*   d3  S08+S10+S05                               62/200  31.0%
+  R6D1    d1  S10                                       70/200  35.0%
+  R6D2    d2  S10+S05                                   62/200  31.0%
+  R6D3*   d3  S10+S05+S08                               66/200  33.0%
+  R7D1*   d1  S01                                       61/200  30.5%
+  R7D2    d2  S01+S05                                   67/200  33.5%
+  R7D3    d3  S01+S05+S08                               66/200  33.0%
+  R8D1*   d1  S09                                       69/200  34.5%
+  R8D2    d2  S09+S10                                   63/200  31.5%
+  R8D3    d3  S09+S10+S04                               49/200  24.5%
+
+saved to /content/drive/MyDrive/afl/stack/stack_llama.csv
+
+================================================================================
+meta-llama/Llama-3.1-8B-Instruct
+ACCUMULATION. Same 200 tasks in every condition.
+================================================================================
+depth 0 accuracy 34.5%
+
+CONTROL, four neutral clauses: net -12, 18 discordant, p=0.008
+  This is the cost of rephrasing alone. Everything below must beat it.
+
+cond        depth  signals                                     acc   net       p
+--------------------------------------------------------------------------------
+R1D1            1  S01                                       30.5%    +8   0.185
+R2D1            1  S04                                       33.5%    +2   0.815
+R3D1            1  S09                                       34.5%    +0   1.000
+R4D1            1  S05                                       32.0%    +5   0.383
+R5D1            1  S08                                       30.5%    +8   0.152
+R6D1            1  S10                                       35.0%    -1   1.000
+R7D1*           1  S01                                       30.5%    +8   0.185
+R8D1*           1  S09                                       34.5%    +0   1.000
+R1D2            2  S01+S04                                   31.5%    +6   0.392
+R2D2            2  S04+S09                                   32.5%    +4   0.597
+R3D2            2  S09+S01                                   31.0%    +7   0.265
+R4D2            2  S05+S08                                   30.5%    +8   0.185
+R5D2            2  S08+S10                                   28.5%   +12   0.036*
+R6D2            2  S10+S05                                   31.0%    +7   0.210
+R7D2            2  S01+S05                                   33.5%    +2   0.860
+R8D2            2  S09+S10                                   31.5%    +6   0.327
+R1D3            3  S01+S04+S09                               26.5%   +16   0.017*
+R2D3*           3  S04+S09+S01                               29.5%   +10   0.099
+R3D3*           3  S09+S01+S04                               31.0%    +7   0.311
+R4D3            3  S05+S08+S10                               31.5%    +6   0.362
+R5D3*           3  S08+S10+S05                               31.0%    +7   0.337
+R6D3*           3  S10+S05+S08                               33.0%    +3   0.728
+R7D3            3  S01+S05+S08                               33.0%    +3   0.736
+R8D3            3  S09+S10+S04                               24.5%   +20   0.002*
+
+================================================================================
+SHAPE OF THE CURVE
+================================================================================
+  depth 1: mean net   +3.8   (n=8, range -1 to +8)
+  depth 2: mean net   +6.5   (n=8, range +2 to +12)
+  depth 3: mean net   +9.0   (n=8, range +3 to +20)
+
+  cost of the first signal:  +3.8
+  cost of the second:        +2.8
+  cost of the third:         +2.5
+
+  ADDITIVE. Each signal costs about the same as the first.
+
+  depth 3 worse than depth 1: p=0.0629
+  WARNING: every depth sits within reach of the control. No accumulation can be claimed from this.
+
+  ROUTE CONSISTENCY. If routes bend the same way, the shape belongs
+  to accumulation. If they differ, what matters is which signals.
+
+    R1  S01 + S04 + S09                           +8    +6   +16
+    R2  S04 + S09 + S01                           +2    +4   +10
+    R3  S09 + S01 + S04                           +0    +7    +7
+    R4  S05 + S08 + S10                           +5    +8    +6
+    R5  S08 + S10 + S05                           +8   +12    +7
+    R6  S10 + S05 + S08                           -1    +7    +3
+    R7  S01 + S05 + S08                           +8    +2    +3
+    R8  S09 + S10 + S04                           +0    +6   +20

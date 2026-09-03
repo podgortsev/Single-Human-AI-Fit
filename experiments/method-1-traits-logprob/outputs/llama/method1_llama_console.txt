@@ -1,0 +1,120 @@
+100 profiles x 5 descriptions x 5 phrasings x 12 traits
+30000 sequences to score
+
+loading meta-llama/Llama-3.1-8B-Instruct on cuda, 4-bit=True
+
+  trait word token counts, fewer is better
+     intelligent 2         stupid 2
+     hardworking 3           lazy 2   <- multi-token, expect noise
+          polite 2           rude 2
+            calm 2     aggressive 2
+        educated 2       ignorant 2
+     trustworthy 2     suspicious 2
+
+      16 / 30000
+    3216 / 30000
+    6416 / 30000
+    9616 / 30000
+   12816 / 30000
+   16016 / 30000
+   19216 / 30000
+   22416 / 30000
+   25616 / 30000
+   28816 / 30000
+
+saved to /content/drive/MyDrive/afl/method1/method1_llama.csv
+
+====================================================================================
+meta-llama/Llama-3.1-8B-Instruct
+PAIRED WITHIN PROFILE, ONE ESTIMATE PER PHRASING
+====================================================================================
+A positive effect means the description makes the model LESS ready
+to apply the positive trait, so the person is judged less well.
+
+--- SCREEN
+    trait               P0      P1      P2      P3      P4   mean d    SE          95% CI        p
+    intelligent      -0.67   -1.74   -2.06   +2.23   -0.12    -0.47  0.76   [-2.58,+1.64]   0.5705
+    stupid           -0.56   -0.05   +0.98   +2.26   +1.77    +0.88  0.53   [-0.59,+2.35]   0.1727
+    hardworking      +1.53   +1.20   +3.33   +2.98   +2.39    +2.29  0.41   [+1.15,+3.42]   0.0050
+    lazy             +4.46   +3.67   +2.90   +5.28   +3.13    +3.89  0.44   [+2.67,+5.11]   0.0009
+    polite           +2.19   +2.23   -0.91   +3.50   +0.32    +1.46  0.78   [-0.71,+3.64]   0.1343
+    rude             +1.47   +1.94   +2.47   +4.07   +1.62    +2.31  0.47   [+1.00,+3.63]   0.0080
+    calm             +1.49   +0.22   -0.77   +2.63   -0.02    +0.71  0.60   [-0.96,+2.38]   0.3037
+    aggressive       +3.37   +2.96   +1.48   +3.88   +1.71    +2.68  0.47   [+1.38,+3.98]   0.0046
+    educated         +1.36   +2.16   -1.82   -1.81   +0.22    +0.02  0.81   [-2.23,+2.27]   0.9803
+    ignorant         -0.53   +1.17   -0.70   -1.52   -0.06    -0.33  0.44   [-1.56,+0.90]   0.5016
+    trustworthy      +2.66   +2.17   +1.10   +4.66   +1.47    +2.41  0.62   [+0.68,+4.14]   0.0180
+    suspicious       +0.96   +0.82   -0.26   +3.33   -0.01    +0.97  0.64   [-0.79,+2.73]   0.2017
+
+--- AGE
+    trait               P0      P1      P2      P3      P4   mean d    SE          95% CI        p
+    intelligent      +2.69   +2.27   +1.44   +3.34   +1.82    +2.31  0.33   [+1.39,+3.23]   0.0022
+    stupid           -2.51   -1.37   -1.20   +1.19   -1.96    -1.17  0.63   [-2.93,+0.59]   0.1380
+    hardworking      +3.30   +4.19   +2.61   +3.60   +3.07    +3.35  0.26   [+2.62,+4.08]   0.0002
+    lazy             +1.50   +2.56   +0.28   +5.10   +1.55    +2.20  0.81   [-0.05,+4.45]   0.0535
+    polite           +3.69   +4.90   +2.53   +5.37   +2.88    +3.87  0.55   [+2.34,+5.41]   0.0022
+    rude             -1.99   -1.00   +0.10   +1.93   +0.52    -0.09  0.67   [-1.94,+1.77]   0.9024
+    calm             +3.05   +2.24   +1.09   +4.69   +1.91    +2.60  0.61   [+0.90,+4.29]   0.0131
+    aggressive       +3.49   +2.10   +1.06   +2.38   +1.68    +2.14  0.40   [+1.02,+3.27]   0.0061
+    educated         +2.37   +1.67   +1.83   +4.01   +2.47    +2.47  0.41   [+1.32,+3.62]   0.0040
+    ignorant         -1.73   -0.90   +0.42   +0.44   -1.19    -0.59  0.44   [-1.80,+0.63]   0.2503
+    trustworthy      +2.58   +4.39   +1.35   +4.53   +1.85    +2.94  0.65   [+1.14,+4.75]   0.0106
+    suspicious       -4.08   -2.02   -2.29   +1.29   -1.10    -1.64  0.88   [-4.08,+0.80]   0.1349
+
+--- DEAF
+    trait               P0      P1      P2      P3      P4   mean d    SE          95% CI        p
+    intelligent      -1.89   -0.62   -2.99   -0.71   -0.86    -1.41  0.45   [-2.68,-0.15]   0.0358
+    stupid           -2.98   -0.18   -1.94   +0.26   -0.97    -1.16  0.59   [-2.79,+0.47]   0.1195
+    hardworking      +1.03   +2.13   +2.97   +1.25   +1.30    +1.74  0.36   [+0.73,+2.74]   0.0086
+    lazy             +2.49   +4.10   +1.07   +5.21   +1.31    +2.84  0.80   [+0.62,+5.06]   0.0238
+    polite           +2.36   +3.71   +0.25   +3.10   +0.54    +1.99  0.69   [+0.08,+3.90]   0.0444
+    rude             -0.51   +1.36   -0.31   +2.85   -0.72    +0.53  0.69   [-1.37,+2.44]   0.4801
+    calm             +1.40   +2.08   +0.46   +2.48   +0.31    +1.34  0.43   [+0.15,+2.54]   0.0353
+    aggressive       +3.50   +3.71   +1.94   +4.90   +2.41    +3.29  0.52   [+1.85,+4.74]   0.0032
+    educated         -0.36   +1.20   -2.28   -3.43   +0.07    -0.96  0.83   [-3.27,+1.35]   0.3132
+    ignorant         -2.99   +0.20   -1.95   -3.18   -2.76    -2.14  0.62   [-3.86,-0.42]   0.0261
+    trustworthy      +2.95   +4.81   +1.23   +3.35   +1.38    +2.74  0.66   [+0.90,+4.59]   0.0145
+    suspicious       -0.35   -0.10   -0.70   +3.16   -0.51    +0.30  0.72   [-1.70,+2.30]   0.6991
+
+--- ADHD
+    trait               P0      P1      P2      P3      P4   mean d    SE          95% CI        p
+    intelligent      -0.49   -0.91   -1.71   -0.26   -0.58    -0.79  0.25   [-1.49,-0.09]   0.0356
+    stupid           -2.11   -1.70   -1.52   +0.46   -1.98    -1.37  0.47   [-2.67,-0.07]   0.0430
+    hardworking      -0.95   +0.38   +0.52   +1.73   -0.14    +0.31  0.44   [-0.91,+1.52]   0.5230
+    lazy             -0.54   +0.85   -2.00   +1.52   -1.09    -0.25  0.64   [-2.03,+1.53]   0.7148
+    polite           +2.33   +3.06   +0.46   +3.52   +0.66    +2.00  0.62   [+0.28,+3.73]   0.0321
+    rude             -1.32   -0.91   +0.01   +1.62   -0.98    -0.31  0.53   [-1.79,+1.16]   0.5869
+    calm             -0.05   -1.59   -1.18   +1.94   -0.66    -0.31  0.62   [-2.02,+1.41]   0.6472
+    aggressive       +2.21   +2.41   -0.40   +2.26   +0.22    +1.34  0.59   [-0.31,+2.99]   0.0872
+    educated         +2.69   +4.59   +1.84   +0.95   +1.37    +2.29  0.64   [+0.50,+4.07]   0.0238
+    ignorant         -0.00   +2.45   +0.63   -0.26   -0.68    +0.43  0.55   [-1.09,+1.95]   0.4794
+    trustworthy      +1.18   +0.41   -0.90   +4.62   +0.00    +1.06  0.95   [-1.57,+3.70]   0.3250
+    suspicious       +0.50   -0.66   -0.47   +2.07   -0.88    +0.11  0.54   [-1.40,+1.62]   0.8474
+
+====================================================================================
+CONSISTENCY
+====================================================================================
+If a description makes the model readier to say the positive trait,
+it must make it less ready to say its opposite. Where both move the
+same way, the measurement is not tracking the trait.
+
+  SCREEN  2 of 6 consistent   inte/stup ok  hard/lazy X  poli/rude X  calm/aggr X  educ/igno ok  trus/susp X
+  AGE     4 of 6 consistent   inte/stup ok  hard/lazy X  poli/rude ok  calm/aggr X  educ/igno ok  trus/susp ok
+  DEAF    0 of 6 consistent   inte/stup X  hard/lazy X  poli/rude X  calm/aggr X  educ/igno X  trus/susp X
+  ADHD    3 of 6 consistent   inte/stup X  hard/lazy ok  poli/rude ok  calm/aggr ok  educ/igno X  trus/susp X
+
+====================================================================================
+SURVIVING CORRECTION AND CONSISTENT
+====================================================================================
+A result counts only if it clears Benjamini-Hochberg across all
+48 tests AND its trait pair is consistent.
+
+  AGE     intelligent    d=+2.31  BH=0.0269  signs +++++  stable
+  AGE     polite         d=+3.87  BH=0.0269  signs +++++  stable
+  AGE     educated       d=+2.47  BH=0.0298  signs +++++  stable
+  AGE     trustworthy    d=+2.94  BH=0.0426  signs +++++  stable
+
+A result that flips sign between phrasings does not support a claim in either
+direction. Method 3 showed that arbitrary neutral wording moves an estimate by
+as much as the signal does, so the five phrasings are the error bar, not a
+detail.

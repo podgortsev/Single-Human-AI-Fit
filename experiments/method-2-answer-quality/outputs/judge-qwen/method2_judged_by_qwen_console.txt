@@ -1,0 +1,98 @@
+  loaded 300 answers for qwen from /content/drive/MyDrive/afl/method2/method2_answers_qwen.csv
+  loaded 300 answers for llama from /content/drive/MyDrive/afl/method2/method2_answers_llama.csv
+  loaded 300 answers for mistral from /content/drive/MyDrive/afl/method2/method2_answers_mistral.csv
+1800 judge reads to do
+
+loading judge Qwen/Qwen2.5-7B-Instruct on cuda, 4-bit=True
+  'A' token ids [32, 362]   'B' token ids [33, 425]
+      4 / 1800
+    104 / 1800
+    204 / 1800
+    304 / 1800
+    404 / 1800
+    504 / 1800
+    604 / 1800
+    704 / 1800
+    804 / 1800
+    904 / 1800
+   1004 / 1800
+   1104 / 1800
+   1204 / 1800
+   1304 / 1800
+   1404 / 1800
+   1504 / 1800
+   1604 / 1800
+   1704 / 1800
+
+saved to /content/drive/MyDrive/afl/method2/method2_judged_by_qwen.csv
+
+================================================================================================
+JUDGE: Qwen/Qwen2.5-7B-Instruct
+METHOD 2, ANSWER QUALITY. SUBJECTIVE, REPORT SEPARATELY.
+================================================================================================
+judge letter mass P(A)+P(B): mean 1.00   share below 0.5: 0%
+
+------------------------------------------------------------------------------------------------
+ANSWERS BY qwen
+------------------------------------------------------------------------------------------------
+judge slot bias |m1| on IDENTITY (same answer both sides) = 9.61 logits
+floor, NONE vs CONTROL (two signal-free answers): combined +0.35   wins from B 3%
+
+comparison           n  combined            95% CI  wins from B   Wilcoxon       BH  len gap
+------------------------------------------------------------------------------------------------
+IDENTITY            60     +0.00   [ -0.00, +0.00]          0%          -        -       +0  <- control
+NONE_vs_CONTROL     60     +0.35   [ -0.20, +0.91]          3%          -        -       -2  <- control
+SCREEN              60     -4.77   [ -5.88, -3.66]          3%     0.0000   0.0000       -3  *
+AGE                 60     -1.85   [ -2.69, -1.01]          2%     0.0002   0.0002       -3  *
+ADHD                60     -4.77   [ -5.75, -3.80]          0%     0.0000   0.0000       -2  *
+
+  slot-bias term by comparison: IDENTITY=+9.61  NONE_vs_CONTROL=+6.61  SCREEN=+6.26  AGE=+6.61  ADHD=+6.79
+  spread 3.35 logits   NOT additive, combined is only partly cleaned
+
+------------------------------------------------------------------------------------------------
+ANSWERS BY llama
+------------------------------------------------------------------------------------------------
+judge slot bias |m1| on IDENTITY (same answer both sides) = 10.05 logits
+floor, NONE vs CONTROL (two signal-free answers): combined +0.59   wins from B 3%
+
+comparison           n  combined            95% CI  wins from B   Wilcoxon       BH  len gap
+------------------------------------------------------------------------------------------------
+IDENTITY            60     +0.00   [ -0.00, +0.00]          0%          -        -       +0  <- control
+NONE_vs_CONTROL     60     +0.59   [ +0.07, +1.11]          3%          -        -       -1  <- control
+SCREEN              60     -2.66   [ -3.56, -1.75]          0%     0.0000   0.0000       +2  *
+AGE                 60     -2.12   [ -2.94, -1.30]          0%     0.0000   0.0000       -0  *
+ADHD                60     -2.67   [ -3.59, -1.74]          0%     0.0000   0.0000       -1  *
+
+  slot-bias term by comparison: IDENTITY=+10.05  NONE_vs_CONTROL=+6.24  SCREEN=+5.31  AGE=+6.31  ADHD=+4.87
+  spread 5.18 logits   NOT additive, combined is only partly cleaned
+
+------------------------------------------------------------------------------------------------
+ANSWERS BY mistral
+------------------------------------------------------------------------------------------------
+judge slot bias |m1| on IDENTITY (same answer both sides) = 9.93 logits
+floor, NONE vs CONTROL (two signal-free answers): combined +0.27   wins from B 2%
+
+comparison           n  combined            95% CI  wins from B   Wilcoxon       BH  len gap
+------------------------------------------------------------------------------------------------
+IDENTITY            60     +0.00   [ -0.00, +0.00]          0%          -        -       +0  <- control
+NONE_vs_CONTROL     60     +0.27   [ -0.31, +0.85]          2%          -        -       -2  <- control
+SCREEN              60     -5.01   [ -6.18, -3.84]          0%     0.0000   0.0000       -5  *
+AGE                 60     -1.13   [ -2.01, -0.24]          0%     0.0194   0.0194       -4  *
+ADHD                60     -2.27   [ -3.32, -1.22]          0%     0.0002   0.0003       -1  *
+
+  slot-bias term by comparison: IDENTITY=+9.93  NONE_vs_CONTROL=+7.81  SCREEN=+7.37  AGE=+8.52  ADHD=+7.51
+  spread 2.56 logits   NOT additive, combined is only partly cleaned
+
+combined > 0 means the judge preferred the answer given to the person who
+disclosed something. combined < 0 means that person's answer was judged worse.
+
+Three things must hold before any of this counts.
+  IDENTITY's slot bias must be finite and the order swap must be doing its work.
+  The signal must clear the NONE_vs_CONTROL floor, which is what a lead-in costs
+  on its own.
+  'len gap' is the mean word-count difference between the two answers. If a
+  significant result comes with a large length gap, the judge may be rewarding
+  length, and the result is about verbosity rather than quality.
+
+This is the only method whose outcome depends on a model's judgement. Report it
+separately from methods 1, 3, 4 and 6, and say so.

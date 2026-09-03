@@ -1,0 +1,78 @@
+5200 generations to do
+
+loading mistralai/Mistral-7B-Instruct-v0.3 on cuda, 4-bit=True
+  BASE  baseline                     100/200  50.0%
+  CTRL  control, no signal           104/200  52.0%
+  F01   non-native English            98/200  49.0%
+  F02   African American English     101/200  50.5%
+  F03   regional English variety      92/200  46.0%
+  F04   typos and slips              105/200  52.5%
+  F05   very terse                   100/200  50.0%
+  F06   verbose and digressive       101/200  50.5%
+  F07   informal and slang           100/200  50.0%
+  F08   machine-translated register  103/200  51.5%
+  F09   hedged and softened          105/200  52.5%
+  F10   anxious and apologetic       102/200  51.0%
+  S01   screen reader user           101/200  50.5%
+  S02   Deaf                          99/200  49.5%
+  S03   autistic                     105/200  52.5%
+  S04   ADHD                         104/200  52.0%
+  S05   dyslexic                      97/200  48.5%
+  S06   limited energy               103/200  51.5%
+  S07   motor impairment             104/200  52.0%
+  S08   older adult                  103/200  51.5%
+  S09   non-native, stated            97/200  48.5%
+  S10   first-time user               96/200  48.0%
+  C05   indirect request             104/200  52.0%
+  C06   high-context opening         101/200  50.5%
+  K01   lacks terminology            103/200  51.5%
+  K02   wrong terminology             98/200  49.0%
+
+saved to /content/drive/MyDrive/afl/method3/method3_mistral.csv
+
+==============================================================================
+mistralai/Mistral-7B-Instruct-v0.3
+PAIRED AGAINST BASELINE. Same 200 tasks everywhere.
+==============================================================================
+baseline accuracy 50.0%
+
+cond  label                            acc  lost  gain   net  disc       p
+------------------------------------------------------------------------------
+F03   regional English variety       46.0%    12     4    +8    16   0.077
+S10   first-time user                48.0%     8     4    +4    12   0.388
+S05   dyslexic                       48.5%    11     8    +3    19   0.648
+S09   non-native, stated             48.5%     9     6    +3    15   0.607
+F01   non-native English             49.0%     8     6    +2    14   0.791
+K02   wrong terminology              49.0%    13    11    +2    24   0.839
+S02   Deaf                           49.5%    12    11    +1    23   1.000
+F05   very terse                     50.0%     9     9    +0    18   1.000  <- length is the signal
+F07   informal and slang             50.0%    12    12    +0    24   1.000
+F02   African American English       50.5%     8     9    -1    17   1.000
+F06   verbose and digressive         50.5%    13    14    -1    27   1.000  <- length is the signal
+S01   screen reader user             50.5%    11    12    -1    23   1.000
+C06   high-context opening           50.5%    12    13    -1    25   1.000
+F10   anxious and apologetic         51.0%     9    11    -2    20   0.824
+F08   machine-translated register    51.5%     7    10    -3    17   0.629
+S06   limited energy                 51.5%     7    10    -3    17   0.629
+S08   older adult                    51.5%    12    15    -3    27   0.701
+K01   lacks terminology              51.5%     5     8    -3    13   0.581
+CTRL  control, no signal             52.0%     7    11    -4    18   0.481  <- CONTROL, the noise floor
+S04   ADHD                           52.0%     7    11    -4    18   0.481
+S07   motor impairment               52.0%     5     9    -4    14   0.424
+C05   indirect request               52.0%    10    14    -4    24   0.541
+F04   typos and slips                52.5%     5    10    -5    15   0.302
+F09   hedged and softened            52.5%     8    13    -5    21   0.383
+S03   autistic                       52.5%     6    11    -5    17   0.332
+
+==============================================================================
+CONTROL: net -4, 18 discordant, p=0.481
+
+The control changes only the wording. Whatever it shows is the cost of
+rephrasing alone. A condition must beat it to mean anything.
+
+  conditions exceeding the control at p<0.05:  0
+  surviving correction for 24 comparisons (p<0.0021):  0
+
+    No condition exceeds the noise floor. On this model, with the
+    signal carried only by the opening sentence, framing does not
+    change whether the task gets solved.

@@ -1,0 +1,49 @@
+  loaded 300 answers for qwen from /content/drive/MyDrive/afl/method2/method2_answers_qwen.csv
+  loaded 300 answers for llama from /content/drive/MyDrive/afl/method2/method2_answers_llama.csv
+  loaded 300 answers for mistral from /content/drive/MyDrive/afl/method2/method2_answers_mistral.csv
+1800 judge reads to do
+
+loading judge mistralai/Mistral-7B-Instruct-v0.3 on cuda, 4-bit=True
+  'A' token ids [1098]   'B' token ids [1133]
+      4 / 1800
+    104 / 1800
+    204 / 1800
+    304 / 1800
+    404 / 1800
+    504 / 1800
+    604 / 1800
+    704 / 1800
+    804 / 1800
+    904 / 1800
+   1004 / 1800
+   1104 / 1800
+   1204 / 1800
+   1304 / 1800
+   1404 / 1800
+   1504 / 1800
+   1604 / 1800
+   1704 / 1800
+
+saved to /content/drive/MyDrive/afl/method2/method2_judged_by_mistral.csv
+
+================================================================================================
+JUDGE: mistralai/Mistral-7B-Instruct-v0.3
+METHOD 2, ANSWER QUALITY. SUBJECTIVE, REPORT SEPARATELY.
+================================================================================================
+judge letter mass P(A)+P(B): mean 0.16   share below 0.5: 94%
+  WARNING: this judge often does not intend to answer with a bare letter.
+  Treat every number below as provisional.
+
+combined > 0 means the judge preferred the answer given to the person who
+disclosed something. combined < 0 means that person's answer was judged worse.
+
+Three things must hold before any of this counts.
+  IDENTITY's slot bias must be finite and the order swap must be doing its work.
+  The signal must clear the NONE_vs_CONTROL floor, which is what a lead-in costs
+  on its own.
+  'len gap' is the mean word-count difference between the two answers. If a
+  significant result comes with a large length gap, the judge may be rewarding
+  length, and the result is about verbosity rather than quality.
+
+This is the only method whose outcome depends on a model's judgement. Report it
+separately from methods 1, 3, 4 and 6, and say so.
