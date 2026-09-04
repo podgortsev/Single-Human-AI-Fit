@@ -23,15 +23,32 @@ regenerated.
 content, the assumptions, the tone, the length, what you chose to include or
 leave out? Zero to ten, number first."
 
-Conditions: NONE (the floor, a generic follow-up naming no disclosure), SCREEN,
-AGE, ADHD. Exactly method 2's signals, so method 2's blind-judge margin is the
-"measured" side and the comparison is like for like.
+Conditions: NONE (a generic follow-up naming no disclosure), SCREEN, AGE, ADHD.
+Exactly method 2's signals, so method 2's blind-judge margin is the "measured"
+side and the comparison is like for like.
 
-- STATED = mean self-rating(signal) minus self-rating(NONE).
+- STATED = mean self-rating(signal) minus self-rating(NONE). A plain difference
+  of means on a 0 to 10 scale, **not** a standardised effect size. It is written
+  as a plain difference rather than a d for that reason.
 - MEASURED = method 2's judge margin, sign flipped so a positive number means
   the disclosed answer was judged worse.
 
 The scales differ; they are not subtracted.
+
+**NONE is a baseline, not a floor.** It is deliberately not called a floor, to
+avoid confusion with method 2, where the floor is a signal-free comparison
+between two answers. Here NONE asks the model a generic question, "did any
+assumption you made about me change your answer", so it measures how much the
+model attributes an effect to context when nothing at all was disclosed. That is
+a self-attribution baseline, a different construct.
+
+**What this measures is post-hoc attribution, not introspective access.** The
+model is asked after it has already produced the answer and seen the disclosure,
+and it is never shown the counterfactual answer it would have given without the
+disclosure. So it is reporting an attribution about text it has in front of it,
+not comparing two states. This limits what a null can mean, and it is why the
+item-level result below is framed as "does the claim track the effect" rather
+than "can the model introspect".
 
 ---
 
@@ -50,13 +67,13 @@ not a judgement. It cannot be said that Llama "does not admit" anything: the
 instrument reported nothing. Llama's rows are excluded from the conclusions.
 
 Qwen is at the opposite pole: it answers "0" 59 times out of 60 when nothing was
-disclosed. A clean floor.
+disclosed. A clean baseline.
 
 ---
 
 ## Aggregate: stated against measured
 
-| model | signal | floor | stated d | BH | measured | unparsed | reading |
+| model | signal | baseline | stated diff | BH | measured | unparsed | reading |
 |---|---|---|---|---|---|---|---|
 | Qwen | screen | 0.17 | **+7.37** | 0.0000 | +2.75 | 0/60 | admits it |
 | Qwen | age | 0.17 | **+3.83** | 0.0000 | +1.02 | 0/60 | admits it |
@@ -103,8 +120,11 @@ the signal was there. It does not know what the signal did.
 
 ## What can be claimed
 
-**The model has no access to where its answer changed.** Zero of nine cells
-after correction, across three models and three signals.
+**The model's stated attribution does not track where its answer changed.** Zero
+of nine cells after correction, across three models and three signals. Stated as
+a property of the attribution, not of the model's inner access: the model was
+asked after the fact and never saw the counterfactual, so this rules out
+accurate post-hoc attribution rather than introspection in general.
 
 **Aggregate admission is not awareness.** Qwen admits the effect on average and
 overstates it by a factor of two or three against what was measured, while
@@ -166,7 +186,9 @@ one specific answer.
 
 **The model sees its own answer but not the alternative.** It was never shown
 the answer without the disclosure, so it is judging from a memory of intent
-rather than by comparison.
+rather than by comparison. This is the single most important limitation on
+interpreting the null and it is stated in the design section above, not only
+here.
 
 **Llama drops out** because of a degenerate self-report.
 

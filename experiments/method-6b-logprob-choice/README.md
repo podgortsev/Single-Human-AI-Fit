@@ -62,8 +62,10 @@ alternative detail about the same person:
 | ADHD | −6.93 | −1.23 | +0.23 ns |
 
 All Qwen and Llama figures significant after Benjamini-Hochberg. Mistral is
-readable on a third of its data only (61% of reads carry too little mass on the
-letters; the PROMOTE question yields none).
+mostly unreadable: 39% of its reads clear the letter-mass gate (61% carry too
+little mass on the letters), and because the paired contrast needs all four
+reads clean, only 18% of it survives (163 pairs of 900). The PROMOTE question
+yields no clean pair at all.
 
 The first run said the opposite — that disclosure was preferred — because it had
 no neutral-alternative control. Withdrawn.

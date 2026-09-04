@@ -25,12 +25,13 @@ NEUTRAL = "#8a8a8a"
 # ============================================================================
 # FIGURE 1  the central disagreement
 # ----------------------------------------------------------------------------
-# Direction each method points for a person who discloses a screen reader or
-# age 74. Negative = the model treats that person WORSE on that channel;
-# positive = better. Values are normalised to [-1, 1] within a method for
-# readability; the sign and the significance are what matter, not the height.
+# DIRECTION ONLY. Each method reports in its own unit (log probability, judge
+# logits, net tasks, a numeric score), and those units are not convertible into
+# one another. An earlier version of this figure drew bars of differing height
+# "normalised for readability"; those heights were invented and are gone. Every
+# marker here is the same size, and the only thing encoded is the sign.
 #
-# Provenance:
+# Provenance, one analysis script per row:
 #   m1  method-1-traits-logprob/scripts/analyse_method1_positive.py
 #   m2  method-2-answer-quality/scripts/analyse_method2.py
 #   m3  method-3c-wrappers/scripts/analyse_method3_wrapper.py
@@ -38,32 +39,46 @@ NEUTRAL = "#8a8a8a"
 #   m6b method-6b-logprob-choice/scripts/analyse_method6b.py
 # ============================================================================
 def fig_disagreement():
-    methods = ["m1\ntrait words", "m2\nanswer quality", "m3\ntask accuracy",
-               "m4\nnumeric score", "m6b\nforced choice"]
-    # -1 worse, +1 better, 0 not applicable / null
-    screen = [-0.75, -0.90, -0.85, +0.80, -0.80]
-    age = [-0.90, -0.55, -0.80, -0.85, -0.55]
+    methods = ["m1  trait words", "m2  answer quality", "m3  task accuracy",
+               "m4  numeric score", "m6b forced choice"]
+    # -1 treats worse, +1 treats better. "mixed" = the models disagree, and
+    # the disagreeing model is named in the footnote.
+    screen = [-1, -1, -1, +1, -1]
+    age = [-1, -1, -1, -1, -1]
+    # Cells where at least one of the three models points the other way or is
+    # null. Marked with a ring so the figure cannot be read as unanimity.
+    screen_mixed = {2, 4}     # m3 mistral null; m6b mistral +7.14 (helps)
+    age_mixed = {1}           # m2 inside the additivity residual on half the cells
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.4, 3.4), sharey=True)
-    for ax, vals, title in ((axes[0], screen, "discloses a screen reader"),
-                            (axes[1], age, "is seventy-four")):
-        colours = [BETTER if v > 0 else WORSE for v in vals]
-        ax.barh(range(len(methods)), vals, color=colours, height=0.62)
+    fig, axes = plt.subplots(1, 2, figsize=(9.8, 3.3), sharey=True)
+    for ax, vals, mixed, title in (
+            (axes[0], screen, screen_mixed, "discloses a screen reader"),
+            (axes[1], age, age_mixed, "is seventy-four")):
+        for i, v in enumerate(vals):
+            ax.scatter([v], [i], s=260, zorder=3,
+                       color=BETTER if v > 0 else WORSE,
+                       edgecolors="black" if i in mixed else "none",
+                       linewidths=1.6)
         ax.axvline(0, color="black", lw=0.8)
         ax.set_yticks(range(len(methods)))
         ax.set_yticklabels(methods)
-        ax.set_xlim(-1.15, 1.15)
+        ax.set_xlim(-1.9, 1.9)
         ax.set_xticks([-1, 1])
         ax.set_xticklabels(["treats worse", "treats better"])
         ax.set_title(title, fontsize=10.5)
         ax.invert_yaxis()
-        for s in ("top", "right", "left"):
-            ax.spines[s].set_visible(False)
+        ax.grid(axis="y", color="#e6e6e6", lw=0.8)
+        ax.set_axisbelow(True)
+        for sp in ("top", "right", "left"):
+            ax.spines[sp].set_visible(False)
         ax.tick_params(left=False)
-    fig.suptitle("The central disagreement: one signal, five channels.  "
-                 "Four say worse, the numeric score (m4) says better.",
-                 fontsize=10.5)
-    fig.tight_layout(rect=(0, 0, 1, 0.92))
+    fig.suptitle("Direction only: one signal, five channels.  Four say worse, "
+                 "the numeric score (m4) says better.", fontsize=10.5)
+    fig.text(0.5, 0.015,
+             "Ringed marker: the three models do not agree. m3 is null on "
+             "Mistral; m6b on Mistral has the screen reader HELPING (+7.14).",
+             ha="center", fontsize=8, color="#444444")
+    fig.tight_layout(rect=(0, 0.06, 1, 0.90))
     out = os.path.join(HERE, "fig_disagreement.png")
     fig.savefig(out)
     plt.close(fig)
@@ -87,7 +102,7 @@ def fig_method6b():
 
     x = range(len(signals))
     w = 0.38
-    fig, ax = plt.subplots(figsize=(7.4, 3.8))
+    fig, ax = plt.subplots(figsize=(7.8, 4.4))
     ax.bar([i - w / 2 for i in x], qwen, w, label="Qwen2.5-7B", color=WORSE)
     ax.bar([i + w / 2 for i in x], llama, w, label="Llama-3.1-8B",
            color="#e0997f")
@@ -100,7 +115,12 @@ def fig_method6b():
     ax.legend(frameon=False)
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
-    fig.tight_layout()
+    fig.text(0.5, 0.02,
+             "Mistral is not shown: only 18% of its paired contrast clears"
+             " the letter-mass gate, and on what survives\n"
+             "the screen reader HELPS (+7.14). It is not a fourth agreeing"
+             " case.", ha="center", fontsize=8, color="#444444")
+    fig.tight_layout(rect=(0, 0.11, 1, 1))
     out = os.path.join(HERE, "fig_method6b_control.png")
     fig.savefig(out)
     plt.close(fig)
@@ -124,11 +144,14 @@ def fig_method7():
              ("mistral", "screen", -0.003, 0.9826),
              ("mistral", "age", 0.257, 0.2123),
              ("mistral", "adhd", 0.051, 0.7939)]
-    labels = [f"{m}  {s}" for m, s, _, _ in cells]
+    # Llama answered "6" to 57 of 60, so its self-report is a constant and its
+    # three rows are an instrument failure, not a measured null.
+    labels = [f"{m}  {s}" + ("  (degenerate)" if m == "llama" else "")
+              for m, s, _, _ in cells]
     rhos = [r for _, _, r, _ in cells]
     colours = [NEUTRAL if bh >= 0.05 else WORSE for *_, bh in cells]
 
-    fig, ax = plt.subplots(figsize=(6.8, 4.0))
+    fig, ax = plt.subplots(figsize=(8.2, 4.2))
     ax.barh(range(len(cells)), rhos, color=colours, height=0.6)
     ax.axvline(0, color="black", lw=0.8)
     ax.set_yticks(range(len(cells)))

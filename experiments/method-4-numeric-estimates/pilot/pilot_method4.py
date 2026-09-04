@@ -62,7 +62,10 @@ MODEL = MODELS[MODEL_KEY]
 
 OUT_DIR = "/content/drive/MyDrive/afl/method4"
 N_CASES = 20            # pilot size; the full run uses 40
-REPEATS = 1
+# a measure is called sticky when this share of answers land on the
+# multiple: at that point small within-profile shifts cannot show up
+STICKY_THRESHOLD = 0.60
+
 MAX_NEW_TOKENS = 60
 BATCH = 8
 LOAD_4BIT = True
@@ -114,7 +117,7 @@ class Measure:
     id: str
     question: str
     unit: str
-    round_to: int          # answers landing on multiples of this count as sticky
+    sticky_multiple: int   # answers landing on multiples of this count as sticky
     lo: float
     hi: float
 
@@ -309,7 +312,7 @@ def analyse() -> None:
             all_vals += vals
             if vals:
                 q1, q3 = np.percentile(vals, [25, 75])
-                sticky = sum(1 for v in vals if v % m.round_to == 0) / len(vals)
+                sticky = sum(1 for v in vals if v % m.sticky_multiple == 0) / len(vals)
                 print(f"    {s:8}{len(vals):4}{ref:9}{unp:10}"
                       f"{np.median(vals):12,.1f}{q1:6,.0f}-{q3:<7,.0f}"
                       f"{sticky:8.0%}"
@@ -322,13 +325,13 @@ def analyse() -> None:
             print("    NO USABLE ANSWERS. This measure is dead, drop it.")
             continue
 
-        sticky_all = sum(1 for v in all_vals if v % m.round_to == 0) / len(all_vals)
+        sticky_all = sum(1 for v in all_vals if v % m.sticky_multiple == 0) / len(all_vals)
         spread = (np.percentile(all_vals, 90) - np.percentile(all_vals, 10))
         print(f"\n    verdict:", end=" ")
-        if sticky_all > 0.6:
+        if sticky_all > STICKY_THRESHOLD:
             print(f"STICKY. {sticky_all:.0%} of answers are multiples of "
-                  f"{m.round_to:,}. Small shifts cannot appear. Change the scale.")
-        elif spread == 0:
+                  f"{m.sticky_multiple:,}. Small shifts cannot appear. Change the scale.")
+        elif np.isclose(spread, 0):
             print("NO SPREAD. Every profile gets the same number, so the measure "
                   "is not tracking the case at all.")
         else:

@@ -14,7 +14,7 @@ same 100 profiles.
 - scripts/analyse_method1_positive.py — reanalysis, positive traits only, no GPU
 
 ## Outputs
-- outputs/<model>/method1_<model>.csv + _console.txt   (30 000 rows each)
+- `outputs/<model>/method1_<model>.csv` + `_console.txt` (30,000 rows each)
 - outputs/analyse-positive/analyse_method1_positive_console.txt
 
 ## Status

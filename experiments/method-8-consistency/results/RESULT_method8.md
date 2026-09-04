@@ -5,9 +5,11 @@ Is the model less stable for a person who has disclosed something?
 No new runs. Three probes on data already collected: methods 1, 3c and 6b.
 
 **The hypothesis "answers are much less stable for non-average users" does not
-hold in general.** The one durable thread is that age 74 makes the choice about
-a person more dependent on which decision is being asked. Everything else is
-either zero or points the other way.
+hold in general.** The clearest exploratory signal is that age 74 increases
+cross-question variation in the choice margin on Qwen and Llama. Everything else
+is either zero or points the other way. That one signal rests on probe C, whose
+SD is computed over three points per profile, so it is a lead rather than a
+finding.
 
 ---
 
@@ -22,9 +24,34 @@ something that should not matter is changed".
 | B | method 3c | six neutral wrappers | k(6-k) over the six solved / not-solved outcomes |
 | C | method 6b | three decision questions (hire, promote, trust) | SD of the choice margin over the three |
 
-Each probe is paired within item against a signal-free baseline (A and B against
-NONE, C against CONTROL_PARA), Wilcoxon signed-rank, Benjamini-Hochberg across
-the family.
+Each probe is paired within item against a signal-free baseline: A and B against
+NONE, C against CONTROL_PARA. Wilcoxon signed-rank on the paired differences.
+
+**The multiplicity family, stated explicitly.** Benjamini-Hochberg is applied
+twice, at two different levels, and they answer different questions:
+
+- **within a probe**, across that probe's model x signal cells (12 for A, 9 for
+  B, 12 for C). This is what the per-probe tables report.
+- **across all 33 cells** of probe x model x signal. This is what the agreement
+  table at the end reports, and it is the stricter of the two.
+
+Where the two disagree, the agreement table governs, because a cell that only
+survives correction within its own probe has not survived the study.
+
+**What n is, and what it is not.** The n columns count paired observations, not
+independent people:
+
+| probe | n | what it is |
+|---|---|---|
+| A | 600 | 100 profiles x 6 positive traits, and the six traits on one profile are correlated |
+| B | 200 | 200 tasks |
+| C | 100 | 100 profiles |
+
+Probe A's 600 is the most inflated of the three: "intelligent" and "educated" on
+the same profile are not two independent observations. The Wilcoxon treats them
+as though they were, so probe A's p values are optimistic. Its result, that
+disclosure narrows the distribution, is large and one-directional enough to
+survive that, but the p values should not be read at face value.
 
 A positive median means the disclosed condition scatters more than the baseline.
 
@@ -116,9 +143,10 @@ A cell is one probe on one model.
 supported.** Of thirty-three cells, only seven are "less stable" and ten are
 "more stable".
 
-**Age 74 makes the choice about a person more dependent on the type of
-decision** (probe C, Qwen and Llama, significant). It is the only signal that
-destabilises in more than one probe and on more than one model.
+**Age 74 increases cross-question variation in the choice margin** on Qwen and
+Llama (probe C, significant). It is the only signal that destabilises on more
+than one model. This is the clearest exploratory signal in the method, not a
+confirmed finding: the SD is over three questions per profile.
 
 **Disclosure generally narrows the distribution of trait words** (probe A, ten
 cells of twelve). The model applies its lowered scores confidently rather than
@@ -167,8 +195,13 @@ phrasing.
 other methods' designs happened to provide: five phrasings, six wrappers, three
 questions. No additional repeats were requested.
 
-**Probe C has three points per profile.** An SD over three is noisy; what makes
-it work is pairing across a hundred profiles.
+**Probe C has three points per profile.** An SD over three is very noisy; what
+makes it testable at all is pairing across a hundred profiles. This is the
+weakest link under the one positive claim the method makes.
+
+**The n columns are paired observations, not independent subjects.** Probe A's
+600 is 100 profiles crossed with six correlated traits; its p values are
+optimistic for that reason.
 
 **Mistral is absent from probe C** for want of mass on the letters.
 

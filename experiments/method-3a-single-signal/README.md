@@ -11,9 +11,14 @@ control that carries only different wording.
 
 ## Scripts
 - scripts/run_method3_single.py — collect + analyse, one run per model (MODEL_KEY)
+- scripts/analyse_method3a_groups.py — the ten FORM conditions against the ten
+  STATED conditions, plus each signal tested directly against the control. No
+  GPU. This is the read to trust for the group contrast: the run script's
+  built-in summary only tests each condition against the baseline and never
+  compares a signal with the control statistically.
 
 ## Outputs
-outputs/<model>/method3_single_<model>.csv + _console.txt   (5200 rows each)
+`outputs/<model>/method3_single_<model>.csv` + `_console.txt` (5,200 rows each)
 
 ## Status
 qwen done, llama done, mistral done.

@@ -6,15 +6,50 @@ WHY GENERATED RATHER THAN WRITTEN
 ---------------------------------
 Two hundred hand-written tasks would contain wrong answers. Generated tasks
 carry a key computed by the same code that wrote the question, so the key is
-correct by construction. Every task is then checked by an independent solver
-before being written out.
+correct by construction.
+
+The verify() function below is NOT an independent solver, and an earlier
+version of this docstring wrongly called it one. It is a format check: that a
+numeric answer parses as a float, that the question ends in punctuation, and
+that it is not absurdly short. A generator that computed the wrong key would
+pass all three.
+
+The independent solver is `validate_tasks.py`, next to this file. It re-parses
+each question out of tasks.json and recomputes the answer with arithmetic
+written separately from this generator. It currently re-derives all 200 keys
+and they all match.
 
 WHAT MAKES A GOOD TASK HERE
 ---------------------------
 One unambiguous answer. Checkable by string or number comparison, never by
-judgement. Hard enough that a 7B model gets some wrong, easy enough that it
-gets most right: if accuracy sits at 100 or at 10 percent, a difference
-between conditions cannot show up.
+judgement. The difficulty TARGET is that a 7B model gets some wrong and most
+right: if accuracy sits at 100 or at 10 percent, a difference between
+conditions cannot show up. That is a design target, not a property the
+generator enforces; it was confirmed after the fact by the observed baselines
+(44 to 60 percent across the three models).
+
+Three caveats on "unambiguous", all found by validate_tasks.py and none of them
+changing a published number:
+
+  * The date family is ambiguous between an inclusive and an exclusive reading
+    of "runs for N days". The key takes the exclusive one (start + N). A model
+    using the inclusive reading is marked wrong on all 25 date tasks, in every
+    condition alike, so it moves baseline accuracy and cancels in the paired
+    within-task comparison that every method 3 result rests on.
+
+  * The table family samples values with random.randint, which does not exclude
+    a tie. A tie at the extreme the question asks about would give two correct
+    answers. The shipped set happens to contain none; validate_tasks.py asserts
+    this so a regenerated set cannot ship one silently.
+
+  * Uniqueness is not enforced. The shipped 200 rows hold 191 distinct
+    questions; 9 rows repeat one that already appears, with consistent keys.
+    So "200 tasks" means 200 rows over 191 distinct items, and the repeats are
+    weighted twice. The rate family accounts for 5 of the 9.
+
+The dataset is deliberately NOT regenerated to tidy any of this up. Every
+accuracy number in methods 3a, 3b and 3c was measured on these exact rows, and
+changing the random stream would silently invalidate all of them.
 
 Seven families, deliberately varied so a result cannot be an artefact of one
 kind of reasoning.
@@ -130,7 +165,12 @@ for _ in range(30):
 NAMES = ["Alex", "Bailey", "Casey", "Devon", "Ellis", "Frankie", "Gray"]
 for _ in range(25):
     people = random.sample(NAMES, 4)
-    ages = sorted(random.sample(range(21, 60), 4), reverse=True)
+    # DEAD, DELIBERATELY KEPT. The answer is read off the people[] chain
+    # below, so these ages are never used. The call is left in because it
+    # consumes the random stream: removing it changes every task generated
+    # after this point, and the shipped tasks.json is the one all of method 3
+    # was measured on.
+    _unused_ages = sorted(random.sample(range(21, 60), 4), reverse=True)
     facts = []
     for i in range(3):
         facts.append(f"{people[i]} is older than {people[i+1]}")

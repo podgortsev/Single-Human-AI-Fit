@@ -80,13 +80,20 @@ letter-mass gate, and exclusion of an unusable judge from the cross-judge read.
 ## Status
 Done. All three models generated, and all three run as judges rather than one.
 
-- **judge mistral EXCLUDED**: letter mass 0.16, 94% of reads below threshold.
-  Third appearance of the same refusal (6a 14.8%, 6b 61%, here 94%).
+- **judge mistral EXCLUDED** by a validity gate on whether it produced a reading
+  at all: letter mass 0.16, 94% of reads below threshold. Third appearance of
+  the same refusal (6a 14.8%, 6b 61%, here 94%). Not pre-registered; see
+  `scripts/sensitivity_min_mass.py` for how little the observation-level
+  threshold matters.
 - Judge slot bias on identical answers: qwen 9.86, llama 5.71 logits. Additivity
   residual +/-0.72 and +/-0.50; an effect must clear it.
 
 Paired within question against the signal-free floor, 18 cells
 (2 usable judges x 3 answer models x 3 signals):
+
+"worse" means significant after Benjamini-Hochberg **and** larger than the
+additivity residual, which is our own robustness threshold rather than a
+standard test. "inside residual" is significant but within measurement slop.
 
 | signal | worse | inside residual | no effect | better |
 |---|---|---|---|---|

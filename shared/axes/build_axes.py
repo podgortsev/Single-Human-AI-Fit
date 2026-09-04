@@ -167,14 +167,54 @@ def main() -> None:
     multi = [a["id"] for a in AXES if a["turns"] == "multi"]
     print(f"  needs several turns, so only methods 2 and 5: {', '.join(multi)}")
 
+    # NOT "the same characteristic". F01/S09 is close: non-native English shown
+    # by the writing against declared. F04/S07 is looser and should not be
+    # called identical: F04 is observed typos, whose cause is unknown, while
+    # S07 is a stated motor impairment. They are matched hypotheses.
     pairs = [("F01", "S09"), ("F04", "S07")]
-    print("\n  matched implicit/explicit pairs, same characteristic:")
+    print("\n  matched implicit/explicit pairs (matched hypotheses, NOT the")
+    print("  same characteristic; F04/S07 especially is a loose match):")
     for a, b in pairs:
         na = next(x["name"] for x in AXES if x["id"] == a)
         nb = next(x["name"] for x in AXES if x["id"] == b)
         print(f"    {a} {na}  <->  {b} {nb}")
 
+    validate()
     print("\nwrote axes.csv and axes.json")
+
+
+def validate():
+    """Cheap guards against a silent edit. This catalogue is documentation:
+    no runner reads axes.json, so nothing else would catch a mistake in it."""
+    from collections import Counter
+    ids = [a["id"] for a in AXES]
+    assert len(ids) == len(set(ids)), "duplicate axis id"
+    assert len(AXES) == 28, f"expected 28 axes, got {len(AXES)}"
+
+    groups = Counter(a["group"] for a in AXES)
+    assert groups == {"FORM": 10, "STATED": 10, "CONDUCT": 6, "KNOWING": 2}, \
+        f"group counts changed: {dict(groups)}"
+
+    valid_methods = {"1", "2", "3", "4", "5"}
+    for a in AXES:
+        assert a["turns"] in ("single", "multi"), a["id"]
+        assert set(a["methods"].split(",")) <= valid_methods, a["id"]
+        assert a["id"][0] in "FSCK", a["id"]
+        for field in ("id", "name", "group", "signal", "turns", "methods",
+                      "example"):
+            assert a.get(field), f"{a['id']} missing {field}"
+
+    # A multi-turn axis cannot be reached by a single-turn method.
+    for a in AXES:
+        if a["turns"] == "multi":
+            assert set(a["methods"].split(",")) == {"2", "5"}, a["id"]
+
+    single = [a for a in AXES if a["turns"] == "single"]
+    assert len(single) == 24, len(single)
+    print(f"\n  validate: {len(AXES)} axes, ids unique, groups as designed,")
+    print(f"  {len(single)} single-turn, {len(AXES) - len(single)} multi-turn.")
+    print("  NOTE: the methods field is planned scope, not what was run.")
+    print("  Method 5 was never run; methods 6, 7 and 8 postdate this file.")
 
 
 if __name__ == "__main__":

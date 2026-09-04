@@ -14,7 +14,7 @@ quantity: if they agree, the effect belongs to the signal.
 - scripts/analyse_method3_wrapper.py — corrected analysis, no GPU, runs on the CSVs
 
 ## Outputs
-outputs/<model>/method3_wrapper_<model>.csv + _console.txt
+`outputs/<model>/method3_wrapper_<model>.csv` + `_console.txt`
 outputs/analyse-wrapper/analyse_method3_wrapper_console.txt
 
 ## Status

@@ -125,6 +125,9 @@ def analyse_one(path: str):
         signs = np.sign(means)
         n_pos = int((signs > 0).sum())
         agree = max(n_pos, len(means) - n_pos)
+        # Sign test over the six positive traits. EXPLORATORY: the traits are
+        # not independent (intelligent and educated move together), so this
+        # understates the true p. Read it as a consistency check, not proof.
         p = float(stats.binomtest(agree, len(means), 0.5).pvalue)
 
         # stable if every trait keeps its sign across all five phrasings
@@ -179,6 +182,8 @@ def main() -> None:
         same = len(set(dirs)) == 1 and dirs[0] != 0
         strong = sum(1 for m in models if allres[m][sig]["agree"] >= 5)
         verdict = ""
+        # Reporting rule, not a statistical test: same direction on all three
+        # models and at least two models at 5/6 trait agreement.
         if same and strong >= 2:
             verdict = "AGREES, and holds in " + str(strong) + " models"
         elif same:

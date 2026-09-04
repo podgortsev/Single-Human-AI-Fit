@@ -98,10 +98,21 @@ is small, the difference of logarithms is a ratio of two tails, not a judgement.
 | Llama | 0.94 | 0% |
 | Mistral | **0.40** | **61%** |
 
-Qwen and Llama are clean. On Mistral a third of the data is usable, the PROMOTE
-question yields no clean read at all, and the Deafness result is withdrawn on
-ten usable pairs of three hundred. This is the refusal from 6a (14.8% unreadable
-strings) which 6b did not remove but hid in the probability mass.
+Qwen and Llama are clean. Mistral is not, and it is worth being exact about how
+much of it survives, because two different fractions are easy to confuse.
+
+- **39% of individual reads** clear the 0.5 letter-mass gate (61% fall below it).
+- **18% of the paired contrast survives.** The headline test pairs a signal
+  against CONTROL_ALT within question and profile, which requires all four reads
+  (two conditions x two orders) to clear the gate. That leaves 41 pairs for the
+  screen reader, 71 for age and 51 for ADHD, out of 300 possible each: **163 of
+  900, or 18%**.
+
+So the Mistral rows in the table below rest on under a fifth of the design, not
+on a third of it. The PROMOTE question yields no clean pair at all on any
+signal, and the Deafness result is withdrawn on ten pairs of three hundred. This
+is the refusal from 6a (14.8% unreadable strings), which 6b did not remove but
+moved into the probability mass.
 
 ---
 
@@ -153,8 +164,9 @@ correction is incomplete.
 
 **That Mistral's Deafness result shows anything.** Ten usable pairs. Withdrawn.
 
-**That Mistral is readable at all.** A third of the data is usable and the
-PROMOTE question is unusable entirely.
+**That Mistral is readable at all.** 39% of its reads clear the letter-mass
+gate, but only 18% of the paired contrast survives it, and the PROMOTE question
+is unusable entirely.
 
 **That "cycling" is an ideal zero.** It is one particular neutral detail. A set
 of them would be better, as method 3c used six wrappers.
@@ -185,7 +197,8 @@ of the study.
 
 ## Limitations
 
-**A third of Mistral's data is usable.**
+**Most of Mistral is unusable.** 39% of reads clear the letter-mass gate and
+only 18% of the paired contrast does (163 pairs of 900).
 
 **One neutral alternative control**, not a set.
 

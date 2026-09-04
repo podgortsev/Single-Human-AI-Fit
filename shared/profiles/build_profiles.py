@@ -16,7 +16,8 @@ import csv
 import json
 import random
 
-random.seed(20260823)
+SEED = 20260823          # recorded so the provenance of profiles.json is
+random.seed(SEED)        # visible in the output, not only in this source line
 
 FIELDS = [
     ("data engineering", ["built the ingestion pipeline", "migrated the warehouse",
@@ -113,7 +114,47 @@ def main() -> None:
     print("\nsample")
     for p in profiles[:5]:
         print(f"  {p['id']}  {p['text']}")
+    validate(profiles)
     print("\nwrote profiles.json and profiles.csv")
+
+
+def validate(profiles):
+    """Guards and factor balance.
+
+    The four factors are drawn independently, so nothing forces them to be
+    evenly spread. That is acceptable for a paired design, where every
+    condition faces the same 100 profiles and the profile is its own control,
+    but the spread should be visible rather than assumed. It is printed here.
+    """
+    from collections import Counter
+    assert len(profiles) == 100, len(profiles)
+    ids = [p["id"] for p in profiles]
+    assert len(set(ids)) == 100, "duplicate profile id"
+    texts = [p["text"] for p in profiles]
+    dup = [t for t, n in Counter(texts).items() if n > 1]
+    assert not dup, f"{len(dup)} duplicate profile texts, e.g. {dup[:1]}"
+    for p in profiles:
+        for f in ("id", "field", "years", "scope", "text"):
+            assert p.get(f) not in (None, ""), f"{p['id']} missing {f}"
+
+    print(f"\n  validate: seed {SEED}, {len(profiles)} profiles, ids and texts "
+          f"unique.")
+    print("  Factors are drawn independently, so the counts below are not")
+    print("  balanced by design. Every condition faces all 100 profiles and")
+    print("  the comparison is paired within profile, so imbalance costs")
+    print("  precision rather than validity.")
+    for name in ("field", "scope"):
+        c = Counter(p[name] for p in profiles)
+        print(f"    {name:6}: {len(c)} distinct, "
+              f"{min(c.values())} to {max(c.values())} profiles each")
+    yc = Counter(p["years"] for p in profiles)
+    print(f"    years : {len(yc)} distinct values "
+          f"{min(yc)} to {max(yc)}, {min(yc.values())} to "
+          f"{max(yc.values())} profiles each")
+    print("  These are synthetic stimuli built for repeated paired testing.")
+    print("  They are NOT a sample of any real population, and the achievement")
+    print("  and scope clauses carry prestige of their own, so they are not")
+    print("  neutral background either.")
 
 
 if __name__ == "__main__":

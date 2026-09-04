@@ -10,8 +10,10 @@ WHAT THE PILOT TAUGHT
 1. PAIRED, NOT POOLED. Comparing medians per group said salary was dead: 99
    percent of answers were multiples of ten thousand and every group sat at
    50,000. The paired test on the same profile under two descriptions found
-   eleven significant shifts out of twenty. A coarse scale is not a dead scale
-   when the comparison is within-profile.
+   eleven significant shifts out of twenty. A coarse scale still shows
+   within-profile directional shifts, though it limits how precisely the size
+   of an effect can be stated. The pilot separately flagged SALARY as sticky;
+   both things are true, and the direction is what survives.
 
 2. ANCHORING IS A SEPARATE FAILURE. Asked how many years of experience a
    seventy-four-year-old appears to have, the model answered "74" in seven of
@@ -223,7 +225,10 @@ def parse_number(text: str, m: Measure, prompt_nums: set) -> Tuple[Optional[floa
     for n in re.findall(r"\d+\.?\d*", cleaned):
         v = float(n)
         if m.lo <= v <= m.hi:
-            if v in prompt_nums and m.id != "EXPERIENCE_ALLOWED":
+            # EXPERIENCE is deliberately included here: its answer IS stated in
+            # the profile, so a 'copied' flag on it is the control working, not
+            # anchoring. The downstream read treats it that way.
+            if v in prompt_nums:
                 return v, "anchored"
             return v, "hedged" if hedging else "ok"
 
@@ -385,7 +390,7 @@ def analyse() -> None:
     adj = dict(zip(labels, bh(raw_p)))
 
     print(f"{'measure':11}{'kind':12}{'signal':8}{'n':>4}{'down':>6}{'up':>5}"
-          f"{'same':>6}{'median Δ':>12}{'% of base':>11}{'p':>9}")
+          f"{'same':>6}{'median Δ':>12}{'Δ/base med':>12}{'p':>9}")
     print("-" * 84)
     for r in sorted(results, key=lambda r: (r["measure"], r["signal"])):
         star = "*" if adj[f"{r['measure']}/{r['signal']}"] < 0.05 else " "

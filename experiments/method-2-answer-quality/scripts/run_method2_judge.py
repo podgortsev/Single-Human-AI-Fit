@@ -86,7 +86,11 @@ OUT_DIR = "/content/drive/MyDrive/afl/method2"
 ANSWER_MODELS = ["qwen", "llama", "mistral"]
 BATCH = 4
 LOAD_4BIT = True
-MAX_ANSWER_CHARS = 1600     # keeps the judge prompt inside a comfortable window
+# Answers are TRUNCATED to this many characters before the judge sees them.
+# Mean answer length is ~245 words (~1,500 characters), so most answers are
+# untouched, but the longest are cut. This is a real limitation of the judging
+# stage and is reported as one.
+MAX_ANSWER_CHARS = 1600
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 

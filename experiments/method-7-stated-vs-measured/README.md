@@ -61,7 +61,7 @@ Done. 240 self-reports per model, 60 questions x 4 conditions. Unparsed: 0 / 0 /
 questions (SD 0.45). Its self-report is a constant, not a judgement, so "does
 not admit it" would be the wrong reading there and Llama is excluded.
 
-| model | NONE floor | SCREEN | AGE | ADHD | verdict |
+| model | NONE baseline | SCREEN | AGE | ADHD | verdict |
 |---|---|---|---|---|---|
 | qwen | 0.17 | 7.53 | 4.00 | 8.27 | discriminates |
 | llama | 5.97 | 5.77 | 5.57 | 5.93 | **degenerate** |

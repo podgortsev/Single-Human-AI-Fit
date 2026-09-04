@@ -29,12 +29,28 @@ seventy-four". Plus `NONE`, the same wrapper with no signal.
 baseline written in the same style. Six independent estimates of the same
 quantity result.
 
-- If the six agree, the effect belongs to the signal.
-- If the six disagree as much as the signals differ from each other, the
-  measurement is not reporting a property of the signal at all.
+- If the six agree, the effect survives the choice of wrapper.
+- If the six disagree as much as the signals differ from each other, no
+  single-wrapper estimate of a signal can be separated from its wording.
+
+The second case is weaker than it may read. The between-signal spread is a
+standard deviation over three signals, so the ratio of the two spreads is a
+rough description with no sampling distribution behind it, and it is not on its
+own evidence that the signals are indistinguishable. The sign stability and the
+confidence intervals over wrappers carry that argument instead.
 
 **The six wrappers carry no social signal.** Ordinary neutral openings differing
-in wording, length within a narrow band, and register.
+in wording, register and length.
+
+**Their length is not held constant, and that is a real confound.** They run
+from 4 words ("Quick question for you") to 12 ("I am trying to work something
+out and could use a hand"), a threefold range. Method 3b established that
+lead-in length moves accuracy on its own: a forty-word neutral preamble shifted
+Llama's control 6 points off its baseline. So the 2 to 5 point drift attributed
+here to "wrapper choice" mixes wording with length, and this experiment cannot
+separate the two. That does not weaken its use as an error bar, which is the
+main purpose: a single-wrapper study inherits whichever mixture it happened to
+pick. It does weaken any reading of the drift as a pure effect of phrasing.
 
 **Exact McNemar** on discordant pairs within task, Benjamini-Hochberg across all
 18 wrapper-by-signal tests.
@@ -195,7 +211,18 @@ result.
 `outputs/analyse-wrapper/analyse_method3_wrapper_console.txt` - the analysis
 output across the three models.
 
-`scripts/run_method3_wrapper.py` - the run.
+`scripts/run_method3_wrapper.py` - the run, with a built-in summary.
+
+**The shipped per-model run logs contain a superseded sign-stability verdict.**
+The built-in block counted a net of exactly zero as a change of direction, so
+`method3_wrapper_qwen_console.txt` reads `S04: 5 positive, 0 negative FLIPS
+SIGN` where the correct verdict, with one wrapper at exactly zero and none
+negative, is *consistent*. The same logs' "WHICH VARIES MORE" block ended with
+"the measurement is not reporting a property of the signal", which overstates
+what a ratio of two spreads can show. Both are fixed in the source and in
+`analyse_method3_wrapper.py`, whose output in `outputs/analyse-wrapper/` is the
+read to trust. The run logs are left exactly as they were produced; editing run
+output would misrepresent what the run printed.
 
 `scripts/analyse_method3_wrapper.py` - the analysis, no GPU. Tables are printed
 in net tasks, not accuracy points.

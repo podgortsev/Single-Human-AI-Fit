@@ -315,10 +315,18 @@ def analyse() -> None:
     print(f"  spread BETWEEN the three signals:                {between:5.1f}")
     print(f"  ratio: {within / between:.2f}" if between > 0 else "")
 
+    print("  Both are spreads of net task counts. The between-signal term is a"
+          " standard deviation over THREE signals, so it is a very noisy"
+          " denominator and the ratio carries no sampling distribution.")
+
     if between > 0 and within / between > 1.0:
-        print("\n  The same signal varies more across arbitrary neutral wordings\n"
-              "  than the signals vary from each other. The measurement is not\n"
-              "  reporting a property of the signal.")
+        print("\n  The same signal varies about as much across arbitrary"
+              "\n  neutral wordings as the three signals vary from each"
+              "\n  other, so a single-wrapper estimate of any one signal is"
+              "\n  not separable from the wording it was measured in. This"
+              "\n  alone does NOT show the signals are indistinguishable:"
+              "\n  read it with the sign stability and the confidence"
+              "\n  intervals over wrappers below.")
     elif between > 0 and within / between > 0.5:
         print("\n  Wrapper variation is a large fraction of signal variation.\n"
               "  Any single-wrapper estimate carries an error bar at least this\n"
@@ -332,8 +340,14 @@ def analyse() -> None:
     for s in sigs:
         pos = sum(1 for v in est[s] if v > 0)
         neg = sum(1 for v in est[s] if v < 0)
-        verdict = "consistent" if pos == 6 or neg == 6 else "FLIPS SIGN"
-        print(f"    {s}: {pos} positive, {neg} negative   {verdict}")
+        zero = sum(1 for v in est[s] if v == 0)
+        # A net of exactly zero is neither direction. The first version of
+        # this block counted it as a flip, which mislabelled S04 on qwen
+        # (5 positive, 0 negative, 1 zero) as FLIPS SIGN. The direction has
+        # changed only if some wrapper actually points the other way.
+        verdict = "consistent" if pos == 0 or neg == 0 else "CHANGES DIRECTION"
+        z = f", {zero} exactly zero" if zero else ""
+        print(f"    {s}: {pos} positive, {neg} negative{z}   {verdict}")
 
     print("""
   A signal whose sign flips depending on the neutral wording around it cannot

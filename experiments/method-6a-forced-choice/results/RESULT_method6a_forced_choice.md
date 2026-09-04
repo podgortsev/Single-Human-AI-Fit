@@ -84,6 +84,16 @@ never rejected in both orders.
 The outcome the method exists to detect does not occur. Whatever these models
 are doing, it is not "treat the person who disclosed worse in a direct choice".
 
+**And the "won both / lost both" counts are not the position-proof rescue they
+look like.** The argument for them is that a slot bias moves both orders
+equally, so it cancels in a pair that agrees. That holds only if the slot bias
+is the same size in every condition. Method 6b measured the position term
+separately for each signal on this same design and it is not: on Mistral it
+ranges from 3.5 to 7.7 logits across signals. A slot bias that is stronger under
+one condition than another can produce an agreeing pair on its own. The counts
+are still worth reading against CONTROL, which is what the comparison below
+does, but they do not stand as a position-free measurement.
+
 ---
 
 ## What survives, with caveats

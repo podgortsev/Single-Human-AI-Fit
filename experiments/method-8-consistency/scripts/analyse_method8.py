@@ -8,8 +8,17 @@ has disclosed something. Not "does it judge them lower" but "does its output
 scatter more when nothing that should matter is changed".
 
 Three independent probes, one per source, each paired within item against a
-signal-free baseline, each a Wilcoxon signed-rank test with Benjamini-Hochberg
-correction across the family.
+signal-free baseline, each a Wilcoxon signed-rank test.
+
+MULTIPLICITY FAMILY. Benjamini-Hochberg is applied at two levels and they answer
+different questions. Within a probe, across that probe's model x signal cells,
+which is what each probe table reports. Then across all 33 probe x model x
+signal cells, which is what the agreement table reports and which is stricter.
+Where they disagree the agreement table governs.
+
+WHAT n IS. The n column counts paired observations, not independent subjects.
+Probe A's 600 is 100 profiles crossed with six positive traits, and the six
+traits on one profile are correlated, so probe A's p values are optimistic.
 
   A  method 1     spread of a trait log probability across the 5 prompt phrasings
   B  method 3c    disagreement of the correct-answer outcome across the 6 wrappers

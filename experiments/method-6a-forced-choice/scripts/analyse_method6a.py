@@ -25,8 +25,14 @@ WHAT THIS PRINTS
                 won both   picked over the reference in BOTH slots
                 lost both  rejected in BOTH slots
                 split      won first, lost second (or vice versa) -> position
-              Position bias cannot manufacture "won both" or "lost both": those
-              require the model to hold the same view when the candidate moves.
+              A slot bias that is CONSTANT in size cannot manufacture "won
+              both" or "lost both": those require the model to hold the same
+              view when the candidate moves. That protection is only as good as
+              the constancy. Method 6b measured the position term per signal on
+              the same design and found it varies (3.5 to 7.7 logits on
+              mistral), so a slot bias that is stronger for one condition than
+              another CAN produce them. Read the counts against CONTROL rather
+              than as position-proof on their own.
               Compare each signal's (won both - lost both) against CONTROL's with
               a within-profile sign test (exact binomial on discordant pairs).
 """

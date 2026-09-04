@@ -19,7 +19,7 @@ as a letter (A or B).
 - profiles.json  (from shared/profiles/)
 
 ## Outputs
-outputs/<model>/method6a_<model>.csv + _console.txt — 3000 rows each
+`outputs/<model>/method6a_<model>.csv` + `_console.txt`, 3,000 rows each
 (3 questions x 5 comparisons x 100 profiles x 2 orders).
 
 ## Status

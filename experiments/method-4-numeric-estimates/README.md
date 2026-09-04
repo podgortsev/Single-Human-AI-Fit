@@ -17,14 +17,23 @@ pilot/pilot_method4.py — 20 profiles, 5 measures. pilot/method4_pilot_qwen.csv
 pilot/pilot_method4_console.txt. What it taught is written into the runner docstring.
 
 ## Outputs
-outputs/<model>/method4_<model>.csv + _console.txt   (5000 rows each;
-qwen has two console logs, collect then resume)
+`outputs/<model>/method4_<model>.csv` + `_console.txt` (5,000 rows each)
 
 ## Status
 qwen done, llama done, mistral done.
 
+## The models are not equally usable here
+
+| model | technical output | scientific usability |
+|---|---|---|
+| Qwen | complete, no refusals | usable, but the coherence check fails on all four descriptions |
+| Llama | condition-dependent refusals up to 6.2% | compromised |
+| Mistral | 19-28% refusals, 22-37% unreadable | two of ten measures had enough data |
+
+Read any "all three models" claim against this table.
+
 ## Result
-results/RESULT_method4.md — finished.
+results/RESULT_method4.md
 Age 74 lowers ratings on all three models, up to 74% on llama. Deafness and
 screen reader use RAISE scores. Thirteen direct model conflicts. Coherence
 check failed on all four descriptions for qwen.

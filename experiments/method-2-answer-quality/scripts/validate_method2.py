@@ -107,7 +107,55 @@ def row_for(block, name):
     return ""
 
 
+def seed_sweep(n_seeds=20):
+    """Measure the false-positive rate on the AGE null over many seeds.
+
+    The single-seed check in main() asserts a tolerance. This measures the rate
+    that tolerance is based on, so the number in the comment is reproducible.
+    """
+    import shutil
+    counts = {"SCREEN": [], "AGE": [], "ADHD": []}
+    base = os.path.dirname(os.path.abspath(__file__))
+    for seed in range(21, 21 + n_seeds):
+        path = os.path.join(base, f"_seed_{seed}.csv")
+        make_judged_csv(path, seed=seed)
+        rows = list(csv.DictReader(open(path, encoding="utf-8")))
+        for r in rows:
+            r["judge_key"] = r["judge"] = "j"
+        with open(path, "w", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+            w.writeheader()
+            w.writerows(rows)
+        argv = sys.argv
+        sys.argv = ["analyse_method2.py", path]
+        buf = io.StringIO()
+        try:
+            with redirect_stdout(buf):
+                A.main()
+        except SystemExit:
+            pass
+        sys.argv = argv
+        os.remove(path)
+        agree = buf.getvalue().split("AGREEMENT ACROSS JUDGES")[1]
+        for sig in counts:
+            ln = [l for l in agree.splitlines() if l.startswith(sig)][0]
+            counts[sig].append(int(ln.split()[1]))
+    print(f"False-positive / detection rate over {n_seeds} seeds, 3 cells each")
+    print(f"{'signal':9}{'truth':>16}{'mean cells flagged':>21}   per run")
+    print("-" * 72)
+    truth = {"SCREEN": "-0.90 real", "AGE": "0.00 NULL", "ADHD": "-0.35 real"}
+    for sig, v in counts.items():
+        print(f"{sig:9}{truth[sig]:>16}{sum(v)/len(v):>21.2f}   {v}")
+    age = counts["AGE"]
+    print("")
+    print(f"  AGE is the null: {sum(age)}/{3*len(age)} cells flagged, "
+          f"a per-cell rate of {sum(age)/(3*len(age)):.1%} against a 5% BH target.")
+
+
 def main():
+    if "--seeds" in sys.argv:
+        seed_sweep()
+        return
     fails = 0
 
     def want(cond, msg):
@@ -265,10 +313,11 @@ def main():
     scr5 = [l for l in agree.splitlines() if l.startswith("SCREEN")]
     want(scr5 and scr5[0].split()[1] == "3",
          f"SCREEN worse in all 3 cells of the one usable judge   [{scr5[0].strip() if scr5 else ''}]")
-    # AGE is a true null here. Over 20 seeds the analysis flagged it in 0 cells
-    # on 19 runs and 1 cell on one run: 0.05 of 3 cells, a per-cell false
-    # positive rate of 1.7 percent against a 5 percent BH target. So at most one
-    # is the correct tolerance, and demanding zero would be demanding luck.
+    # AGE is a true null here, so the tolerance is at most one false positive
+    # in three cells: with BH at 0.05 over nine tests, demanding exactly zero
+    # would be demanding luck rather than correctness. Run
+    # `python validate_method2.py --seeds` to measure the actual rate over
+    # twenty seeds instead of taking this on trust.
     age5 = [l for l in agree.splitlines() if l.startswith("AGE")]
     want(age5 and int(age5[0].split()[1]) <= 1,
          f"AGE (a true null) flagged in at most 1 of 3 cells   [{age5[0].strip() if age5 else ''}]")

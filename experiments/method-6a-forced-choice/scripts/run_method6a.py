@@ -330,7 +330,12 @@ def analyse() -> None:
                     per.append(sum(1 for r in t if r["signal_won"] == "1") / len(t))
                 else:
                     per.append(float("nan"))
-            both = (per[0] < 0.5) == (per[1] < 0.5)
+            # A rate of exactly 0.5 is a tie, not a direction. Treating it
+            # as "below 0.5" made an exact split read as agreement.
+            def _side(x):
+                return None if x != x or x == 0.5 else x > 0.5
+            s0, s1 = _side(per[0]), _side(per[1])
+            both = s0 is not None and s0 == s1
             tag = "  <- CONTROL" if sig == "CONTROL" else (
                 "" if a >= 0.05 else
                 ("  both orders agree" if both else "  ORDER DEPENDENT"))
@@ -350,9 +355,14 @@ def analyse() -> None:
             t = subset(question=qid, signal=sig)
             if t:
                 qs.append(sum(1 for r in t if r["signal_won"] == "1") / len(t))
-        agree = len({q < 0.5 for q in qs}) == 1 if qs else False
+        # Same tie problem as above: an exact 0.5 is not a direction, so a
+        # question sitting on it cannot count towards agreement.
+        sides = [q > 0.5 for q in qs if q != 0.5]
+        agree = len(sides) == len(qs) and len(set(sides)) == 1
         note = "" if sig == "CONTROL" else (
-            "all three questions agree" if agree else "questions disagree")
+            "all three questions agree" if agree else
+            ("a question sits exactly on 50%" if any(q == 0.5 for q in qs)
+             else "questions disagree"))
         print(f"  {sig:10}{wins:5} of {len(s):5}   {rate:6.1%}   "
               f"p={p:.4g}   {note}")
 

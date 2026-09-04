@@ -321,7 +321,7 @@ rephrasing alone. A condition must beat it to mean anything.
     for r in survive:
         print(f"    {r['id']} {r['label']}: net {r['net']:+d}, p={r['p']:.4f}")
     if beats and not survive:
-        print("    None survive. Testing twenty-five conditions, one or two fall\n"
+        print("    None survive. Testing 24 signal conditions, one or two fall\n"
               "    under 0.05 by chance. Those are not findings.")
     if not beats:
         print("    No condition exceeds the noise floor. On this model, with the\n"

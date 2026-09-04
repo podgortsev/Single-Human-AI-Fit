@@ -38,7 +38,8 @@ differently, what matters is which signals, not how many.
 
 WHAT STAYS CONSTANT
 -------------------
-The task text, byte for byte. Every lead-in is padded with neutral filler to
+The task question and its answer key are identical in every
+condition. Only the lead-in changes. Every lead-in is padded with neutral filler to
 the same word count, so a longer message can never explain a difference.
 """
 
@@ -145,6 +146,18 @@ def _target_words() -> int:
 
 
 TARGET_WORDS = None      # set once ROUTES is known, see below
+
+
+def _check_lengths(conditions):
+    """The docstring claims lead-ins are matched for length. Verify it.
+
+    Prints the real spread rather than asserting equality, because the
+    whole-clause padding cannot always hit the target exactly.
+    """
+    lens = [len(t.rstrip('.').split()) for t in conditions]
+    print(f"lead-in length: {min(lens)} to {max(lens)} words "
+          f"(spread {max(lens) - min(lens)})")
+    return min(lens), max(lens)
 
 
 def build_lead_in(signals: List[str], head: str = HEAD) -> str:
@@ -372,14 +385,17 @@ def analyse() -> None:
                   f"(n={len(v)}, range {min(v):+d} to {max(v):+d})")
 
     if len(means) == 3:
-        step1 = means[1]
-        step2 = means[2] - means[1]
-        step3 = means[3] - means[2]
+        step1 = means[1]          # depth-1 effect, measured against D0
+        step2 = means[2] - means[1]   # increment from depth 1 to 2
+        step3 = means[3] - means[2]   # increment from depth 2 to 3
         print(f"\n  cost of the first signal:  {step1:+.1f}")
         print(f"  cost of the second:        {step2:+.1f}")
         print(f"  cost of the third:         {step3:+.1f}")
 
         print("\n  ", end="")
+        # DESCRIPTIVE heuristic with hand-picked thresholds, not a test of
+        # curvature. A claim about shape needs a second difference with a
+        # confidence interval, or a linear-against-quadratic fit comparison.
         if step3 > step2 > step1 * 0.8:
             print("COMPOUNDING. Each signal costs more than the one before.")
         elif step2 < step1 * 0.5 and step3 < step2:
@@ -391,13 +407,19 @@ def analyse() -> None:
 
         # Is depth 3 reliably worse than depth 1?
         try:
-            p13 = float(stats.mannwhitneyu(
-                list(map(float, by_depth[3])), list(map(float, by_depth[1])),
-                alternative="greater").pvalue)
+            p13 = float(stats.wilcoxon(
+            np.array(list(map(float, by_depth[3]))) -
+            np.array(list(map(float, by_depth[1]))),
+            alternative="greater").pvalue)
             print(f"\n  depth 3 worse than depth 1: p={p13:.4f}")
         except Exception as e:
             print(f"\n  depth comparison unavailable: {e}")
-        if all(abs(m) < abs(ctrl[2]) + 3 for m in means.values()):
+        # Display heuristic only: flags the case where every depth sits within
+        # a few net tasks of the control, i.e. nothing stands clear of the
+        # rephrasing floor. The margin is arbitrary and carries no p value.
+        WITHIN_CONTROL_MARGIN = 3
+        if all(abs(m) < abs(ctrl[2]) + WITHIN_CONTROL_MARGIN
+               for m in means.values()):
             print("  WARNING: every depth sits within reach of the control. "
                   "No accumulation can be claimed from this.")
 

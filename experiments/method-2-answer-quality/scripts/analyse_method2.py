@@ -33,6 +33,15 @@ WHAT IS REPORTED
                the length-matched CONTROL lead-in, Wilcoxon, BH within judge
   agreement    for each signal, in how many usable cells it is negative and
                significant, and whether it clears the additivity residual
+
+A NOTE ON THE RESIDUAL. "worse" requires TWO things: significance after
+Benjamini-Hochberg, AND a size larger than the additivity residual. The second
+is a pragmatic robustness threshold of our own, not a standard statistical
+procedure: it is half the spread of the slot term across the four real
+comparisons, used as an estimate of what the imperfect order correction could
+produce on its own. The four verdict categories are therefore NOT four equally
+statistical grades. "worse" and "worse, inside residual" are both significant;
+they differ only in whether the size clears that self-estimated floor.
   self-judged  cells where the judge scored its own answers are marked
 """
 
@@ -47,6 +56,15 @@ ANSWER_MODELS = ["qwen", "llama", "mistral"]
 SIGNALS = ["SCREEN", "AGE", "ADHD"]
 FLOOR = "NONE_vs_CONTROL"
 DEGENERATE = "IDENTITY"
+# TWO SEPARATE GATES, deliberately at different levels.
+#   MIN_MASS       per observation. A single read is dropped if the two letters
+#                  carry less than this share of the next-token mass.
+#   MIN_JUDGE_MASS per judge. A judge whose MEAN letter mass is below this is
+#                  excluded from every conclusion rather than partly filtered.
+# Neither was pre-registered; both were set after inspecting the letter-mass
+# distributions, which is why the sensitivity of the result to MIN_MASS is
+# reported separately (sensitivity_min_mass.py). For the two usable judges the
+# choice makes no difference anywhere between 0.3 and 0.9.
 MIN_MASS = 0.5
 MIN_JUDGE_MASS = 0.8
 

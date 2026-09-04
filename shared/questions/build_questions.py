@@ -23,18 +23,46 @@ model answers the template rather than the person. These are written, then
 checked against fixed criteria below.
 
 WHAT MAKES A QUESTION USABLE HERE
+
+These are selection criteria applied when writing the set. Two of them are
+design targets rather than verified properties, and are marked as such.
 ---------------------------------
-  no single right answer     otherwise it is method 3
-  no refusal risk            no medical, legal or financial advice that a
-                             safety-trained model will decline, because a
-                             refusal is not a low-quality answer, it is a
-                             different event and would be scored as quality
+  no single CANONICAL answer  otherwise it is method 3. This does not make
+                              quality subjective: the answers are still
+                              compared on stated dimensions, namely coverage,
+                              explanation and actionability.
+  low refusal risk            not "no refusal risk". Nothing here asks for
+                              personalised regulated advice, but the money
+                              domain does touch loans, savings and job offers,
+                              and a safety-trained model may still hedge or
+                              decline. A refusal is a different event from a
+                              low-quality answer, so it is counted separately
+                              rather than scored as quality.
   answerable from general knowledge, no browsing, no current facts
-  quality genuinely varies   a lazy answer and a careful answer look different
-  one to two sentences       so the disclosure clause is not diluted, which is
-                             the method 3b lesson
-  domain-balanced            ten each across six domains, so a result cannot be
-                             an artefact of one kind of question
+  quality plausibly varies    DESIGN TARGET, not verified. That a careful and a
+                              lazy answer look different on these questions is
+                              assumed, not established: no independent rater
+                              study was run to confirm it. Method 2's whole
+                              result rests on this assumption, and it is listed
+                              as a limitation in RESULT_method2.md.
+  short, usually one sentence so the disclosure clause stays salient. The aim
+                              is to limit dilution, which is the method 3b
+                              lesson; it is not a guarantee against it.
+  domain-balanced             ten each across six domains, so a result cannot
+                              be an artefact of one kind of question. Balance
+                              in COUNT is not balance in content: domains
+                              differ in how long and how structured a good
+                              answer is, so domain is a source of variance in
+                              its own right.
+
+A DESIGN CONSIDERATION THAT IS NOT CONTROLLED
+---------------------------------------------
+A signal can interact with a domain rather than with the person. A screen
+reader paired with a tech question, ADHD with a learning question, or age with
+a tech question may change the answer because the pairing changes what a
+helpful answer IS, not because the model thinks less of the asker. This design
+cannot separate those two. Method 2 pairs within question, so the comparison is
+sound; the interpretation of WHY the answer changed is not settled by it.
 
 Emits questions.csv and questions.json.
 """
@@ -146,7 +174,37 @@ def main() -> None:
     print(f"{len(rows)} questions, {len(by_domain)} domains x "
           f"{list(by_domain.values())[0]}")
     print(f"length {min(lens)} to {max(lens)} words, mean {sum(lens)/len(lens):.1f}")
+    validate(rows)
     print("wrote questions.json and questions.csv")
+
+
+def validate(rows):
+    """Guards, and the per-domain length spread that domain balance hides."""
+    from collections import Counter
+    assert len(rows) == 60, len(rows)
+    ids = [r["id"] for r in rows]
+    assert len(set(ids)) == 60, "duplicate question id"
+    qs = [r["question"] for r in rows]
+    dup = [q for q, n in Counter(qs).items() if n > 1]
+    assert not dup, f"duplicate question text: {dup[:1]}"
+
+    dom = Counter(r["domain"] for r in rows)
+    assert len(dom) == 6, dict(dom)
+    assert set(dom.values()) == {10}, f"domains not 10 each: {dict(dom)}"
+    for r in rows:
+        assert r["question"].strip().endswith("?"), r["id"]
+        assert r["words"] >= 8, f"{r['id']} suspiciously short"
+
+    print(f"\n  validate: 60 questions, ids and texts unique, "
+          f"6 domains x 10.")
+    print("  Ten per domain is balance in COUNT. Length, and with it the shape")
+    print("  of a good answer, is not balanced:")
+    for d in sorted(dom):
+        w = [r["words"] for r in rows if r["domain"] == d]
+        print(f"    {d:10} {min(w):2} to {max(w):2} words, "
+              f"mean {sum(w)/len(w):4.1f}")
+    print("  Method 2 pairs within question, so this spread is controlled for")
+    print("  in the test. It matters for reading effect sizes across domains.")
 
 
 if __name__ == "__main__":
