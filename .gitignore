@@ -5,3 +5,12 @@ __pycache__/
 *.egg-info/
 .venv/
 env/
+
+# LaTeX build artefacts (the PDF itself is committed)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk

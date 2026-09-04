@@ -82,8 +82,10 @@ study on signal stacking and is reported there. It is cited below only for what
 its two runs revealed about measurement stability, which is what motivated
 method 3c.
 
-Full write-ups: [`RESULTS.md`](RESULTS.md) for the combined argument, and one
-`RESULT_*.md` per method under `experiments/*/results/`.
+**The paper** is [`single-human-ai-fit.pdf`](single-human-ai-fit.pdf), 15 pages,
+with its LaTeX source alongside it. Full write-ups:
+[`RESULTS.md`](RESULTS.md) for the combined argument, and one `RESULT_*.md` per
+method under `experiments/*/results/`.
 
 ---
 
@@ -134,6 +136,14 @@ CSVs:
     python experiments/method-6b-logprob-choice/scripts/analyse_method6b.py \
            experiments/method-6b-logprob-choice/outputs/qwen/method6b_qwen.csv
     python shared/tasks/validate_tasks.py
+
+To check the paper against the data in one command:
+
+    python verify_paper_numbers.py
+
+It re-runs every analysis and confirms each value in the paper's five tables,
+plus the headline counts in the running text, against what those analyses
+produce. Twelve checks; it fails if any number has drifted.
 
 The `run_*.py` scripts need a GPU. Each takes one `MODEL_KEY`, resumes from a
 partial CSV, and prints its own summary. Datasets are opened by bare filename,

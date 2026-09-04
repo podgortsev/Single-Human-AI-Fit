@@ -3,6 +3,7 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
 \usepackage{bm}
+\usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{enumitem}
 \usepackage{graphicx}
@@ -43,9 +44,10 @@ way: asked for a numeric score about the person, all three models rate them
 higher. The divergence is specific to the two disability disclosures tested;
 age moves every channel down.
 
-We report two negative results in full. Signals do not appear to compound in
-the way expected, and response stability does not degrade for people who
-disclose: of 33 cells, 7 are less stable and 10 are more stable. One method,
+We report the negative results in full. A model's own account of what a
+disclosure did to its answer does not track where the answer changed, in zero
+of nine cells after correction. Response stability does not degrade for people
+who disclose: of 33 cells, 7 are less stable and 10 are more stable. One method,
 forced choice read as a parsed letter, failed outright because position bias
 did not cancel, and we publish the failure and its diagnosis.
 
@@ -57,7 +59,10 @@ practical consequence is that an audit built on ratings can certify a system as
 fair while that system does measurably worse work for the same people.
 
 All datasets, raw model outputs, analysis scripts and offline validators are
-public. Every reported figure regenerates without a GPU.
+public. Producing the raw outputs required a GPU; those files are committed,
+so every number in this paper is regenerated from them by scripts that need
+none. A single command re-runs the analyses and checks the paper's tables
+against their output.
 \end{abstract}
 
 \section{Introduction}
@@ -126,8 +131,9 @@ diagnosis that makes each of them reusable.
 \item A validity gate for log-probability judgements, and evidence that
 omitting it would have produced a published finding resting on ten usable
 observations out of three hundred.
-\item Complete public release: datasets, raw outputs, analysis scripts, and
-offline validators that regenerate every number without a GPU.
+\item Complete public release: datasets, raw outputs, analysis scripts and
+offline validators, with a script that re-derives every number in this paper
+from the committed outputs and fails if any of them has drifted.
 \end{enumerate}
 
 \section{Related work}
@@ -339,7 +345,7 @@ readiness to continue with each of twelve trait words is measured directly from
 the log probabilities. 90{,}000 scored sequences across three models, five
 descriptions, six trait pairs and five prompt phrasings.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{lrrr}
 \toprule
@@ -395,7 +401,7 @@ opening sentence changes. Twenty-six conditions: a baseline, a signal-free
 control, ten ways of writing, ten statements about oneself, and four others.
 15{,}600 generations.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{lrrr}
 \toprule
@@ -425,7 +431,7 @@ each. Both facts belong in an honest summary.
 Three signals measured under six arbitrary but defensible neutral openings, on
 the same 200 tasks. 14{,}400 generations.
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{lrrr}
 \toprule
@@ -528,7 +534,7 @@ against.
 Read against a socially neutral alternative detail, paired within question and
 profile (Figure~\ref{fig:m6b}):
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{lrrr}
 \toprule
@@ -602,7 +608,7 @@ Disclosure narrows the trait distribution rather than widening it.
 
 \section{The central divergence}
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \begin{tabular}{llll}
 \toprule
@@ -756,9 +762,35 @@ a way that a positive finding often is not.
 \section*{Data and code availability}
 
 All datasets, raw model outputs, analysis scripts and offline validators are
-available at \url{https://github.com/podgortsev/Single-Human-AI-Fit}. Every
-figure and table in this paper regenerates from the committed CSV files without
-a GPU.
+available at \url{https://github.com/podgortsev/Single-Human-AI-Fit}.
+
+It is worth being exact about what reproduces and what does not, because the
+two are often conflated.
+
+\textbf{A GPU was needed once.} Generating the model outputs took several
+hours per model on a single T4. Those outputs, one row per generation, are
+committed as CSV files. Nothing in the repository re-runs a model, and no
+reader needs to.
+
+\begin{sloppypar}
+\textbf{Everything downstream of those CSVs needs no GPU.} The analysis and
+validation scripts read the committed rows and print the numbers this paper
+reports. \texttt{verify\_paper\_numbers.py} re-runs all of them and checks
+each value in the five tables, and the headline counts in the running text,
+against what the analyses produce. It reports twelve checks and fails if any
+number has drifted from the data.
+\end{sloppypar}
+
+\textbf{Three of the four figures are drawn from constants} transcribed out of
+that analysis output rather than computed when the figure is drawn. Those
+constants are checked by the script above like any other number.
+Figure~\ref{fig:wrappers} is the exception: it reads the CSVs at draw time and
+asserts agreement with the published per-wrapper values before drawing.
+
+\textbf{The task keys are verified independently.} The 200 arithmetic answers
+are re-derived from the question text by a solver written separately from the
+generator, so a mistake would have to be made twice in the same direction to
+survive. All 200 match.
 
 \begin{thebibliography}{99}
 
