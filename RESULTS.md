@@ -379,6 +379,22 @@ That last finding is structurally the same shape as our method 4 against method
 first to observe that an audit's format can change the sign of its answer**, and
 any claim to the contrary would be wrong.
 
+**A second line of work reaches the same place from the explicit/implicit
+distinction.** Zhao et al. (arXiv:2501.02295, ACL 2025) find a substantial
+inconsistency inside one model: explicit bias appears as mild stereotyping while
+implicit bias is strong. Kumar et al. (arXiv:2410.12864), across more than fifty
+models, report that newer and larger models do not automatically show less bias
+and sometimes score higher than their predecessors, so scale does not dissolve
+the problem. Our evaluative channel is the explicit one; our four behavioural
+channels sit closer to the implicit end. The direction of our split is the one
+this literature predicts.
+
+**The closest published design to our method 4 is DiscrimEval** (Tamkin et al.,
+arXiv:2312.03689), which varies demographic attributes across seventy decision
+scenarios and reports both positive and negative discrimination in the same
+model. What this study adds is localisation: because several channels are read
+on the same person, we can say which channel carries which sign.
+
 ### What this study adds
 
 Prior work varies **the task** and asks whether the bias score moves. This study

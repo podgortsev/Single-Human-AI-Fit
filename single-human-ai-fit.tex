@@ -159,6 +159,17 @@ regard our result as independent convergent evidence on different material,
 obtained with a different design, and extended to a wider set of interaction
 types.
 
+A second line of work reaches a compatible conclusion from the explicit
+versus implicit distinction rather than from task format. Zhao et al.\
+\cite{explicitimplicit2025} find a substantial inconsistency within one
+model, where explicit bias appears as mild stereotyping while implicit bias
+is strong. Kumar et al.\ \cite{implicit50llms2024}, surveying more than
+fifty models, report that newer and larger models do not automatically show
+reduced bias and in places score higher than their predecessors, so this is
+not something scale removes. Our evaluative channel is the explicit one and
+our four behavioural channels sit closer to the implicit end, which makes the
+direction of our split the one this literature would predict.
+
 \subsection{Disability and age as axes of bias}
 
 Hutchinson et al.\ \cite{hutchinson2020} established the foundational result
@@ -184,6 +195,15 @@ changes \cite{names2026}, and documented position bias in paired-CV comparison
 \cite{peerj2026}. That last result is the failure mode our method 6a
 encountered directly, and we confirm it independently.
 
+The standard reference points are BBQ \cite{bbq2022}, a hand-built bias
+benchmark for question answering, and DiscrimEval \cite{discrimeval2023},
+which varies demographic attributes across seventy decision scenarios and
+reports both positive and negative discrimination in the same model.
+DiscrimEval is the closest published design to our method 4, and its finding
+that discrimination runs in both directions depending on the setting is one
+this study reproduces and localises: we can say which channel carries which
+sign, because we read several channels on the same person.
+
 \subsection{How a person writes, versus what they state}
 
 Kearney, Binns and Gal \cite{kearney2025} show that identity markers in a
@@ -200,10 +220,26 @@ change does not (Section~\ref{sec:m3a}).
 
 Method 2 uses a model as judge and is built directly against the known failure
 modes: position bias, verbosity bias and self-preference \cite{zheng2023,
-selfpref2025}. Method 7 asks whether a model can report on its own behaviour,
+selfpref2025}. Panickssery et al.\ \cite{panickssery2024} show that
+self-preference is linked to self-recognition, which matters here because
+every judge in our design scores some of its own generations; those cells are
+marked rather than dropped.
+
+Method 7 asks whether a model can report on its own behaviour,
 a question with results on both sides: fine-tuned models can verbalise a
 learned policy \cite{tellme2025}, while alignment has been argued to reduce a
 model's awareness of the attribute it is responding to \cite{alignedblind2025}.
+
+\subsection{Robustness of a fairness estimate}
+
+FLEX \cite{flex2025} stresses fairness with adversarial prompts, persona
+injection and text attacks, and shows that conventional benchmarks understate
+the risk a model carries. Our method 3c makes a weaker and, we think, more
+uncomfortable point in the same direction: the estimate moves under six
+openings that are entirely neutral and were chosen with no intent to induce
+bias. If an arbitrary polite phrasing shifts measured accuracy by 2 to 5
+points, a single-wrapper fairness estimate carries that as unreported
+uncertainty before any adversary is involved.
 
 \subsection{The gap this paper addresses}
 
@@ -739,6 +775,36 @@ Learned Behaviors}. arXiv:2501.11120.
 \bibitem{alignedblind2025} Sun, L., Mao, C., Hofmann, V., Bai, X. (2025).
 Aligned but Blind: Alignment Increases Implicit Bias by Reducing Awareness of
 Race. \emph{Proceedings of ACL 2025}. arXiv:2506.00253.
+
+\bibitem{bbq2022} Parrish, A., Chen, A., Nangia, N., Padmakumar, V.,
+Phang, J., Thompson, J., Htut, P.\ M., Bowman, S.\ R. (2022). BBQ: A
+Hand-Built Bias Benchmark for Question Answering. \emph{Findings of the
+Association for Computational Linguistics: ACL 2022}, pp.\ 2086--2105.
+arXiv:2110.08193.
+
+\bibitem{discrimeval2023} Tamkin, A., Askell, A., Lovitt, L., Durmus, E.,
+Joseph, N., Kravec, S., Nguyen, K., Kaplan, J., Ganguli, D. (2023).
+\emph{Evaluating and Mitigating Discrimination in Language Model Decisions}.
+arXiv:2312.03689.
+
+\bibitem{panickssery2024} Panickssery, A., Bowman, S.\ R., Feng, S.
+(2024). LLM Evaluators Recognize and Favor Their Own Generations.
+\emph{Advances in Neural Information Processing Systems 37}.
+arXiv:2404.13076.
+
+\bibitem{explicitimplicit2025} Zhao, Y., Wang, B., Wang, Y., Zhao, D.,
+He, R., Hou, Y. (2025). Explicit vs.\ Implicit: Investigating Social Bias
+in Large Language Models through Self-Reflection. \emph{Proceedings of ACL
+2025}. arXiv:2501.02295.
+
+\bibitem{implicit50llms2024} Kumar, D., Jain, U., Agarwal, S.,
+Harshangi, P. (2024). \emph{Investigating Implicit Bias in Large Language
+Models: A Large-Scale Study of Over 50 LLMs}. arXiv:2410.12864.
+
+\bibitem{flex2025} \emph{FLEX: A Benchmark for Evaluating Robustness of
+Fairness in Large Language Models} (2025). \emph{Findings of the
+Association for Computational Linguistics: NAACL 2025}, 2025.findings-naacl.199.
+arXiv:2503.19540.
 
 \end{thebibliography}
 
