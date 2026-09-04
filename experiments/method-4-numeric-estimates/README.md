@@ -7,7 +7,7 @@ pooled. Anchoring (a number copied from the prompt) and refusals are counted
 separately, never averaged into the bias estimate.
 
 ## Inputs
-- shared/profiles/profiles.json  (profiles are also embedded in the runner)
+- ../shared/profiles/profiles.json  (profiles are also embedded in the runner)
 
 ## Scripts
 - scripts/run_method4.py — collect + analyse, one run per model (set MODEL_KEY)

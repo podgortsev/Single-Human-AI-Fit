@@ -208,7 +208,7 @@ Where the axes catalogue lists method 5, that is planned scope, not work done.
 
 ## 7. Known properties of the datasets
 
-Found by `shared/tasks/validate_tasks.py`, which re-derives all 200 arithmetic
+Found by `experiments/shared/tasks/validate_tasks.py`, which re-derives all 200 arithmetic
 answers from the question text independently of the generator. All 200 keys are
 correct. Three things the generator does not guarantee:
 

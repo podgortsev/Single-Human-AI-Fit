@@ -32,7 +32,7 @@ One generation run per model. Set `MODEL_KEY` to qwen, then llama, then mistral.
 
     !pip install -q transformers accelerate bitsandbytes
     from google.colab import drive; drive.mount('/content/drive')
-    # upload questions.json (shared/questions/) and
+    # upload questions.json (../shared/questions/) and
     #        method2_answers_<MODEL_KEY>.csv (method 2's stage-1 output)
     %run run_method7.py
 

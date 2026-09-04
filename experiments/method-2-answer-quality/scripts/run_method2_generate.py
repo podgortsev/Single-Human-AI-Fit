@@ -113,7 +113,7 @@ assert len(set(_lens.values())) == 1, f"lead-ins not length-matched: {_lens}"
 
 def load_questions() -> List[Dict]:
     if not os.path.exists("questions.json"):
-        sys.exit("questions.json not found. Upload shared/questions/questions.json "
+        sys.exit("questions.json not found. Upload experiments/shared/questions/questions.json "
                  "next to this script before running.")
     return json.load(open("questions.json", encoding="utf-8"))
 

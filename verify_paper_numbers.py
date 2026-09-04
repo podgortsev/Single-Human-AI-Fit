@@ -151,7 +151,7 @@ def main():
         results.append(None)
 
     # --- the datasets rebuild --------------------------------------------
-    vt = subprocess.run([PY, os.path.join(HERE, "shared", "tasks",
+    vt = subprocess.run([PY, os.path.join(HERE, "experiments", "shared", "tasks",
                                           "validate_tasks.py")],
                         capture_output=True, text=True)
     ok = "RESULT: PASS" in (vt.stdout or "")

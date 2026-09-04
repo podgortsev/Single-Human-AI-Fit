@@ -129,7 +129,7 @@ def _find(name: str) -> str:
 def load_questions() -> Dict[str, str]:
     path = _find("questions.json")
     if not path:
-        sys.exit("questions.json not found. Upload shared/questions/questions.json.")
+        sys.exit("questions.json not found. Upload experiments/shared/questions/questions.json.")
     return {q["id"]: q["question"]
             for q in json.load(open(path, encoding="utf-8"))}
 

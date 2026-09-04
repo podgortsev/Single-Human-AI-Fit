@@ -228,4 +228,4 @@ three controls, the paired contrast against CONTROL_ALT. No GPU.
 `scripts/validate_method6b.py` - offline check on synthetic data, three
 scenarios.
 
-`../../shared/profiles/profiles.json` - 100 profiles.
+`../shared/profiles/profiles.json` - 100 profiles.

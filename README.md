@@ -112,16 +112,17 @@ cleaning problem.
 
 ## Layout
 
-    experiments/<method>/
-        README.md          what it measures, inputs, status
-        scripts/           run_*.py, analyse_*.py, validate_*.py
-        outputs/<model>/   raw CSV, one row per generation, plus the run log
-        results/           RESULT_*.md
-    shared/                datasets used by more than one method
-    figures/               the three headline figures and the code that makes them
+    experiments/
+        shared/            datasets used by more than one method
+        <method>/
+            README.md      what it measures, inputs, status
+            scripts/       run_*.py, analyse_*.py, validate_*.py
+            outputs/<model>/  raw CSV, one row per generation, plus the run log
+            results/       RESULT_*.md
+    figures/               the headline figures and the code that makes them
 
 Naming, formats and the reasoning behind the folder shape are in
-[`shared/README.md`](shared/README.md).
+[`experiments/shared/README.md`](experiments/shared/README.md).
 
 ---
 
@@ -135,7 +136,7 @@ CSVs:
     python experiments/method-3a-single-signal/scripts/analyse_method3a_groups.py
     python experiments/method-6b-logprob-choice/scripts/analyse_method6b.py \
            experiments/method-6b-logprob-choice/outputs/qwen/method6b_qwen.csv
-    python shared/tasks/validate_tasks.py
+    python experiments/shared/tasks/validate_tasks.py
 
 To check the paper against the data in one command:
 
@@ -150,7 +151,7 @@ partial CSV, and prints its own summary. Datasets are opened by bare filename,
 so copy the one a script needs next to it first.
 
 Every generated dataset rebuilds byte-identically from its builder under a fixed
-seed. `shared/tasks/validate_tasks.py` re-derives all 200 arithmetic answers
+seed. `experiments/shared/tasks/validate_tasks.py` re-derives all 200 arithmetic answers
 from the question text, independently of the generator, and all 200 match.
 
 ---

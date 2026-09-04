@@ -49,7 +49,7 @@ that instability is itself worth retesting.
   verbosity, not quality.
 
 ## Inputs to upload into Colab
-Stage 1: `run_method2_generate.py`, `questions.json` (from `shared/questions/`).
+Stage 1: `run_method2_generate.py`, `questions.json` (from `../shared/questions/`).
 Stage 2: `run_method2_judge.py`, `questions.json`, and the three
 `method2_answers_<model>.csv` from stage 1.
 

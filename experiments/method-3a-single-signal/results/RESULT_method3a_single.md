@@ -189,7 +189,7 @@ and shows how much of it survives. Read the two together.
 `outputs/<model>/method3_single_<model>.csv` - raw output, one row per
 generation, 5,200 rows each.
 
-`../../shared/tasks/tasks.json` - 200 tasks with keys.
+`../shared/tasks/tasks.json` - 200 tasks with keys.
 
 `scripts/run_method3_single.py` - the run and its built-in per-condition
 analysis. Note that its printed summary says "twenty-five conditions" where the

@@ -227,4 +227,4 @@ output would misrepresent what the run printed.
 `scripts/analyse_method3_wrapper.py` - the analysis, no GPU. Tables are printed
 in net tasks, not accuracy points.
 
-`../../shared/tasks/tasks.json` - 200 tasks with keys.
+`../shared/tasks/tasks.json` - 200 tasks with keys.

@@ -16,7 +16,7 @@ as a letter (A or B).
 
 ## Inputs to upload into Colab
 - run_method6a.py
-- profiles.json  (from shared/profiles/)
+- profiles.json  (from ../shared/profiles/)
 
 ## Outputs
 `outputs/<model>/method6a_<model>.csv` + `_console.txt`, 3,000 rows each

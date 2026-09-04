@@ -115,7 +115,7 @@ def load_questions() -> List[Dict]:
     for p in ("questions.json", os.path.join(OUT_DIR, "questions.json")):
         if os.path.exists(p):
             return json.load(open(p, encoding="utf-8"))
-    sys.exit("questions.json not found. Upload shared/questions/questions.json.")
+    sys.exit("questions.json not found. Upload experiments/shared/questions/questions.json.")
 
 
 def load_answers() -> Dict:

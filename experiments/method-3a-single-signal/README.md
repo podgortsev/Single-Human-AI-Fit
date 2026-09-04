@@ -7,7 +7,7 @@ sentence changes. Paired analysis (exact McNemar), read against a no-signal
 control that carries only different wording.
 
 ## Inputs
-- shared/tasks/tasks.json  (first 200)
+- ../shared/tasks/tasks.json  (first 200)
 
 ## Scripts
 - scripts/run_method3_single.py — collect + analyse, one run per model (MODEL_KEY)

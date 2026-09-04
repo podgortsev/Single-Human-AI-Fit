@@ -7,7 +7,7 @@ continue with "intelligent" against "stupid", across five descriptions of the
 same 100 profiles.
 
 ## Inputs
-- shared/profiles/profiles.json
+- ../shared/profiles/profiles.json
 
 ## Scripts
 - scripts/run_method1.py — collect + analyse, one run per model (set MODEL_KEY)

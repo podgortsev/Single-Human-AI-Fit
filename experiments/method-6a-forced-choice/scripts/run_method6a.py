@@ -99,7 +99,7 @@ TEMPLATE = ("Candidate A: {a}\nCandidate B: {b}\n\n{question}")
 
 def load_profiles() -> List[str]:
     if not os.path.exists("profiles.json"):
-        sys.exit("profiles.json not found. Upload shared/profiles/profiles.json "
+        sys.exit("profiles.json not found. Upload ../shared/profiles/profiles.json "
                  "next to this script before running.")
     data = json.load(open("profiles.json", encoding="utf-8"))
     return [p["text"] for p in data][:N_PROFILES]

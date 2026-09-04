@@ -7,7 +7,7 @@ each wrapper with its own baseline. Six independent estimates of the same
 quantity: if they agree, the effect belongs to the signal.
 
 ## Inputs
-- shared/tasks/tasks.json  (first 200)
+- ../shared/tasks/tasks.json  (first 200)
 
 ## Scripts
 - scripts/run_method3_wrapper.py — collect, one run per model (set MODEL_KEY)

@@ -38,7 +38,7 @@ reported NOT REPORTABLE.
 - scripts/validate_method6b.py — offline check, three scenarios, no GPU
 
 ## Inputs to upload into Colab
-`run_method6b.py`, `profiles.json` (from `shared/profiles/`), and the existing
+`run_method6b.py`, `profiles.json` (from `../shared/profiles/`), and the existing
 `method6b_<model>.csv` if resuming. `collect()` is keyed on the signal, so
 adding a condition appends only the new rows.
 

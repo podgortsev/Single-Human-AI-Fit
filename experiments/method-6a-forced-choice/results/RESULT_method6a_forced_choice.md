@@ -250,4 +250,4 @@ No GPU.
 
 `scripts/validate_method6a.py` - offline check of the parser and the statistics.
 
-`../../shared/profiles/profiles.json` - 100 profiles.
+`../shared/profiles/profiles.json` - 100 profiles.

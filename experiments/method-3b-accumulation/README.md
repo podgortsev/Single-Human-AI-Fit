@@ -9,7 +9,7 @@ accuracy: its control landed 6 percentage points above the baseline (paired net
 -12, p=0.008), so the baseline was not a stable reference.
 
 ## Inputs
-- shared/tasks/tasks.json  (first 200)
+- ../shared/tasks/tasks.json  (first 200)
 
 ## Scripts
 - scripts/run_method3_stack.py — canonical, 26-word filler, one run per model

@@ -286,4 +286,4 @@ built-in one: the built-in inflates the additivity residual by including the
 degenerate IDENTITY case.
 `scripts/validate_method2.py` - offline check, 25 tests.
 
-`../../shared/questions/questions.json` - sixty questions.
+`../shared/questions/questions.json` - sixty questions.
