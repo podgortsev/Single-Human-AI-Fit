@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+title: >-
+  Single Human-AI Fit: a counterfactual audit of how language models
+  treat a person when one detail changes
+message: If you use this work, please cite it as below.
+type: software
+authors:
+  - family-names: Podgortsev
+    given-names: Michael
+    email: podgortsev@gmail.com
+repository-code: https://github.com/podgortsev/Single-Human-AI-Fit
+license: MIT
+date-released: '2026-09-03'
+keywords:
+  - fairness
+  - large language models
+  - counterfactual audit
+  - disability
+  - ageism
+  - accessibility
+  - evaluation methodology
+  - negative results
+abstract: >-
+  Seven measurement methods applied to three open language models
+  (Qwen2.5-7B, Llama-3.1-8B, Mistral-7B-v0.3) to test whether a model
+  treats a person differently when one detail about them changes and
+  everything else stays byte-identical. The four disclosures tested are
+  screen reader use, Deafness, ADHD and age 74.
+
+  Four behavioural channels agree: disclosure is associated with fewer
+  favourable trait words, lower accuracy on the person's own arithmetic
+  task, a worse open-ended answer, and losing a head-to-head choice
+  against a socially neutral alternative detail. A fifth channel
+  disagrees: asked for a numeric score about the person, the models rate
+  Deafness and screen reader use higher. The model rates the disclosed
+  person better in isolation and treats them worse in behaviour, which
+  matters because the score is the measure most audits use.
+
+  Two results are negative and reported in full: signals do not
+  accumulate, and answers are not less stable for people who disclose.
+  A forced-choice design failed outright because position bias did not
+  cancel. Models can admit in aggregate that a disclosure affected them,
+  and on one model they over-claim it, but their self-report does not
+  correlate with which items actually changed in any of nine cells.
+
+  All datasets, raw model outputs, analysis scripts and offline
+  validators are included; every reported figure regenerates without a
+  GPU.

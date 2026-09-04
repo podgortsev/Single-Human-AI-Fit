@@ -1,0 +1,157 @@
+# Single Human-AI Fit
+
+Does a language model treat a person worse when one detail about that person
+changes, and everything else stays byte-identical?
+
+Seven measurement methods, three open models, the same people and the same
+tasks throughout. One detail changes at a time. Where a method failed, the
+failure is reported as the result.
+
+---
+
+## The finding
+
+**Five methods agree on the direction. One disagrees, and the disagreement is
+the point.**
+
+Disclosing a screen reader, Deafness, ADHD or age 74 makes the model
+
+- apply fewer favourable words to that person (method 1),
+- solve their arithmetic task less often (method 3),
+- write them a worse answer when no answer is wrong (method 2),
+- pick the other candidate when two people differ only in that detail
+  (method 6b, read against a socially neutral alternative detail).
+
+And yet method 4, which asks the model for a **number** about the person, gives
+that same person a **higher** score for Deafness and screen reader use.
+
+So the model rates the disclosed person better in isolation and treats them
+worse everywhere else. The score does not contradict the rest. It covers it.
+A study that measured only the score would conclude the opposite of a study
+that measured the behaviour.
+
+The screen reader is the cleanest signal, appearing in every method. Age is
+next, pointing the same way in methods 1, 3, 4 and 6b.
+
+![The central disagreement](figures/fig_disagreement.png)
+
+---
+
+## What is being measured, and what is not
+
+**Measured.** Whether a one-clause change to a description or a lead-in changes
+what the model does, on material that is otherwise identical to the byte.
+
+**Not measured.** Whether the model is "biased" in any sense that generalises
+beyond these three models, these prompts and these tasks. Every effect here is
+a property of a specific model on specific material. Two of the strongest
+results are negative.
+
+---
+
+## The seven methods
+
+| # | What it asks | Result |
+|---|---|---|
+| 1 | Which trait words is the model ready to apply? | Age 74 and a screen reader both lower favourable words on all three models |
+| 2 | Is the answer the person **gets** worse, when no answer is wrong? | Screen reader worse in 6 of 6 cells. Subjective: a model judges |
+| 3a | Does the model solve the same task less often? | Stating something about yourself costs more than writing differently, on 2 of 3 models |
+| 3b | Do signals accumulate? | **No.** Three signals cost no more than one |
+| 3c | Does the effect survive a change of neutral wrapper? | Partly. An arbitrary neutral phrasing moves the baseline by 2 to 5 points |
+| 4 | What number does the model name about the person? | Age lowers it; Deafness and screen reader **raise** it. 13 conflicts between models |
+| 6a | Head to head, choice read as a letter | **Failed.** Position bias does not cancel; negative result |
+| 6b | Head to head, choice read as a log probability | Every disclosure loses against a neutral alternative detail on Qwen and Llama |
+| 7 | Does the model know its own bias? | It knows the disclosure was there. It does not know what it did |
+| 8 | Are answers less stable for these people? | **Mostly null.** 7 of 33 cells less stable, 10 more stable |
+
+Method 5, interaction cost, needs multi-turn dialogue and was not run.
+Method 3b belongs to a separate signal-stacking study and is reported here for
+what its null says about the rest.
+
+Full write-ups: [`RESULTS.md`](RESULTS.md) for the combined argument, and one
+`RESULT_*.md` per method under `experiments/*/results/`.
+
+---
+
+## The three models
+
+    qwen     Qwen/Qwen2.5-7B-Instruct           Alibaba
+    llama    meta-llama/Llama-3.1-8B-Instruct   Meta
+    mistral  mistralai/Mistral-7B-Instruct-v0.3 Mistral AI
+
+Different developers, different countries, different training data. All run at
+4-bit quantisation on a single T4.
+
+**Mistral is kept as a negative case.** It shows nothing in method 3, refuses 19
+to 28 percent of method 4 questions, and in the log-probability methods it often
+carries almost no probability mass on the letters it was asked to choose between
+(94 percent of judge reads in method 2, 61 percent in method 6b). A model that
+declines to answer in the format you are reading is a finding, not a data
+cleaning problem.
+
+---
+
+## Layout
+
+    experiments/<method>/
+        README.md          what it measures, inputs, status
+        scripts/           run_*.py, analyse_*.py, validate_*.py
+        outputs/<model>/   raw CSV, one row per generation, plus the run log
+        results/           RESULT_*.md
+    shared/                datasets used by more than one method
+    figures/               the three headline figures and the code that makes them
+
+Naming, formats and the reasoning behind the folder shape are in
+[`shared/README.md`](shared/README.md).
+
+---
+
+## Reproducing
+
+    pip install -r requirements.txt
+
+The analysis and validation scripts need no GPU and run against the committed
+CSVs:
+
+    python experiments/method-3a-single-signal/scripts/analyse_method3a_groups.py
+    python experiments/method-6b-logprob-choice/scripts/analyse_method6b.py \
+           experiments/method-6b-logprob-choice/outputs/qwen/method6b_qwen.csv
+    python shared/tasks/validate_tasks.py
+
+The `run_*.py` scripts need a GPU. Each takes one `MODEL_KEY`, resumes from a
+partial CSV, and prints its own summary. Datasets are opened by bare filename,
+so copy the one a script needs next to it first.
+
+Every generated dataset rebuilds byte-identically from its builder under a fixed
+seed. `shared/tasks/validate_tasks.py` re-derives all 200 arithmetic answers
+from the question text, independently of the generator, and all 200 match.
+
+---
+
+## Reading the numbers honestly
+
+Design decisions that changed a conclusion when they were got wrong first. The
+full list is in [`limitations.md`](limitations.md); these four matter most.
+
+**Pair everything.** Comparing group averages found nothing where the paired
+test on the same data found eleven significant shifts.
+
+**Run a control that carries a different but neutral detail.** Method 6b first
+compared four disclosures against one dull commute clause and concluded that
+disclosure was *preferred*. Adding a socially neutral alternative detail
+inverted the headline. That control is the difference between the published
+result and its opposite.
+
+**Check the model meant to answer in the format you are reading.** Scoring
+logP("A") against logP("B") is only a judgement if the model was about to emit a
+letter. One finding rested on ten usable pairs of three hundred before this
+check withdrew it.
+
+**A negative result is a result.** Method 6a failed, method 3b found no
+accumulation, and method 8 is mostly null. All three are reported in full.
+
+---
+
+## Licence
+
+MIT. See [`LICENSE`](LICENSE).
