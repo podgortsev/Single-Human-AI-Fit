@@ -11,20 +11,27 @@ the two differ the method document is the authority.
 
 ## 1. The headline
 
-**Five channels agree on the direction. One disagrees, and the disagreement
-carries more information than the agreement.**
+**Four behavioural channels agree on the direction. One evaluative channel
+points the other way, and that split carries more information than the
+agreement.**
 
-| Method | Channel | Screen reader | Age 74 |
-|---|---|---|---|
-| 1 | favourable trait words | worse | worse |
-| 2 | quality of the answer they get | worse | worse |
-| 3 | accuracy on their own task | worse | worse |
-| 6b | chosen over another candidate | worse | worse |
-| **4** | **numeric score about them** | **better** | worse |
+| Method | Channel | Kind | Screen reader | Age 74 |
+|---|---|---|---|---|
+| 1 | favourable trait words | behavioural | worse | worse |
+| 2 | quality of the answer they get | behavioural | worse | worse |
+| 3a | accuracy on their own task | behavioural | worse | worse |
+| 6b | chosen over another candidate | behavioural | worse | worse |
+| **4** | **numeric score about them** | **evaluative** | **better** | worse |
 
-The model rates the disclosed person **higher on a score** and treats them
-**worse in every behaviour**: fewer good words, less effort on their task, a
-worse answer in their hands, and the other candidate when it must pick one.
+The model gives the disclosed person a **higher score** and does **worse work
+for them across all four behavioural channels**: fewer favourable words, lower
+accuracy on their task, a weaker open-ended answer, and the other candidate when
+it must choose.
+
+**The split is specific to the disability disclosures.** For age 74 all five
+channels point the same way, the score included. It is the screen reader and
+Deafness where the evaluative channel inverts. Whatever raises the score does
+not operate on age, which is a constraint on any explanation of the pattern.
 
 This is the study's central claim, and it is a claim about measurement as much
 as about models. An audit that asks a model to rate a person will report the
@@ -108,18 +115,19 @@ Both facts belong in any honest summary. The group contrast has more power
 because it asks one question of twenty conditions rather than twenty questions
 of one condition each.
 
-### Method 3b, do signals accumulate?
+### Method 3b: not a result of this paper
 
-**No.** Across four runs, the penalty never grows faster than linearly. On
-Llama at the corrected filler length the curve **falls**: three signals cost
-less than one. Qwen's apparent rise does not survive a paired test
-(p=0.0625, not 0.031, once depth 1 and depth 3 are correctly treated as paired
-within route).
+The accumulation question, whether several disclosures cost more than one,
+**belongs to a separate study on signal stacking** and its findings are reported
+there, not here. The data live in this repository only because that is where
+they were produced.
 
-This method belongs to a separate signal-stacking study. It is reported here
-because of what it found on the way: the same 24 conditions, same tasks, same
-model and same code, measured under a different neutral filler, correlate at
-r=0.13 and r=0.22. That is why method 3c exists.
+One by-product of it does belong here, because it constrains every other number
+in this paper. The same 24 conditions, the same 200 tasks, the same model and
+the same code, measured under a different neutral filler, correlate at **r=0.13
+on Llama and r=0.22 on Qwen**. Individual conditions changed sign between the
+two runs. That is what motivated method 3c, and it is why no single-wrapper
+measurement in this study is reported without an error bar over wrappers.
 
 ### Method 3c, six neutral wrappers
 
@@ -157,9 +165,15 @@ structured.
 **Age 74 pulls estimates down** on four measures across all three models, by up
 to 74 percent on Llama.
 
-**Deafness and screen reader use raise the score and the rating** on all three
-models, significantly. On Qwen's rating with Deafness, 80 profiles of 100 go up
-and zero go down.
+**Deafness and screen reader use raise the suitability score and the rating** on
+all three models, significantly. On Qwen's rating with Deafness, 80 profiles of
+100 go up and zero go down.
+
+"All three models" is exact here and nowhere else in this method. Score and
+rating are precisely the two measures of ten for which Mistral produced enough
+usable answers, so this is the one method-4 result where all three models supply
+directly comparable evidence. Every other method-4 claim rests on Qwen and
+Llama.
 
 Three findings method 3 could not produce:
 
@@ -248,8 +262,8 @@ nine cells** after correction.
 
 ![Method 7 item level](figures/fig_method7_itemlevel.png)
 
-The model knows the disclosure was there. It does not know what the disclosure
-did.
+The model identifies that the disclosure was present. It does not identify what
+the disclosure did to its answer.
 
 Framed as post-hoc attribution rather than introspection: the model is asked
 after the fact and never sees the counterfactual answer it would have given.
@@ -271,17 +285,23 @@ three points per profile, so it is a lead, not a finding.
 ## 3. What can be claimed
 
 **Direction, on these models and this material.** Disclosing a screen reader,
-Deafness, ADHD or age 74 is associated with worse treatment across four
-independent channels, and the screen reader survives every test applied to it.
+Deafness, ADHD or age 74 is associated with worse treatment across four distinct
+behavioural channels. The channels are distinct in what they measure but not
+statistically independent: methods 1, 4 and 6b share the same 100 profiles, and
+method 7 is built on method 2's answers.
+
+The screen reader is the most consistent signal, but "survives every test" would
+overstate it: it is null on Mistral in method 3c under all six wrappers, and in
+method 6b it reverses on Mistral, where it helps rather than costs. What holds
+everywhere is its direction on Qwen and Llama.
 
 **That evaluative and behavioural measures disagree.** Method 4 is not a weaker
 signal pointing the same way. It points the other way, consistently, and it is
 the measure most audits would reach for.
 
-**That models do not know their own bias at item level.** Zero of nine cells,
-across three models and three signals.
-
-**That signals do not accumulate**, at least to depth three.
+**That a model's self-report does NOT identify the effect at item level.** Zero
+of nine cells reach significance after correction, across three models and three
+signals.
 
 **That the measurement instrument is a large part of the measurement.** Two
 methods produced the wrong headline before a control was added or a validity
@@ -294,9 +314,22 @@ gate applied, and a neutral rewording moves task accuracy by 2 to 5 points.
 **That this generalises beyond three 7-8B models at 4-bit quantisation.** It is
 three models on specific material, not a property of language models.
 
-**That the size of any effect is known.** Method 2's effect size varies fivefold
-by judge. Method 4's spread runs from zero to -99 percent on the same measure.
-Method 3c shows the size moving with the neutral wrapper.
+**That the size of any effect is known.** Three specific comparisons make this
+concrete:
+
+- **Method 2, roughly fivefold by judge.** The same 60 questions and the same
+  generated answers, scored by two different judge models, give judge margins
+  that differ by about a factor of five in magnitude while agreeing in sign. The
+  ratio is between the two judges' mean margins on the same cells, so it is a
+  property of the judge, not of the answers.
+- **Method 4, zero to -99 percent on one measure.** The suitability score under
+  age 74, expressed as the median within-profile shift divided by the baseline
+  median: Qwen's is zero (the median does not move, though the paired test is
+  significant), Llama's is -52 percent, Mistral's is -99 percent. It is a
+  scale-relative reference, not an individual-level percentage change, and the
+  coarseness of the response scale is part of why Qwen's median sits at zero.
+- **Method 3c, 2 to 5 accuracy points from wording alone.** The spread of
+  baseline accuracy across six neutral wrappers, with no signal present.
 
 **That the direction is the same for every signal.** ADHD gives opposite answers
 on different models in method 4. Mistral's screen reader result in method 6b
@@ -316,7 +349,75 @@ concern about the common advice to state your needs; it does not settle it.
 
 ---
 
-## 5. The two negative results
+## 5. Where this sits in existing work
+
+**Task-dependent bias is not a new observation, and this study does not claim
+it as one.** The claim made here is narrower and, we think, more useful.
+
+Three lines of prior work are directly relevant.
+
+**Gallegos et al., "Bias and Fairness in Large Language Models: A Survey"**
+(*Computational Linguistics*, 2024, doi:10.1162/coli_a_00524) establishes that
+bias manifests differently across NLP task types, so that generation,
+classification and question answering do not agree with one another.
+
+**"Redirected, Not Removed: Task-Dependent Stereotyping Reveals the Limits of
+LLM Alignments"** (arXiv:2604.02669) shows the same model appearing neutral in
+an explicit choice while reproducing stereotypes in an implicit task, with
+stereotype scores diverging by up to 0.43 between them. The authors conclude
+that a single bias score is a property of the model *and the task*, not of the
+model alone, and that single-benchmark audits mischaracterise a model.
+
+**"FairFund-Bench: Evaluating Distributive Bias in LLM Resource Allocation"**
+(arXiv:2607.28934) is the closest parallel to our central result. Across 14
+models it finds that models "advantage minorities when rating claimants
+individually but penalize some groups when ranking them side by side", and it
+measures cross-task and cross-context consistency for that reason.
+
+That last finding is structurally the same shape as our method 4 against method
+6b: individual rating goes up, head-to-head choice goes down. **We are not the
+first to observe that an audit's format can change the sign of its answer**, and
+any claim to the contrary would be wrong.
+
+### What this study adds
+
+Prior work varies **the task** and asks whether the bias score moves. This study
+holds one person fixed, changes **one characteristic of that person**, and then
+varies the *form of interaction* across seven measurement types: accuracy,
+trait judgement, allocation and prediction, forced choice, refusal, self-report
+and stability.
+
+That gives a different unit of analysis. Instead of "is this model biased
+against group X", the question becomes:
+
+> **What happens to the same person, when only one detail about them changes,
+> as the kind of interaction changes?**
+
+And the answer is that the effect is not a fixed property of the model. It is a
+property of the **person's characteristic, the task, and the model together**.
+The same disclosure can raise a rating, lower task accuracy, lose a
+head-to-head choice, and increase the chance of being refused an answer
+altogether, all in the same model. Age 74 moves every channel the same way;
+Deafness and screen reader use split. Mistral inverts the method 6b result that
+Qwen and Llama agree on.
+
+**A practical consequence.** "Is this model fair?" is not well posed. A system
+can pass a rating-based audit while doing measurably worse work for the same
+people, because the rating is the one channel where the effect reverses. An
+audit therefore has to name the interaction it measures, and a fairness claim
+transfers to another interaction type only if it has been tested there.
+
+The honest framing of the contribution, and the one we use:
+
+> Prior research has established that LLM bias is task-dependent. We extend that
+> line of work by asking whether the same individual-level characteristic
+> produces consistent effects across fundamentally different forms of human-AI
+> interaction. It does not, and on two of the four disclosures tested the
+> direction itself reverses between an evaluative and a behavioural channel.
+
+---
+
+## 6. The two negative results
 
 They are worth more than several of the positive ones.
 
@@ -332,7 +433,7 @@ stability than away from it.
 
 ---
 
-## 6. Where the numbers come from
+## 7. Where the numbers come from
 
 Every figure above regenerates from the committed CSVs with no GPU. The
 scripts are named in each method's README. The analysis to trust is stated

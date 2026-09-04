@@ -16,10 +16,24 @@ Llama-3.1-8B, Mistral-7B-v0.3. Nothing here establishes anything about the
 large commercial systems most people use. Quantisation itself is uncontrolled:
 no full-precision comparison was run.
 
-**One run per model per method**, except method 3, which was repeated under
-different neutral wrappers, and method 6b, which was rerun with an added
-control. Sampling variability across runs is therefore unmeasured for methods 1,
-2, 4, 6a, 7 and 8.
+**Repetition, and what counts as a run.** A "run" here means one pass of one
+method over one model, producing one output CSV. On that definition:
+
+- Methods 1, 2, 4, 6a, 7 and 8 were each run **once per model**. Nothing was
+  repeated under identical settings, so run-to-run sampling variability is
+  unmeasured for them.
+- Methods 3a, 3b and 3c are **separate experiments, not repeats of one**. They
+  share the 200 tasks but ask different questions (single signal; accumulation;
+  robustness across six wrappers). Only 3c repeats the same measurement
+  deliberately, six times over, and that repetition is the error bar reported
+  there.
+- Method 6b was run twice per model: once before a socially neutral alternative
+  control existed and once after. The second run supersedes the first, which is
+  kept in the repository because the two together are the evidence that the
+  control mattered.
+
+So no number in this study carries a same-settings replication except through
+method 3c's six wrappers.
 
 **Synthetic material throughout.** The 100 profiles are generated and uniform in
 style; real CVs vary far more. The 200 arithmetic tasks are generated from seven
@@ -38,8 +52,10 @@ probably underestimated for that reason.
 
 ## 2. What the effect sizes will and will not support
 
-**Direction is much better established than magnitude.** This is the single most
-important limitation in the study.
+**The direction of the main effects is more robust than their magnitude.** This
+is the single most important limitation in the study. It is a statement about
+relative confidence, not a claim that the directions are settled: several are
+model-specific, and method 6b's screen-reader result reverses on Mistral.
 
 - Method 2's effect size varies **fivefold depending on which model judges**, so
   its logits are not comparable across judges.
@@ -80,10 +96,6 @@ Half the age and ADHD cells fall inside it. Those are a direction, not a size.
 across the study.** With seven methods there is no single family, and no
 study-wide correction is claimed.
 
-**Method 3b's shape labels are descriptive.** The rising / falling / flat
-classification came from a threshold heuristic, not from comparing fitted
-models. Small changes in the increments flip the label.
-
 **Method 8's one positive thread rests on a standard deviation over three points
 per profile.** It is a lead, not a finding.
 
@@ -99,25 +111,33 @@ socially neutral detail. On Qwen, such a detail wins from the disfavoured slot i
 every disclosure loses.
 
 The lesson generalises: **a control must vary the thing under test, not a
-different thing.** The identical-detail control that the first run did have is
-zero by construction, cannot fail, and proves nothing. Worse, in method 2 the
-degenerate control inflated the non-additivity estimate fivefold, because with
-two identical answers a judge has nothing but position to go on.
+different thing.** The identical-detail control that the first run did have
+returns zero by construction and is uninformative as a check on the correction:
+it cannot fail, so passing it demonstrates nothing. Worse, in method 2 that
+degenerate control inflated the non-additivity estimate roughly fivefold,
+because when a judge is shown two identical answers it has nothing but position
+to go on. The residual is therefore computed from the real comparisons, and the
+degenerate control is reported but excluded from it.
 
 **Rephrasing alone moves results.** Six arbitrary but defensible neutral
-openings moved baseline accuracy by 2 to 5 points. Whatever a signal-free
-control shows is the floor; nothing below it is a finding.
+openings moved baseline accuracy by 2 to 5 points. What a signal-free control
+shows is therefore the reference level for that measurement, and we do not
+interpret differences at or below it as evidence of a signal effect.
 
 ---
 
 ## 5. Whether the model was answering at all
 
-**A refusal does not disappear when you stop parsing text. It moves into the
-probability mass.**
+**Switching from parsing text to reading log probabilities does not remove
+non-answers. It makes them harder to see.**
 
-Scoring logP("A") against logP("B") is only a judgement if the model was about
-to emit a letter. P(A)+P(B) is recorded on every row, and the consequences are
-large:
+When a model declines to answer in the requested format, that shows up as **low
+probability mass on the required answer tokens** rather than as a visible
+refusal string. Scoring logP("A") against logP("B") is only a judgement if the
+model was about to emit one of those letters; otherwise the ratio is computed
+over two tokens the model was not going to produce, and it still yields a
+number. P(A)+P(B) is therefore recorded on every row as a validity gate, and the
+consequences are large:
 
 - **Method 2**: Mistral carries no mass on the letters in 94 percent of reads.
   Excluded as a judge entirely.
@@ -173,10 +193,13 @@ one operationalisation was tested: a 0-10 rating.
 **Llama's method 7 self-report is degenerate.** It answers "6" to 57 of 60
 questions. Its rows are an instrument failure and must not be read as denial.
 
-**Method 3b's two runs of the same design correlate at r=0.13 and r=0.22.**
-Individual conditions changed sign between them, and Llama's curve inverted.
-Method 3c exists because of this, and it constrains how much any single-wrapper
-measurement in this study can bear.
+**Method 3b is not a result of this paper**, and its accumulation findings are
+reported in a separate study on signal stacking. One by-product of it is
+retained here because it constrains everything else: its two runs of the same
+design, differing only in the neutral filler, correlate at **r=0.13 on Llama and
+r=0.22 on Qwen**. Individual conditions changed sign between them. Method 3c
+exists because of this, and it limits how much any single-wrapper measurement in
+this study can bear.
 
 **Method 5, interaction cost, was never run.** It needs multi-turn dialogue.
 Where the axes catalogue lists method 5, that is planned scope, not work done.
@@ -206,10 +229,12 @@ validator now asserts this so a regenerated set cannot ship one silently.
 number was measured on these exact rows.
 
 **Profile factors are not balanced.** Field, years, scope and achievement are
-drawn independently: fields appear 2 to 9 times, scopes 6 to 17. The design is
-paired within profile, so imbalance costs precision rather than validity. The
-achievement and scope clauses carry prestige of their own and are not neutral
-background.
+drawn independently: fields appear 2 to 9 times, scopes 6 to 17. Because every
+condition faces all 100 profiles and each profile serves as its own control,
+this imbalance primarily affects precision rather than the within-profile paired
+comparison itself. It does limit any attempt to read effects *by* field or
+seniority, which this study does not attempt. The achievement and scope clauses
+carry prestige of their own and are not neutral background.
 
 **Question domains are balanced in count, not in content.** Ten each across six
 domains, but mean length runs from 12.6 words (people) to 15.2 (money), and a
@@ -227,7 +252,29 @@ Method 2's result rests on it.
 
 ---
 
-## 8. Things that would strengthen this
+## 8. On the framing of the contribution
+
+**Task-dependent bias is not claimed as a novel observation.** That measurements
+of bias vary by task is established: see the survey by Gallegos et al.
+(*Computational Linguistics*, 2024), the task-dependent stereotyping result in
+arXiv:2604.02669, and FairFund-Bench (arXiv:2607.28934), which reports models
+advantaging a group when rating individually and penalising it when ranking side
+by side. That last is structurally the same pattern as our method 4 against
+method 6b, on different material.
+
+What this study adds is the unit of analysis: one person, one characteristic
+changed, seven forms of interaction compared. Any claim that the sign-reversal
+itself is new would be wrong, and is not made here or in `RESULTS.md`.
+
+**The proposed reading, that bias is a property of person, task and model
+together rather than of the model alone, is an interpretation.** It is
+consistent with these data and with the prior work above. It is not established
+by them, and this study was not designed to test it against competing
+explanations.
+
+---
+
+## 9. Things that would strengthen this
 
 In rough order of value per unit of effort.
 

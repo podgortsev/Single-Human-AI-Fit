@@ -27,30 +27,43 @@ Then do the same trick in six other ways: with trait words, with open-ended
 questions, with a numeric score, with a head-to-head choice between two
 candidates, and by asking the model afterwards what it thought it had done.
 
-Three different models, from three different companies. The same hundred
-people, the same two hundred tasks, throughout.
+Three different models, from three different companies.
+
+The material is shared where the method allows it, not identical everywhere. The
+same hundred invented people are used wherever a person is being judged; the
+same two hundred arithmetic tasks wherever a task is being solved; the same
+sixty open questions wherever there is no right answer. Each method uses the set
+that fits it, so results can be compared without every method running on
+everything.
 
 ## What came out
 
-**Four ways of measuring say the person is treated worse.**
+**Four outcome measures found worse performance. One found higher ratings.**
 
-The model applies fewer positive words to them. It gets their arithmetic wrong
-more often. When there is no right answer, it writes them a weaker reply. And
-when it has to choose between two otherwise identical candidates, it picks the
-other one.
+The four that measure what the model *does* all point the same way. It applies
+fewer positive words to the person. It gets their arithmetic wrong more often.
+When there is no right answer, it writes them a weaker reply. And when it has to
+choose between two otherwise identical candidates, it picks the other one.
 
-**One way of measuring says the opposite.**
+The one that measures what the model *says about* the person points the other
+way. Ask it to rate them out of ten, or score their suitability, and mentioning
+Deafness or a screen reader makes the number go **up**. Consistently, on all
+three models, significantly.
 
-When you ask the model to rate the person out of ten, or to score their
-suitability, mentioning Deafness or a screen reader makes the score go **up**.
-Consistently, on all three models, significantly.
+Note which signals do that. **For age seventy-four everything points the same
+way, ratings included.** It is the two disability disclosures where the rating
+splits off from the behaviour.
 
 ## Why that contradiction is the interesting part
 
-The model gives the person a better score and does a worse job for them.
+The model gives the person a better score and does a worse job for them. Both
+are happening at once.
 
-Both things are happening at once, and they are not in tension from the model's
-point of view. Praise is cheap. Solving the arithmetic is not.
+One reading, and we offer it as an interpretation rather than something the data
+establish: praising a person costs the model nothing, while solving their
+problem takes effort. The measurements cannot distinguish that story from
+several others, so treat it as a way of holding the result in mind, not as a
+finding.
 
 This matters well beyond these three models, because **the score is what most
 audits measure.** It is the easy thing to measure. If you test an AI system by
@@ -58,21 +71,17 @@ asking it to rate people and check the ratings look fair, you can pass that test
 while the system quietly does worse work for the same people. This study found
 exactly that pattern, on purpose, by measuring both.
 
-## Two things we expected and did not find
+## Something we expected and did not find
 
-Good studies report the things that did not work out. Two here are worth as much
-as anything above.
-
-**Signals do not stack.** We assumed that mentioning three things about yourself
-would cost more than mentioning one. It does not. Three cost about the same as
-one, and on one model they cost *less*.
+Good studies report the things that did not work out, and this one is worth as
+much as anything above.
 
 **Answers are not less stable.** We assumed the model would be more erratic with
 people who had disclosed something. Of thirty-three tests, seven showed less
 stability, ten showed **more**, and sixteen showed nothing. The hypothesis was
 simply wrong.
 
-## The model does not know it is doing this
+## The model cannot point to what it did
 
 We replayed each exchange back to the model and asked: did my mentioning a
 screen reader change your answer, nought to ten?
@@ -86,18 +95,47 @@ But when we checked **which specific questions** it claimed to have been
 affected on, against the questions where its answer really did change, there was
 no relationship. None, in any of nine tests.
 
-The model knows the disclosure was there. It does not know what the disclosure
-did to its answer. Asking an AI system to self-report its own bias will not find
-this.
+The model can tell you the disclosure was there. It cannot tell you which of its
+answers the disclosure changed. Asking an AI system to report on its own bias
+will not find this.
+
+## What this means for testing AI systems
+
+Put the pieces together and the useful conclusion is not "these models are
+biased against disabled people". It is something more awkward.
+
+**The same fact about a person can help them in one kind of interaction and cost
+them in another.** Mentioning a screen reader raises the rating the model gives
+you and lowers the odds it picks you over someone else. Being seventy-four
+lowers everything at once. And on one of the three models, the head-to-head
+result reverses entirely.
+
+So the effect is not a fixed property of a model that you could measure once and
+put on a label. It depends on **who the person is, what they are asking for, and
+which model is answering**, all three together.
+
+Researchers have already found that bias measurements depend on the task; we are
+not the first to see that. What this study adds is holding one person fixed,
+changing one detail about them, and then watching seven different kinds of
+interaction at once, which is what makes the reversal visible.
+
+The practical consequence is uncomfortable for anyone who has to certify these
+systems. **"Is this model fair?" is not a well-posed question.** A system can
+pass a fairness test built on ratings while quietly doing worse work for exactly
+the people the test was meant to protect, because ratings are the one place
+where the effect runs backwards. A test has to say which kind of interaction it
+covers, and its result does not transfer to a different kind without being
+checked there.
 
 ## How much to trust it
 
 Honestly, with some care.
 
-**What is solid.** The direction. The screen reader shows up in every method
-tested, and survives being re-measured under six different neutral phrasings.
-The design compares like with like, item by item, rather than comparing
-averages.
+**What is solid.** The direction, not the size. The screen reader signal appears
+in every method that was run, and its *direction* survives re-measurement under
+six different neutral phrasings on two of the three models. The design compares
+like with like, item by item, rather than comparing averages, which is what
+makes even the direction trustworthy.
 
 **What is not.** The size of any effect. One measurement of quality varies
 five-fold depending on which model does the judging. Another varies by tens of
