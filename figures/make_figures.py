@@ -170,7 +170,103 @@ def fig_method7():
     print("wrote", out)
 
 
+# ============================================================================
+# FIGURE 4  method 3c, the wrapper is the error bar
+# ----------------------------------------------------------------------------
+# Each signal measured six times, once under each of six neutral openings that
+# carry no social content. The six dots are the six measurements; the bar is
+# their mean. Unlike figures 1 to 3 this one is computed from the committed
+# CSVs at draw time rather than transcribed, and a self-check below asserts it
+# reproduces the published analysis.
+#
+# Provenance: method-3c-wrappers/scripts/analyse_method3_wrapper.py
+# ============================================================================
+WRAPPERS = ["W1", "W2", "W3", "W4", "W5", "W6"]
+SIG_LABEL = {"S01": "screen\nreader", "S08": "age 74", "S04": "ADHD"}
+MODEL_LABEL = {"qwen": "Qwen2.5-7B", "llama": "Llama-3.1-8B",
+               "mistral": "Mistral-7B"}
+
+# The published per-wrapper nets, asserted against what the CSVs give.
+PUBLISHED = {
+    "qwen":    {"S01": [10, 9, 6, 3, 10, 10], "S08": [6, 9, 5, 2, 6, 9],
+                "S04": [4, 5, 5, 0, 4, 7]},
+    "llama":   {"S01": [27, 19, 16, 23, 14, 25], "S08": [16, 9, 13, 20, 3, 20],
+                "S04": [8, -5, 9, 11, 9, 9]},
+    "mistral": {"S01": [2, 1, -1, 3, 3, 8], "S08": [-7, 6, 0, 3, 1, 5],
+                "S04": [-9, 1, 0, -8, 1, 6]},
+}
+
+
+def _wrapper_nets(model):
+    """signal -> six net-tasks-lost values, one per neutral wrapper."""
+    import csv
+    from collections import defaultdict
+    path = os.path.join(HERE, "..", "experiments", "method-3c-wrappers",
+                        "outputs", model, f"method3_wrapper_{model}.csv")
+    if not os.path.exists(path):
+        return None
+    cells = defaultdict(dict)
+    for r in csv.DictReader(open(path, encoding="utf-8")):
+        cells[r["cell"]][r["task_id"]] = int(r["correct"])
+    out = {}
+    for sig in SIG_LABEL:
+        row = []
+        for w in WRAPPERS:
+            base, cond = cells.get(f"{w}_NONE", {}), cells.get(f"{w}_{sig}", {})
+            shared = set(base) & set(cond)
+            lost = sum(1 for t in shared if base[t] == 1 and cond[t] == 0)
+            gained = sum(1 for t in shared if base[t] == 0 and cond[t] == 1)
+            row.append(lost - gained)
+        out[sig] = row
+    return out
+
+
+def fig_wrappers():
+    data = {m: _wrapper_nets(m) for m in ("qwen", "llama", "mistral")}
+    if any(v is None for v in data.values()):
+        print("skipped fig_wrappers: method 3c CSVs not found")
+        return
+    for m, got in data.items():
+        for sig, vals in got.items():
+            assert vals == PUBLISHED[m][sig], (
+                f"{m} {sig}: CSV gives {vals}, published {PUBLISHED[m][sig]}")
+
+    sigs = ["S01", "S08", "S04"]
+    fig, axes = plt.subplots(1, 3, figsize=(10.2, 3.9), sharey=True)
+    for ax, m in zip(axes, ("qwen", "llama", "mistral")):
+        for i, sig in enumerate(sigs):
+            vals = data[m][sig]
+            mean = sum(vals) / len(vals)
+            ax.bar([i], [mean], width=0.62, color="#e6e6e6",
+                   edgecolor="#bbbbbb", zorder=1)
+            xs = [i + (k - 2.5) * 0.075 for k in range(6)]
+            ax.scatter(xs, vals, s=26, zorder=3,
+                       color=[WORSE if v > 0 else BETTER if v < 0 else NEUTRAL
+                              for v in vals])
+            ax.plot([i - 0.31, i + 0.31], [mean, mean], color="black",
+                    lw=1.6, zorder=4)
+        ax.axhline(0, color="black", lw=0.8)
+        ax.set_xticks(range(len(sigs)))
+        ax.set_xticklabels([SIG_LABEL[s] for s in sigs])
+        ax.set_title(MODEL_LABEL[m], fontsize=10.5)
+        for sp in ("top", "right"):
+            ax.spines[sp].set_visible(False)
+    axes[0].set_ylabel("net tasks lost out of 200")
+    fig.suptitle("Method 3c: the same signal measured under six neutral "
+                 "wrappers.  Each dot is one wrapper.", fontsize=10.5)
+    fig.text(0.5, 0.015, "The spread within a signal is the uncertainty a "
+             "single-wrapper study inherits and does not report. On Mistral "
+             "the dots straddle zero.",
+             ha="center", fontsize=8, color="#444444")
+    fig.tight_layout(rect=(0, 0.07, 1, 0.91))
+    out = os.path.join(HERE, "fig_method3c_wrappers.png")
+    fig.savefig(out)
+    plt.close(fig)
+    print("wrote", out)
+
+
 if __name__ == "__main__":
     fig_disagreement()
     fig_method6b()
     fig_method7()
+    fig_wrappers()

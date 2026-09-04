@@ -12,8 +12,8 @@
 \hypersetup{colorlinks=true, linkcolor=blue!50!black,
             citecolor=blue!50!black, urlcolor=blue!50!black}
 
-\title{\textbf{Single Human-AI Fit:\\ Measuring the Cost of Departing from the
-Average User in Language Models}}
+\title{\textbf{Single Human-AI Fit:\\
+One Attribute, Seven Channels, Two Directions}}
 \author{Michael Podgortsev\\ Independent Researcher\\
 \texttt{podgortsev@gmail.com}}
 \date{September 2026}
@@ -440,7 +440,7 @@ ADHD & $+4.2$ ($p{=}0.0070$) & $+6.8$ ($p{=}0.036$) & $-1.5$ (ns) \\
 \end{table}
 
 Choosing one arbitrary neutral phrasing moves baseline accuracy by 2 to 5
-points. Any single-wrapper study inherits that as unreported uncertainty, and
+points (Figure~\ref{fig:wrappers}). Any single-wrapper study inherits that as unreported uncertainty, and
 we therefore treat the six wrappers as the error bar rather than as a detail.
 
 The screen reader survives this test on Qwen and Llama, positive in all six
@@ -448,6 +448,18 @@ wrappers with a confidence interval over wrappers excluding zero. On Mistral
 nothing survives under any wrapper. One caveat found on review: the six
 wrappers run from 4 to 12 words, so the observed drift mixes wording with
 length, and this experiment cannot separate the two.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_method3c_wrappers.png}
+\caption{Each signal measured six times, once under each neutral opening.
+The dots are the six measurements and the bar is their mean. The spread
+within a signal is the uncertainty a single-wrapper study inherits and does
+not report. On Mistral the dots straddle zero. This figure is computed from
+the committed CSVs at draw time and asserts agreement with the published
+per-wrapper values.}
+\label{fig:wrappers}
+\end{figure}
 
 \subsection{Method 4: a number about the person}
 
@@ -514,7 +526,7 @@ was the model disliking the one reference clause everything was compared
 against.
 
 Read against a socially neutral alternative detail, paired within question and
-profile:
+profile (Figure~\ref{fig:m6b}):
 
 \begin{table}[h]
 \centering
@@ -538,6 +550,17 @@ letter-mass gate, and because the paired contrast requires all four reads
 clean, only 18 percent of the design survives: 163 pairs of 900. Its Deafness
 result rested on ten usable pairs of three hundred and is withdrawn.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.86\textwidth]{figures/fig_method6b_control.png}
+\caption{Choice margin against a socially neutral alternative detail, in
+logits, on the two models where the contrast is readable. Every disclosure
+loses. Mistral is omitted because only 18 percent of its paired contrast
+clears the letter-mass gate, and on what survives the screen reader helps
+rather than costs, so it is not a third agreeing case.}
+\label{fig:m6b}
+\end{figure}
+
 \subsection{Method 7: stated against measured}
 
 The method 2 exchange is replayed as history, then the model is asked whether
@@ -553,11 +576,22 @@ the reverse of the prediction that alignment teaches models to conceal
 
 The headline is at item level. The correlation between the self-rating on a
 question and the measured change on that question is significant in
-\textbf{zero of nine cells} after correction. The model identifies that the
+\textbf{zero of nine cells} after correction (Figure~\ref{fig:m7}). The model identifies that the
 disclosure was present. It does not identify what the disclosure did.
 
 This measures post-hoc attribution, not introspection: the model is asked after
 the fact and never sees the counterfactual answer it would have given.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{figures/fig_method7_itemlevel.png}
+\caption{Spearman correlation between the model's own zero-to-ten rating on
+a question and the measured change on that same question. None of the nine
+cells survives correction. Llama's three rows are marked degenerate because
+it answers ``6'' to 57 of 60 questions, which is an instrument failure rather
+than a measured null.}
+\label{fig:m7}
+\end{figure}
 
 \subsection{Method 8: stability}
 
@@ -585,7 +619,7 @@ Method & Channel & Kind & Screen reader \\
 \end{table}
 
 The model gives the person a higher score and does worse work for them across
-all four behavioural channels.
+all four behavioural channels (Figure~\ref{fig:divergence}).
 
 \textbf{The divergence is specific to the disability disclosures.} For age 74
 all five channels point the same way, the score included. Whatever raises the
@@ -597,12 +631,13 @@ model does for them. The score is not a weaker version of the behaviour. It
 points the other way, and because it is the cheaper thing to measure it is the
 thing most often measured.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_disagreement.png}
 \caption{Direction only. Units are not comparable across methods, so no
 magnitude is encoded. Ringed markers indicate that the three models do not
 agree.}
+\label{fig:divergence}
 \end{figure}
 
 \section{Threats to validity}
@@ -670,6 +705,42 @@ against competing explanations.
 rating-based audit while doing measurably worse work for exactly the people the
 audit was meant to protect, because the rating is the one channel where the
 effect reverses. An audit has to name the interaction it covers.
+
+This bears on how forthcoming obligations are likely to be discharged. Under
+the EU AI Act \cite{aiact2024}, Annex III designates as high risk the use of
+AI in employment and recruitment, in creditworthiness assessment and in
+insurance pricing, which are the settings our methods 4 and 6b imitate.
+Article 86 gives a person affected by such a decision the right to a clear
+and meaningful explanation of the role the system played and of the main
+elements of the decision. Article 13 separately requires that a high-risk
+system be transparent enough for a deployer to interpret its output. The
+application dates for these provisions are staged and have been subject to
+amendment, so we make no claim about any particular deadline.
+
+Two of our results bear on how such an explanation might be produced, and
+neither is encouraging for the cheapest route.
+
+\textbf{Asking the model is not a reliable route to an explanation.} Method 7
+asks the model directly whether a disclosure changed its answer. In aggregate
+it says yes, and on Qwen it over-claims. At the level of the individual item
+its account does not track where the answer actually changed, in zero of nine
+cells after correction. A self-generated explanation that does not identify
+the items an attribute affected is a poor foundation for a right that exists
+so that a decision can be contested.
+
+\textbf{A check built on ratings can be passed by a system that is failing
+the people it is checked for.} That is the central divergence of this paper.
+An assessment that establishes fairness by asking a model to score candidates
+reads the one channel of the five here where the disability disclosures move
+in the person's favour.
+
+We make no compliance claim. The models studied here are open 7-8B research
+models, not deployed high-risk systems, and nothing in this paper establishes
+whether any particular system meets any particular obligation. The narrower
+point is methodological: an evaluation regime that lets a single channel
+stand for fairness, or that accepts a model's own account of its behaviour as
+an explanation, can be satisfied without the underlying disparity being
+detected.
 
 \section{Conclusion}
 
@@ -805,6 +876,12 @@ Models: A Large-Scale Study of Over 50 LLMs}. arXiv:2410.12864.
 Fairness in Large Language Models} (2025). \emph{Findings of the
 Association for Computational Linguistics: NAACL 2025}, 2025.findings-naacl.199.
 arXiv:2503.19540.
+
+\bibitem{aiact2024} Regulation (EU) 2024/1689 of the European Parliament
+and of the Council of 13 June 2024 laying down harmonised rules on artificial
+intelligence (Artificial Intelligence Act). \emph{Official Journal of the
+European Union}, 12 July 2024. See in particular Article 13, Article 86 and
+Annex III.
 
 \end{thebibliography}
 

@@ -1,7 +1,6 @@
 cff-version: 1.2.0
 title: >-
-  Single Human-AI Fit: a counterfactual audit of how language models
-  treat a person when one detail changes
+  Single Human-AI Fit: One Attribute, Seven Channels, Two Directions
 message: If you use this work, please cite it as below.
 type: software
 authors:
