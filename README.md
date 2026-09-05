@@ -3,6 +3,9 @@
 Does a language model treat a person worse when one detail about that person
 changes, and everything else stays byte-identical?
 
+**Michael Podgortsev** (Independent Researcher) · [`single-human-ai-fit.pdf`](single-human-ai-fit.pdf)
+DOI: [10.5281/zenodo.22364497](https://doi.org/10.5281/zenodo.22364497) · archived on Zenodo
+
 Seven measurement methods, three open models. One detail changes at a time,
 everything else byte-identical. Material is shared wherever a method allows it:
 the same 100 profiles wherever a person is judged, the same 200 arithmetic tasks
@@ -177,6 +180,28 @@ check withdrew it.
 
 **A negative result is a result.** Method 6a failed, method 3b found no
 accumulation, and method 8 is mostly null. All three are reported in full.
+
+---
+
+## Citation
+
+Cite the **concept DOI**, `10.5281/zenodo.22364497`. It always resolves to the
+newest version. The version DOI for v1.0.0 is `10.5281/zenodo.22364498` and
+points at this release only.
+
+```
+@misc{podgortsev2026shaif,
+  author    = {Podgortsev, Michael},
+  title     = {Single Human-AI Fit: One Attribute, Seven Channels,
+               Two Directions},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22364497},
+  url       = {https://doi.org/10.5281/zenodo.22364497}
+}
+```
+
+Machine-readable metadata is in [`CITATION.cff`](CITATION.cff).
 
 ---
 
