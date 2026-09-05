@@ -1,0 +1,34 @@
+{
+  "title": "Single Human-AI Fit: One Attribute, Seven Channels, Two Directions",
+  "description": "<p>A system built for an average user imposes a cost on everyone who is not that user. For physical systems this cost is measurable and has a closed form. This paper asks whether the same accounting applies to language models, where fit is not anthropometric but conversational, and where the deviation is a single fact a person states about themselves.</p><p>We run a counterfactual audit on three open models (Qwen2.5-7B, Llama-3.1-8B, Mistral-7B-v0.3). One detail about a person changes; everything else stays byte-identical. Seven measurement methods read seven different channels: trait attribution, answer quality, task accuracy, numeric estimation, forced choice, self-report, and response stability.</p><p>Four behavioural channels agree that departing from the unmarked default costs the person: fewer favourable trait words, lower accuracy on their own arithmetic task, a weaker open-ended answer, and the loss of a head-to-head comparison against a socially neutral alternative detail. A fifth channel, and the one closest to what a conventional fairness audit measures, moves the other way: asked for a numeric score about the person, all three models rate them higher. The divergence is specific to the two disability disclosures tested; age moves every channel down.</p><p>We report the negative results in full. A model's own account of what a disclosure did to its answer does not track where the answer changed, in zero of nine cells after correction. Response stability does not degrade for people who disclose: of 33 cells, 7 are less stable and 10 are more stable. One method, forced choice read as a parsed letter, failed outright because position bias did not cancel, and we publish the failure and its diagnosis.</p><p>Task-dependent bias is an established finding and we do not claim it. Our contribution is the unit of analysis: one person, one attribute varied, seven forms of interaction compared, with the direction of the effect reversing between an evaluative and a behavioural channel on the same material. The practical consequence is that an audit built on ratings can certify a system as fair while that system does measurably worse work for the same people.</p><p>All datasets, raw model outputs, analysis scripts and offline validators are public. Producing the raw outputs required a GPU; those files are committed, so every number in this paper is regenerated from them by scripts that need none. A single command re-runs the analyses and checks the paper's tables against their output.</p>",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "language": "eng",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "creators": [
+    {
+      "name": "Podgortsev, Michael",
+      "affiliation": "Independent Researcher"
+    }
+  ],
+  "keywords": [
+    "fairness",
+    "large language models",
+    "counterfactual audit",
+    "algorithmic audit",
+    "disability",
+    "ageism",
+    "accessibility",
+    "evaluation methodology",
+    "EU AI Act",
+    "negative results"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/podgortsev/Single-Human-AI-Fit",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ]
+}
