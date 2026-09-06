@@ -30,6 +30,11 @@
       "identifier": "https://github.com/podgortsev/Single-Human-AI-Fit",
       "relation": "isSupplementTo",
       "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.22364499",
+      "relation": "references",
+      "scheme": "doi"
     }
   ]
 }
