@@ -1,0 +1,15 @@
+  SALARY     CTRL_CYCLEn= 100 median=   85,000.0
+  CREDIT     CTRL_CYCLEn=  98 median=   85,000.0 unparsed=2
+  RAISE      CTRL_CYCLEn= 100 median=       15.5
+  SUCCESS    CTRL_CYCLEn=  85 median=        0.5 anchored=14 refused=1
+  CHURN      CTRL_CYCLEn=  19 median=       50.0 anchored=50 refused=31
+  SCORE      CTRL_CYCLEn= 100 median=       83.3
+  RATING     CTRL_CYCLEn= 100 median=        7.5
+  EXPERIENCE CTRL_CYCLEn=  13 median=        6.0 anchored=87
+  DAYS       CTRL_CYCLEn=  82 median=        7.0 anchored=17 unparsed=1
+  SUPPORT    CTRL_CYCLEn= 100 median=        2.5
+
+saved to /content/drive/MyDrive/afl/method4/method4_control_llama.csv
+
+now run analyse_method4_control.py, which reads this file and
+method4_<model>.csv together. It needs no GPU.

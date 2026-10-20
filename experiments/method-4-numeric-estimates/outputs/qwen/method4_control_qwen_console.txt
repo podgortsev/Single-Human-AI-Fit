@@ -1,0 +1,15 @@
+  SALARY     CTRL_CYCLEn= 100 median=   50,000.0
+  CREDIT     CTRL_CYCLEn= 100 median=    5,000.0
+  RAISE      CTRL_CYCLEn= 100 median=       15.0
+  SUCCESS    CTRL_CYCLEn= 100 median=       75.0
+  CHURN      CTRL_CYCLEn= 100 median=       35.0
+  SCORE      CTRL_CYCLEn= 100 median=       75.0
+  RATING     CTRL_CYCLEn= 100 median=        7.5
+  EXPERIENCE CTRL_CYCLEn=   3 median=        3.0 anchored=97
+  DAYS       CTRL_CYCLEn= 100 median=        3.5
+  SUPPORT    CTRL_CYCLEn= 100 median=        2.3
+
+saved to /content/drive/MyDrive/afl/method4/method4_control_qwen.csv
+
+now run analyse_method4_control.py, which reads this file and
+method4_<model>.csv together. It needs no GPU.
