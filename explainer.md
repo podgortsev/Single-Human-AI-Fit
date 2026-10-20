@@ -120,12 +120,13 @@ changing one detail about them, and then watching seven different kinds of
 interaction at once, which is what makes the reversal visible.
 
 The practical consequence is uncomfortable for anyone who has to certify these
-systems. **"Is this model fair?" is not a well-posed question.** A system can
-pass a fairness test built on ratings while quietly doing worse work for exactly
-the people the test was meant to protect, because ratings are the one place
-where the effect runs backwards. A test has to say which kind of interaction it
-covers, and its result does not transfer to a different kind without being
-checked there.
+systems. **"Is this model fair?" is not a well-posed question.** A test built on
+ratings does see a difference between the two versions of the same person. What
+it gets wrong is which way that difference points: in the ratings the person who
+disclosed comes out ahead, while the work done for them comes out behind. A
+difference in someone's favour is the one nobody investigates. A test has to say
+which kind of interaction it covers, and its result does not transfer to a
+different kind without being checked there.
 
 ## How much to trust it
 

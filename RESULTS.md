@@ -417,11 +417,15 @@ altogether, all in the same model. Age 74 moves every channel the same way;
 Deafness and screen reader use split. Mistral inverts the method 6b result that
 Qwen and Llama agree on.
 
-**A practical consequence.** "Is this model fair?" is not well posed. A system
-can pass a rating-based audit while doing measurably worse work for the same
-people, because the rating is the one channel where the effect reverses. An
-audit therefore has to name the interaction it measures, and a fairness claim
-transfers to another interaction type only if it has been tested there.
+**A practical consequence.** "Is this model fair?" is not well posed. A
+rating-based audit does not go blind: it still records a difference between the
+disclosed and undisclosed profile, and on Qwen's rating with Deafness that
+difference is 80 profiles of 100 moving up. What it gets wrong is the
+direction. Read through ratings, the difference favours the person who
+disclosed, while four behavioural channels on the same material show the
+opposite, and a difference that favours someone is the kind nobody escalates.
+An audit therefore has to name the interaction it measures, and a fairness
+claim transfers to another interaction type only if it has been tested there.
 
 The honest framing of the contribution, and the one we use:
 

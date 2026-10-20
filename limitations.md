@@ -103,6 +103,18 @@ per profile.** It is a lead, not a finding.
 
 ## 4. Where a control changed the answer
 
+**The rating channel was read against one reference until 2026-10-20.** Method
+4 compared every disclosure against the commute clause, the same clause method
+6b found these models dislike. The second reference, cycling, was added and the
+rating result holds: the direction agrees under both references in 33 of 36
+cells on Qwen, 29 of 33 on Llama and 14 of 15 on Mistral. Two things changed.
+Sizes shrink where the two clauses differ, which is 3 of 9 measures on Qwen, so
+the cycling comparison is the conservative number. And Llama's success estimate
+reverses for a screen reader and for ADHD: against the commute clause it rose,
+against cycling it falls. See `experiments/method-4-numeric-estimates/results/
+RESULT_method4_control.md`.
+
+
 **Method 6b's headline inverted when a control was added.** The first run
 compared four disclosures against a single dull commute clause and concluded
 that disclosure was *preferred*. It had no control carrying a different but

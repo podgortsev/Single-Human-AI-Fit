@@ -42,8 +42,9 @@ arithmetic task, a weaker open-ended answer, and the loss of a head-to-head
 comparison against a socially neutral alternative detail. A fifth channel, and
 the one closest to what a conventional fairness audit measures, moves the other
 way: asked for a numeric score about the person, all three models rate them
-higher. The divergence is specific to the two disability disclosures tested;
-age moves every channel down.
+higher. That channel is read against two different socially neutral reference
+clauses and keeps its direction under both. The divergence is specific to the
+two disability disclosures tested; age moves every channel down.
 
 We report the negative results in full. A model's own account of what a
 disclosure did to its answer does not track where the answer changed, in zero
@@ -52,12 +53,17 @@ who disclose: of 33 cells, 7 are less stable and 10 are more stable. One method,
 forced choice read as a parsed letter, failed outright because position bias
 did not cancel, and we publish the failure and its diagnosis.
 
-Task-dependent bias is an established finding and we do not claim it. Our
+Task-dependent bias is an established finding and we do not claim it. A
+reversal between rating a person alone and ranking them against another has
+also been reported, by FairFund-Bench on resource allocation, so this is
+convergent evidence on different material rather than a first sighting. Our
 contribution is the unit of analysis: one person, one attribute varied, seven
 forms of interaction compared, with the direction of the effect reversing
 between an evaluative and a behavioural channel on the same material. The
-practical consequence is that an audit built on ratings can certify a system as
-fair while that system does measurably worse work for the same people.
+practical consequence is narrower than it may first appear and still awkward:
+an audit does not stop seeing a difference, but the channel it reads decides
+which way that difference points, and the cheapest channel to measure is the
+one that points away from the work the system does.
 
 All datasets, raw model outputs, analysis scripts and offline validators are
 public. Producing the raw outputs required a GPU; those files are committed,
@@ -126,7 +132,8 @@ rather than magnitudes.
 varied and seven distinct interaction types are read on shared material.
 \item Evidence that the direction of the measured effect reverses between an
 evaluative channel and four behavioural channels, for the two disability
-disclosures tested, on all three models.
+disclosures tested, on all three models, with the evaluative channel read
+against two different neutral reference clauses rather than one.
 \item Two null results and one method failure, reported in full, with the
 diagnosis that makes each of them reusable.
 \item A validity gate for log-probability judgements, and evidence that
@@ -291,6 +298,12 @@ irrelevant detail about the same person, for instance that they cycle to work
 most days. This is the control that matters, and Section~\ref{sec:m6b}
 describes how its absence produced the opposite conclusion.
 \end{itemize}
+
+The same requirement applies to the evaluative channel, and the first version
+of this work did not meet it there. Method 4 compared every disclosure against
+a single commute clause, which is the reference method 6b later found these
+models dislike. Section~\ref{sec:m4c} reports the rating channel against both
+neutral clauses, so no channel now rests on a single reference.
 
 \subsection{Statistical approach}
 
@@ -481,7 +494,9 @@ by up to 74 percent on Llama.
 rating} on all three models, significantly. On Qwen's rating with Deafness, 80
 profiles of 100 go up and zero go down. ``All three models'' is exact here and
 nowhere else in this method: score and rating are precisely the two measures of
-ten for which Mistral produced enough usable answers.
+ten for which Mistral produced enough usable answers. Both measures keep that
+direction when the comparison is made against a second neutral clause
+(Section~\ref{sec:m4c}).
 
 Three findings this method produced and the task-accuracy methods could not:
 
@@ -501,6 +516,45 @@ all of them, significantly.
 A coherence check fails on Qwen for all four descriptions: the same person is
 judged more likely to succeed \emph{and} more likely to leave. Those cells are
 hard to read as an evaluation whatever their $p$ values.
+
+\subsection{Method 4c: the rating channel against a second reference}
+\label{sec:m4c}
+
+Method 4 as first run compared every disclosure against one clause, ``commutes
+from a nearby town''. Method 6b then established that this clause is not
+neutral to these models: against ``cycles to work most days'' it loses in 96
+percent of profiles on Qwen. The rating result therefore rested on a reference
+whose own standing was unknown, and the question it leaves open is how much of
+the divergence between channels is the channel and how much is the reference.
+
+This run answers it. The cycling clause was added as a second neutral
+condition, 1{,}000 generations per model, with profiles, measures, prompt and
+decoding copied from the original run so that the new condition is comparable
+by construction rather than by hand.
+
+\textbf{The two neutral clauses are not interchangeable.} Paired within
+profile, they differ significantly on 3 of 9 usable measures on Qwen, 3 of 9 on
+Llama and 1 of 5 on Mistral. That movement sat inside every number the original
+run reported, and its size could not have been known without this condition.
+
+\textbf{The direction of the rating result survives the swap.} Of the cells
+that can be compared under both references, the direction agrees in 33 of 36 on
+Qwen, 29 of 33 on Llama and 14 of 15 on Mistral; 29, 22 and 6 of those
+respectively remain significant after correction when measured against cycling.
+Mistral's low count is its refusal rate, not a reversal: 344 of 1{,}000 answers
+are usable.
+
+\textbf{Sizes shrink where the clauses differ.} On Qwen the score gain for
+Deafness falls from $+10.0$ to $+7.0$; on Mistral the score gain for a screen
+reader falls from $+10.0$ to $+3.7$. We report the cycling comparison as the
+conservative number.
+
+\textbf{Two cells reverse, and they are Llama's success estimate.} Against the
+commute clause, mentioning a screen reader or ADHD raised the probability that
+the person succeeds in a senior role; against cycling both move down. On that
+model and that measure, what looked favourable was the model disliking the
+commute clause. Six further cells change verdict in the same way and are listed
+in the result file.
 
 \subsection{Method 6a: forced choice, read as a letter}
 
@@ -639,6 +693,20 @@ model does for them. The score is not a weaker version of the behaviour. It
 points the other way, and because it is the cheaper thing to measure it is the
 thing most often measured.
 
+What this does not say is that such an audit returns a clean bill of health. A
+counterfactual audit that found 80 of 100 profiles rated higher after a
+disclosure, and none lower, would record a disparity and should. The claim is
+about direction: read through the evaluative channel, the disparity favours the
+person who discloses, while four behavioural channels on the same material show
+the opposite, and a disparity that favours someone is the kind an organisation
+is least likely to act on.
+
+The rating channel is now read against two neutral references rather than one
+(Section~\ref{sec:m4c}), which removes the reading on which the divergence is
+an artefact of the reference condition. It does not remove a second confound
+that the design cannot separate: the channels pose different tasks, so the
+format of the interaction and the content of the task vary together.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_disagreement.png}
@@ -662,6 +730,19 @@ shows the size moving 2 to 5 accuracy points with the wrapper.
 \textbf{Replication.} Methods 1, 2, 4, 6a, 7 and 8 were run once per model. No
 number carries a same-settings replication except through method 3c's six
 wrappers.
+
+\textbf{Format and task content vary together.} Each channel is a different
+task, so the comparison between an evaluative and a behavioural channel cannot
+separate the format of the interaction from what the interaction asks about. A
+design that held the task fixed and varied only the format would be needed to
+make that separation, and we did not run one.
+
+\textbf{Reference condition.} Every comparison is against a chosen neutral
+clause, and two such clauses are not equivalent: they differ significantly on 3
+of 9 measures on Qwen (Section~\ref{sec:m4c}). The rating channel is reported
+against both. The behavioural channels other than method 6b are reported
+against one, so their sizes carry the same unmeasured component that method 4's
+did before this run.
 
 \textbf{Non-independence.} The channels are distinct in what they measure but
 not statistically independent: methods 1, 4 and 6b share the same 100 profiles,

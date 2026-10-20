@@ -125,6 +125,29 @@ def main():
         "method 6b mistral usability (61% below gate, 163 clean pairs)",
         m6b_mistral, ["61%", "41", "71", "51"]))
 
+    # --- Method 4c, the second neutral reference --------------------------
+    m4c = run("method-4-numeric-estimates/scripts/analyse_method4_control.py")
+    if m4c:
+        agree = re.findall(r"(\d+) of (\d+) cells point the same way", m4c)
+        surv = re.findall(r"(\d+) of (\d+) also survive correction", m4c)
+        refs = re.findall(r"(\d+) of (\d+) measures move between", m4c)
+        got = (agree, surv, refs)
+        want = ([("33", "36"), ("29", "33"), ("14", "15")],
+                [("29", "36"), ("22", "33"), ("6", "15")],
+                [("3", "9"), ("3", "9"), ("1", "5")])
+        ok = got == want
+        print(f"  {'ok   ' if ok else 'FAIL '} method 4c: direction agrees "
+              f"{'/'.join(a for a, _ in agree)} cells, survives "
+              f"{'/'.join(a for a, _ in surv)}, references differ on "
+              f"{'/'.join(a for a, _ in refs)} measures "
+              f"(paper says 33/29/14, 29/22/6, 3/3/1)")
+        if not ok:
+            print(f"        got {got}")
+        results.append(ok)
+    else:
+        print("  SKIP  method 4c")
+        results.append(None)
+
     # --- Method 7, item level --------------------------------------------
     m7 = run("method-7-stated-vs-measured/scripts/analyse_method7.py")
     results.append(check(
