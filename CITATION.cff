@@ -18,7 +18,7 @@ identifiers:
     description: Version DOI for v1.0.0.
 repository-code: https://github.com/podgortsev/Single-Human-AI-Fit
 license: MIT
-date-released: '2026-09-03'
+date-released: '2026-10-22'
 keywords:
   - fairness
   - large language models

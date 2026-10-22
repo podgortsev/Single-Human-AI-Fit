@@ -29,7 +29,9 @@ Disclosing a screen reader, Deafness, ADHD or age 74 makes the model
 
 And yet method 4, which asks the model for a **number** about the person, gives
 that same person a **higher** suitability score and rating for Deafness and
-screen reader use.
+screen reader use. That channel is read against two different socially neutral
+reference clauses, and the direction holds under both
+(method 4c, added 2026-10-20).
 
 So the model rates the disclosed person better in isolation and does worse work
 for them. The score does not contradict the behaviour. **It hides it.** A study

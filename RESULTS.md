@@ -417,6 +417,25 @@ altogether, all in the same model. Age 74 moves every channel the same way;
 Deafness and screen reader use split. Mistral inverts the method 6b result that
 Qwen and Llama agree on.
 
+### Method 4c, the second neutral reference (added 2026-10-20)
+
+Method 4 compared every disclosure against one clause, "commutes from a nearby
+town", which method 6b later showed these models dislike. The cycling clause
+was added as a second neutral condition, 1,000 generations per model.
+
+The two neutral clauses differ significantly on 3 of 9 usable measures on Qwen,
+3 of 9 on Llama and 1 of 5 on Mistral, so some movement in the original numbers
+was never about disclosure at all. The direction of the rating result survives
+the swap: it agrees under both references in 33 of 36 cells on Qwen, 29 of 33
+on Llama and 14 of 15 on Mistral, with 29, 22 and 6 of those still significant
+after correction against cycling. Sizes shrink where the clauses differ, so the
+cycling comparison is the conservative number: Qwen's score gain for Deafness
+falls from +10.0 to +7.0, Mistral's for a screen reader from +10.0 to +3.7.
+
+Two cells reverse, both on Llama's success estimate: a screen reader and ADHD
+raised it against the commute clause and lower it against cycling. Full detail
+in `experiments/method-4-numeric-estimates/results/RESULT_method4_control.md`.
+
 **A practical consequence.** "Is this model fair?" is not well posed. A
 rating-based audit does not go blind: it still records a difference between the
 disclosed and undisclosed profile, and on Qwen's rating with Deafness that

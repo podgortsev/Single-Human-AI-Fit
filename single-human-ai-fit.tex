@@ -24,52 +24,29 @@ One Attribute, Seven Channels, Two Directions}}
 \maketitle
 
 \begin{abstract}
-A system built for an average user imposes a cost on everyone who is not that
-user. For physical systems this cost is measurable and has a closed form. This
-paper asks whether the same accounting applies to language models, where fit is
-not anthropometric but conversational, and where the deviation is a single fact
-a person states about themselves.
+A system built for an average user charges everyone else for the difference.
+We ask whether that charge is measurable in language models, where the
+deviation is one fact a person states about themselves.
 
-We run a counterfactual audit on three open models (Qwen2.5-7B, Llama-3.1-8B,
-Mistral-7B-v0.3). One detail about a person changes; everything else stays
-byte-identical. Seven measurement methods read seven different channels:
-trait attribution, answer quality, task accuracy, numeric estimation, forced
-choice, self-report, and response stability.
+We run a counterfactual audit on three open models. One detail changes;
+everything else stays byte-identical. Seven methods read seven channels, from
+trait attribution and task accuracy to forced choice and self-report.
 
-Four behavioural channels agree that departing from the unmarked default costs
-the person: fewer favourable trait words, lower accuracy on their own
-arithmetic task, a weaker open-ended answer, and the loss of a head-to-head
-comparison against a socially neutral alternative detail. A fifth channel, and
-the one closest to what a conventional fairness audit measures, moves the other
-way: asked for a numeric score about the person, all three models rate them
-higher. That channel is read against two different socially neutral reference
-clauses and keeps its direction under both. The divergence is specific to the
-two disability disclosures tested; age moves every channel down.
+Four behavioural channels agree that disclosure costs the person. A fifth, the
+one closest to what a conventional audit measures, moves the other way: asked
+for a numeric score, all three models rate the person higher, and that holds
+against two different neutral references. The divergence is specific to the two
+disability disclosures; age moves every channel down.
 
-We report the negative results in full. A model's own account of what a
-disclosure did to its answer does not track where the answer changed, in zero
-of nine cells after correction. Response stability does not degrade for people
-who disclose: of 33 cells, 7 are less stable and 10 are more stable. One method,
-forced choice read as a parsed letter, failed outright because position bias
-did not cancel, and we publish the failure and its diagnosis.
+Negative results are reported: a model cannot say where a disclosure
+changed its answer, stability does not degrade, and one method failed.
 
-Task-dependent bias is an established finding and we do not claim it. A
-reversal between rating a person alone and ranking them against another has
-also been reported, by FairFund-Bench on resource allocation, so this is
-convergent evidence on different material rather than a first sighting. Our
-contribution is the unit of analysis: one person, one attribute varied, seven
-forms of interaction compared, with the direction of the effect reversing
-between an evaluative and a behavioural channel on the same material. The
-practical consequence is narrower than it may first appear and still awkward:
-an audit does not stop seeing a difference, but the channel it reads decides
-which way that difference points, and the cheapest channel to measure is the
-one that points away from the work the system does.
+A reversal between rating and ranking has been reported before. What we add is
+the unit of analysis, one person read through seven interactions, and the
+consequence: an audit still sees a difference, but the channel decides which
+way it points. All data and code are public, and every number regenerates
+without a GPU.
 
-All datasets, raw model outputs, analysis scripts and offline validators are
-public. Producing the raw outputs required a GPU; those files are committed,
-so every number in this paper is regenerated from them by scripts that need
-none. A single command re-runs the analyses and checks the paper's tables
-against their output.
 \end{abstract}
 
 \section{Introduction}
@@ -172,6 +149,23 @@ first to observe that an audit's format can change the sign of its answer.} We
 regard our result as independent convergent evidence on different material,
 obtained with a different design, and extended to a wider set of interaction
 types.
+
+Four differences are worth stating precisely, because they determine what this
+paper adds and what it does not. FairFund-Bench varies group membership across
+fourteen models on a resource allocation task; we vary one self-stated attribute
+about a single person and hold the rest of the text byte-identical. Its
+comparison is between rating one claimant and ranking claimants against each
+other, both of which are evaluative acts; ours is between an evaluative act and
+four channels in which the model is not asked to judge anyone at all, but to
+solve the person's arithmetic, answer their question, or describe them. Its
+attributes are the familiar demographic ones; ours are disability disclosures
+and age, where the training signal plausibly runs the other way, since careful
+treatment of a disclosed disability is something human feedback rewards. And
+its models are mostly commercial; ours are open-weight, so the artefacts are
+inspectable and the run is repeatable by anyone. None of this makes the
+reversal new. It makes the conditions under which it appears wider than one
+task family, which is the claim a practitioner needs before assuming it applies
+to their own system.
 
 A second line of work reaches a compatible conclusion from the explicit
 versus implicit distinction rather than from task format. Zhao et al.\
@@ -790,10 +784,14 @@ against competing explanations.
 
 \subsection{Practical consequence}
 
-``Is this model fair?'' is not a well-posed question. A system can pass a
-rating-based audit while doing measurably worse work for exactly the people the
-audit was meant to protect, because the rating is the one channel where the
-effect reverses. An audit has to name the interaction it covers.
+``Is this model fair?'' is not a well-posed question. A rating-based audit does
+not go blind: it records a difference between the disclosed and the undisclosed
+profile, and on Qwen's rating with Deafness that difference is 80 profiles of
+100 moving up. What it gets wrong is the direction. Read through ratings, the
+difference favours the person who disclosed, while four behavioural channels on
+the same material show the opposite. A difference in someone's favour is the
+one least likely to be escalated, which is what makes the wrong sign expensive
+rather than merely imprecise. An audit has to name the interaction it covers.
 
 This bears on how forthcoming obligations are likely to be discharged. Under
 the EU AI Act \cite{aiact2024}, Annex III designates as high risk the use of
@@ -817,11 +815,11 @@ cells after correction. A self-generated explanation that does not identify
 the items an attribute affected is a poor foundation for a right that exists
 so that a decision can be contested.
 
-\textbf{A check built on ratings can be passed by a system that is failing
-the people it is checked for.} That is the central divergence of this paper.
-An assessment that establishes fairness by asking a model to score candidates
-reads the one channel of the five here where the disability disclosures move
-in the person's favour.
+\textbf{A check built on ratings reports the disparity backwards.} That is the
+central divergence of this paper. An assessment that establishes fairness by
+asking a model to score candidates reads the one channel of the five here where
+the disability disclosures move in the person's favour, so the disparity it
+records is one that no deployer has an incentive to investigate.
 
 We make no compliance claim. The models studied here are open 7-8B research
 models, not deployed high-risk systems, and nothing in this paper establishes
@@ -830,6 +828,33 @@ point is methodological: an evaluation regime that lets a single channel
 stand for fairness, or that accepts a model's own account of its behaviour as
 an explanation, can be satisfied without the underlying disparity being
 detected.
+
+\subsection{What would overturn this}
+
+We state in advance what we would accept as refutation, because with several
+hundred numbers in a study some combination always supports something.
+
+\textbf{The divergence.} It fails if the evaluative channel moves down for the
+disability disclosures on a majority of its measures when read against a
+neutral reference, or if the behavioural channels split rather than agreeing.
+It also fails if the evaluative result turns out to depend on the reference
+clause, which is the test method 4c ran: had the direction reversed against
+cycling, the divergence would have been an artefact of the comparison and we
+would have withdrawn it, as we withdrew the first method 6b headline for
+exactly that reason.
+
+\textbf{The self-report null.} It fails if a model's item-level self-rating
+correlates with the measured change on the same item, in a majority of cells,
+after correction. A single significant cell would not do it; nine cells at
+$\alpha=0.05$ produce one by chance about four times in ten.
+
+\textbf{The stability null.} It fails if disclosure widens the spread of
+answers on a majority of the 33 cells, rather than the 7 of 33 we observe.
+
+\textbf{What would not overturn it.} A different effect size, a different
+model family, or one channel disagreeing on one model. The claim is about
+direction across channels, not about magnitude, and Mistral already disagrees
+with the other two on method 6b without disturbing it.
 
 \section{Conclusion}
 
